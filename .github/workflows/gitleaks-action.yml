@@ -1,0 +1,22 @@
+name: gitleaks-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  gitleaks-main:
+    name: Gitleaks Scan (Main Branch)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks (Main)
+        uses: step-security/gitleaks-action@fix/subscirption-check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: 'true'
+          GITLEAKS_ENABLE_SUMMARY: 'true'
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: 'true'
