@@ -1,0 +1,42 @@
+name: swift-doc
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "5.10"
+
+      - name: Install system deps (libxml2, graphviz optional)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxml2-dev graphviz
+      - name: Generate Documentation (CommonMark)
+        uses: step-security/swift-doc@release
+        with:
+          inputs: "./Sources"
+          module-name: "MyLibrary"
+          format: "commonmark"
+          output: "./Documentation"
+          minimum-access-level: "public"
+
+      - name: Fix output permissions
+        run: sudo chmod -R a+r ./Documentation
+
+      - name: Upload generated docs (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: swift-doc-output
+          path: ./Documentation
