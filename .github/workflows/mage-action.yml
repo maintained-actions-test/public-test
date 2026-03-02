@@ -1,0 +1,34 @@
+name: mage-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mage-action-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # 1) Default usage: install latest + run "build"
+          - name: run-build-latest
+            install-only: false
+            version: latest
+            args: build
+            workdir: .
+
+    name: ${{ matrix.name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run Mage Action
+        uses: step-security/mage-action@release
+        with:
+          version: ${{ matrix.version }}
+          workdir: ${{ matrix.workdir }}
+          install-only: ${{ matrix.install-only }}
+          args: ${{ matrix.args }}
