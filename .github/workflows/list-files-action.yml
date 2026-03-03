@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: list-files
-        uses: step-security/list-files-action@release
+        uses: step-security/list-files-action@main
         with:
           repo: ${{ github.repository }}
           ref: ${{ github.ref }}
