@@ -14,7 +14,7 @@ jobs:
       - name: Lock Threads
         uses: step-security/lock-threads@release
         with:
-          issue-inactive-days: "365"
+          issue-inactive-days: "0"
           pr-inactive-days: "365"
           discussion-inactive-days: "365"
           issue-lock-reason: "resolved"
