@@ -1,0 +1,47 @@
+
+name: github-actions-ansible-vault
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-ansible-vault:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get runner UID and GID
+        id: uid-gid
+        run: |
+          echo "uid=$(id -u)" >> $GITHUB_OUTPUT
+          echo "gid=$(id -g)" >> $GITHUB_OUTPUT
+      - name: Create sample file
+        run: |
+          echo "secret_message: hello_world" > secret.yml
+          cat secret.yml
+      - name: Encrypt file using ansible-vault
+        uses: step-security/github-actions-ansible-vault@release
+        env:
+          UID: ${{ steps.uid-gid.outputs.uid }}
+          GID: ${{ steps.uid-gid.outputs.gid }}
+        with:
+          vault_key: ${{ secrets.VAULT_KEY }}
+          command: |
+            ansible-vault encrypt secret.yml
+            chown $UID:$GID secret.yml
+      - name: Decrypt file using ansible-vault
+        uses: step-security/github-actions-ansible-vault@release
+        env:
+          UID: ${{ steps.uid-gid.outputs.uid }}
+          GID: ${{ steps.uid-gid.outputs.gid }}
+        with:
+          vault_key: ${{ secrets.VAULT_KEY }}
+          command: |
+            ansible-vault decrypt secret.yml
+            chown $UID:$GID secret.yml
+      - name: Verify decrypted content
+        run: |
+          echo "Decrypted file content:"
+          cat secret.yml
