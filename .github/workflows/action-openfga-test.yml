@@ -1,0 +1,73 @@
+name: action-openfga-test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  openfga-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: step-security
+          POSTGRES_PASSWORD: "1234"
+          POSTGRES_DB: step-security
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U step-security -d step-security"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://step-security:1234@127.0.0.1:5432/step-security?sslmode=disable
+      OPENFGA_LOG_LEVEL: debug
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install OpenFGA server
+        uses: step-security/action-install-gh-release@v2
+        with:
+          repo: openfga/openfga
+          tag: v1.5.3
+          cache: enable
+
+      - name: Migrate OpenFGA database
+        shell: bash
+        run: openfga migrate
+
+      - name: Start OpenFGA server in background
+        shell: bash
+        run: |
+          openfga run &
+          # give it a moment to come up
+          sleep 2
+      - name: Install OpenFGA CLI
+        uses: step-security/action-install-gh-release@v2
+        with:
+          repo: openfga/cli
+          cache: enable
+
+      - name: Install jq
+        uses: step-security/install-jq-action@v3
+
+      - name: Create store with model
+        id: store
+        shell: bash
+        run: |
+          fga store create --model ./example/model_with_conditions.fga > store_response.json
+          cat store_response.json
+          store_id=$(jq -r '.store.id' store_response.json)
+          echo "store_id=${store_id}" >> "$GITHUB_OUTPUT"
+      - name: Run OpenFGA tests (against server)
+        uses: step-security/action-openfga-test@release
+        with:
+          test_path: example
+          test_files_pattern: "*.fga.yaml"
+          fga_server_url: "http://localhost:8080"
+          fga_server_store_id: ${{ steps.store.outputs.store_id }}
