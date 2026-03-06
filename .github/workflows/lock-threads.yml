@@ -12,7 +12,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Lock Threads
-        uses: step-security/lock-threads@release
+        uses: step-security/lock-threads@main
         with:
           issue-inactive-days: "0"
           pr-inactive-days: "365"
