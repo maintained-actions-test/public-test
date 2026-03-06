@@ -1,0 +1,30 @@
+name: action-rubocop
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  rubocop-main:
+    name: Run rubocop (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run rubocop
+        uses: step-security/action-rubocop@release
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          rubocop_extensions: ""
+          rubocop_flags: ""
+          workdir: test-rubocop
