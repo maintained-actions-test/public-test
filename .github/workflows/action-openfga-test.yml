@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: step-security/action-openfga-test@release
+      - uses: step-security/action-openfga-test@main
         with:
           test_path: example
           test_files_pattern: "*.fga.yaml"
