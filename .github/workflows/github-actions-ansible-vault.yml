@@ -32,7 +32,7 @@ jobs:
             ansible-vault encrypt secret.yml
             chown $UID:$GID secret.yml
       - name: Decrypt file using ansible-vault
-        uses: step-security/github-actions-ansible-vault@release
+        uses: step-security/github-actions-ansible-vault@main
         env:
           UID: ${{ steps.uid-gid.outputs.uid }}
           GID: ${{ steps.uid-gid.outputs.gid }}
