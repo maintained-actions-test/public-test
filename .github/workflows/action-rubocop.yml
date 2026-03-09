@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run rubocop
-        uses: step-security/action-rubocop@release
+        uses: step-security/action-rubocop@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           rubocop_extensions: ""
