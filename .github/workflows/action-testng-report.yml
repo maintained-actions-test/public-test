@@ -1,0 +1,29 @@
+name: action-testng-report
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  
+jobs:
+  testng-report-main:
+    name: TestNG Report (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Generate TestNG Report
+        uses: step-security/action-testng-report@release
+        with:
+          report_paths: "testdata/testng/testng-results.xml"
+          summary_report: "true"
+          detailed_report: "true"
+          fail_if_empty: "true"
