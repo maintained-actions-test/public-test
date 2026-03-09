@@ -22,7 +22,7 @@ jobs:
           echo "secret_message: hello_world" > secret.yml
           cat secret.yml
       - name: Encrypt file using ansible-vault
-        uses: step-security/github-actions-ansible-vault@release
+        uses: step-security/github-actions-ansible-vault@main
         env:
           UID: ${{ steps.uid-gid.outputs.uid }}
           GID: ${{ steps.uid-gid.outputs.gid }}
