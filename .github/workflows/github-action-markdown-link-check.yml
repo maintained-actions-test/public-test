@@ -1,0 +1,24 @@
+name: github-action-markdown-link-check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  markdown-link-check-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: markdown-link-check
+        uses: step-security/github-action-markdown-link-check@main
+        with:
+          use-quiet-mode: "yes"
+          use-verbose-mode: "yes"
+          folder-path: "."
+          file-path: "./README.md"
