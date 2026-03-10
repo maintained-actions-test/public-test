@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Generate TestNG Report
-        uses: step-security/action-testng-report@release
+        uses: step-security/action-testng-report@main
         with:
           report_paths: "testdata/testng/testng-results.xml"
           summary_report: "true"
