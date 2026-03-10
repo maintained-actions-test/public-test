@@ -1,0 +1,38 @@
+
+name: conventional-changelog-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test-changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Conventional Changelog Action
+        id: changelog
+        uses: step-security/conventional-changelog-action@release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print outputs
+        run: |
+          echo "skipped=${{ steps.changelog.outputs.skipped }}"
+          echo "version=${{ steps.changelog.outputs.version }}"
+          echo "tag=${{ steps.changelog.outputs.tag }}"
+          echo "changelog<<EOF" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.changelog.outputs.changelog }}" >> $GITHUB_STEP_SUMMARY
+          echo "EOF" >> $GITHUB_STEP_SUMMARY
