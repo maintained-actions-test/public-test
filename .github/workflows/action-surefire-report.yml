@@ -19,7 +19,7 @@ jobs:
             go install github.com/jstemmer/go-junit-report/v2@latest &&
             go test -v 2>&1 ./... |
             go-junit-report -out report.xml
-      - uses: step-security/action-surefire-report@release
+      - uses: step-security/action-surefire-report@main
         with:
           check_name: Example Go Report
           report_paths: integration-tests/go/report.xml
