@@ -1,0 +1,49 @@
+name: release-drafter
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  test-node-action-direct:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run Release Drafter (Node-based, direct)
+        uses: step-security/release-drafter@main
+        with:
+          config-name: release-drafter.yml
+          disable-autolabeler: false
+          disable-releaser: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  test-docker-action-direct:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run Release Drafter (Docker-based, direct)
+        uses: step-security/release-drafter/docker@main
+        with:
+          config-name: release-drafter.yml
+          disable-autolabeler: false
+          disable-releaser: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
