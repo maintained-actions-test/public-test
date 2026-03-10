@@ -1,0 +1,21 @@
+name: setup-cocoapods
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-version-input:
+    name: Test with explicit version
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Cocoapods
+        uses: step-security/setup-cocoapods@release
+        with:
+          version: 1.9.0
+
+      - name: Verify Cocoapods version
+        run: pod --version
