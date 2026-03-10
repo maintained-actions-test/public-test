@@ -1,0 +1,34 @@
+name: run-windows-docker-container-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-main-branch:
+    runs-on: windows-2022
+    name: Test with main branch
+    env:
+      TEST1: Test1
+      TEST2: Test2
+      TEST_MAPPING_PATH: "C:\\map"
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run Windows Docker Container
+        uses: step-security/run-windows-docker-container-action@release
+        with:
+          image: mcr.microsoft.com/windows/servercore:ltsc2022
+          mapping_path: 'c:\map'
+          entrypoint: powershell.exe
+          env_names: TEST1, TEST2
+          run: >-
+            echo "Hello from main branch";
+            Write-Output $env:TEST1;
+            Write-Output $env:TEST2;
