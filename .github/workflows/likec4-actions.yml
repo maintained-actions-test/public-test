@@ -21,21 +21,21 @@ jobs:
         uses: actions/checkout@v6
 
       - name: build
-        uses: step-security/likec4-actions@release
+        uses: step-security/likec4-actions@main
         with:
           action: build
           path: test-likec4
           output: dist
 
       - name: export png
-        uses: step-security/likec4-actions@release
+        uses: step-security/likec4-actions@main
         with:
           export: png
           path: test-likec4
           output: images
 
       - name: codegen react
-        uses: step-security/likec4-actions@release
+        uses: step-security/likec4-actions@main
         with:
           action: codegen
           path: test-likec4
