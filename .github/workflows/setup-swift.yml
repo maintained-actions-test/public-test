@@ -1,0 +1,37 @@
+name: setup-swift
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-setup-swift:
+    name: Swift ${{ matrix.swift }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        swift:
+          - "6.0"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Swift
+        uses: step-security/setup-swift@release
+        with:
+          swift-version: ${{ matrix.swift }}
+
+      - name: Verify Swift version on Linux and Windows
+        if: runner.os != 'macOS'
+        shell: bash
+        run: swift --version
+
+      - name: Verify Swift version on macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          swift --version
+          xcrun --toolchain "${TOOLCHAINS}" swift --version
