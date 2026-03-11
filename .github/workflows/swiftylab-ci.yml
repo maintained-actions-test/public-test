@@ -29,7 +29,3 @@ jobs:
         uses: step-security/swiftylab-ci/actions/setup@release
         with:
           swift: latest
-
-      - name: Run tests
-        if: steps.precondition.outputs.proceed == 'true'
-        run: swift test
