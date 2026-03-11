@@ -1,0 +1,30 @@
+name: action-staticcheck
+
+on:
+  workflow_dispatch:
+
+jobs:
+  staticcheck:
+    name: runner / staticcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: "testdata/staticcheck/go.mod"
+
+      - name: Run staticcheck
+        uses: step-security/action-staticcheck@release
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-check
+          level: info
+          workdir: ./testdata/staticcheck
