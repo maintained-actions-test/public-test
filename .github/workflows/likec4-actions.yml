@@ -1,0 +1,41 @@
+name: likec4-actions
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  likec4-main:
+    name: LikeC4 (main)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: build
+        uses: step-security/likec4-actions@main
+        with:
+          action: build
+          path: test-likec4
+          output: dist
+
+      - name: export png
+        uses: step-security/likec4-actions@main
+        with:
+          export: png
+          path: test-likec4
+          output: images
+
+      - name: codegen react
+        uses: step-security/likec4-actions@main
+        with:
+          action: codegen
+          path: test-likec4
