@@ -1,0 +1,35 @@
+name: swiftylab-ci
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    outputs:
+      proceed: ${{ steps.precondition.outputs.proceed }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Check should proceed
+        id: precondition
+        uses: step-security/swiftylab-ci/actions/condition@release
+        with:
+          workflow: swiftylab-ci.yml
+          files: |
+            Sources/**/*.swift
+            Tests/**/*
+            Package*.swift
+      - name: Setup repository
+        if: steps.precondition.outputs.proceed == 'true'
+        uses: step-security/swiftylab-ci/actions/setup@release
+        with:
+          swift: latest
+
+      - name: Run tests
+        if: steps.precondition.outputs.proceed == 'true'
+        run: swift test
