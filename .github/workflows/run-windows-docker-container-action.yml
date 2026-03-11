@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run Windows Docker Container
-        uses: step-security/run-windows-docker-container-action@release
+        uses: step-security/run-windows-docker-container-action@main
         with:
           image: mcr.microsoft.com/windows/servercore:ltsc2022
           mapping_path: 'c:\map'
