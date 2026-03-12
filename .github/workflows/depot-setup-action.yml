@@ -1,0 +1,14 @@
+
+name: depot-setup-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    Install-depot-cli-main:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install (with @main)
+              uses: step-security/depot-setup-action@main
+              with:
+                version: "latest"
+            - run: depot --version
