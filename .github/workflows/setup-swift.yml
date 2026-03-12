@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup Swift
-        uses: step-security/setup-swift@release
+        uses: step-security/setup-swift@main
         with:
           swift-version: ${{ matrix.swift }}
 
