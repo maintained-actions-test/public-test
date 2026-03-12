@@ -1,0 +1,11 @@
+
+name: hide-comment-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    hide-comment:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: Hide comment
+              uses: step-security/hide-comment-action@main
