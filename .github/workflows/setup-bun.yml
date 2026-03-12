@@ -1,0 +1,12 @@
+name: setup-bun
+on: 
+  workflow_dispatch:
+
+jobs:
+    Bun:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup bun
+              uses: step-security/setup-bun@main
+              with:
+                bun-version: latest
