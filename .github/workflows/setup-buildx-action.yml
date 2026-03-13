@@ -1,0 +1,27 @@
+name: setup-buildx-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-buildx-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: setup-buildx
+        id: buildx
+        uses: step-security/setup-buildx-action@main
+    
+      - name: Check platforms
+        run: |
+          echo ${{ steps.buildx.outputs.platforms }}
+
+      - name: Nodes output
+        run: |
+          cat << EOF
+          ${{  steps.buildx.outputs.nodes  }}
+          EOF
