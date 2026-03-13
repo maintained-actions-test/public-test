@@ -17,7 +17,7 @@ jobs:
 
       - name: Check should proceed
         id: precondition
-        uses: step-security/swiftylab-ci/actions/condition@release
+        uses: step-security/swiftylab-ci/actions/condition@main
         with:
           workflow: swiftylab-ci.yml
           files: |
@@ -26,6 +26,6 @@ jobs:
             Package*.swift
       - name: Setup repository
         if: steps.precondition.outputs.proceed == 'true'
-        uses: step-security/swiftylab-ci/actions/setup@release
+        uses: step-security/swiftylab-ci/actions/setup@main
         with:
           swift: latest
