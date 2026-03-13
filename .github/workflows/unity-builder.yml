@@ -1,0 +1,31 @@
+name: unity-builder
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-main:
+    name: Build with @main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Build Unity project
+        id: build
+        continue-on-error: true
+        uses: step-security/unity-builder@release
+        with:
+          targetPlatform: StandaloneLinux64
+          projectPath: test-project
+          unityVersion: 2021.3.45f1
+          versioning: None
+          skipActivation: 'true'
+
+      - name: Check build outcome
+        run: echo "Build step outcome=${{ steps.build.outcome }}"
