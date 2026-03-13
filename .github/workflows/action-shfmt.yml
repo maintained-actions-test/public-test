@@ -1,0 +1,23 @@
+name: action-shfmt
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  shellcheck-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: shell-check
+        continue-on-error: true
+        uses: step-security/action-shfmt@fix/checksum
+        with:
+          filter_mode: file
