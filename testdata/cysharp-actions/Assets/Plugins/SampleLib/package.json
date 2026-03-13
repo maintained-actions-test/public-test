@@ -1,0 +1,6 @@
+{
+  "name": "com.stepsecurity.sample-lib",
+  "version": "1.0.0",
+  "displayName": "Sample Library",
+  "description": "A sample Unity package used for CI testing"
+}

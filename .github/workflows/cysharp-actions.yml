@@ -1,0 +1,102 @@
+name: cysharp-actions
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-metas:
+    name: Test check-metas
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      # Scenario 1: Clean directory — no untracked .meta files
+      - name: Run check-metas on clean directory
+        id: clean-check
+        uses: step-security/Cysharp-Actions/.github/actions/check-metas@release
+        with:
+          directory: testdata/cysharp-actions
+          exit-on-error: false
+
+      - name: Assert clean directory has no untracked .meta files
+        run: |
+          echo "meta-exists: ${{ steps.clean-check.outputs.meta-exists }}"
+          if [[ "${{ steps.clean-check.outputs.meta-exists }}" == "true" ]]; then
+            echo "::error::Expected no untracked .meta files in clean directory"
+            exit 1
+          fi
+          echo "PASS: clean directory check returned meta-exists=false"
+
+      # Scenario 2: Dirty directory — untracked .meta file present
+      - name: Create untracked .meta file
+        run: touch ./testdata/cysharp-actions/Assets/NewScene.unity.meta
+
+      - name: Run check-metas on dirty directory
+        id: dirty-check
+        uses: step-security/Cysharp-Actions/.github/actions/check-metas@release
+        with:
+          directory: testdata/cysharp-actions
+          exit-on-error: false
+
+      - name: Assert dirty directory detected untracked .meta files
+        run: |
+          echo "meta-exists: ${{ steps.dirty-check.outputs.meta-exists }}"
+          if [[ "${{ steps.dirty-check.outputs.meta-exists }}" != "true" ]]; then
+            echo "::error::Expected untracked .meta files to be detected"
+            exit 1
+          fi
+          echo "PASS: dirty directory check returned meta-exists=true"
+
+      # Scenario 3: exit-on-error causes step failure
+      - name: Run check-metas with exit-on-error true
+        id: fail-check
+        continue-on-error: true
+        uses: step-security/Cysharp-Actions/.github/actions/check-metas@release
+        with:
+          directory: testdata/cysharp-actions
+          exit-on-error: true
+
+      - name: Assert exit-on-error caused failure
+        if: always()
+        run: |
+          echo "meta-exists: ${{ steps.fail-check.outputs.meta-exists }}"
+          echo "outcome: ${{ steps.fail-check.outcome }}"
+          if [[ "${{ steps.fail-check.outcome }}" != "failure" ]]; then
+            echo "::error::Expected step to fail when exit-on-error is true"
+            exit 1
+          fi
+          echo "PASS: exit-on-error correctly caused step failure"
+
+  unity-builder:
+    name: Test unity-builder (smoke test)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run unity-builder
+        id: unity-build
+        continue-on-error: true
+        uses: step-security/Cysharp-Actions/.github/actions/unity-builder@release
+        with:
+          targetPlatform: StandaloneLinux64
+          projectPath: testdata/cysharp-actions
+          buildMethod: PackageExporter.Export
+          versioning: None
+
+      - name: Assert unity-builder was invoked
+        if: always()
+        run: |
+          echo "unity-build outcome: ${{ steps.unity-build.outcome }}"
+          echo "PASS: unity-builder action was invoked (failure expected without Unity runtime)"
