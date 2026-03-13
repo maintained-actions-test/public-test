@@ -5,7 +5,7 @@ on:
 
 jobs:
   staticcheck:
-    name: runner / staticcheck
+    name: staticcheck-main
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
@@ -22,7 +22,7 @@ jobs:
           go-version-file: "testdata/staticcheck/go.mod"
 
       - name: Run staticcheck
-        uses: step-security/action-staticcheck@release
+        uses: step-security/action-staticcheck@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-check
