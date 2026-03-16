@@ -1,0 +1,27 @@
+name: setup-nasm
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install NASM
+        uses: step-security/setup-nasm@v1
+        with:
+          version: 2.16.01
+
+      - name: Verify NASM installation
+        run: nasm -v
+
+      - name: Check NASM path
+        run: which nasm
