@@ -19,7 +19,7 @@ jobs:
       - name: Build Unity project
         id: build
         continue-on-error: true
-        uses: step-security/unity-builder@release
+        uses: step-security/unity-builder@main
         with:
           targetPlatform: StandaloneLinux64
           projectPath: test-project
