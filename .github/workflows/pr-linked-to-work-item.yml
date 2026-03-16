@@ -1,0 +1,22 @@
+name: pr-linked-to-work-item
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: create-link
+        uses: step-security/github-actions-pr-is-linked-to-work-item@release
+        continue-on-error: true
