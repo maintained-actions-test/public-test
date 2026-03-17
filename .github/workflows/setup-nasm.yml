@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Install NASM
-        uses: step-security/setup-nasm@release
+        uses: step-security/setup-nasm@main
         with:
           version: 2.16.01
 
