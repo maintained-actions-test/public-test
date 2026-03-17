@@ -18,5 +18,5 @@ jobs:
           egress-policy: audit
 
       - name: create-link
-        uses: step-security/github-actions-pr-is-linked-to-work-item@release
+        uses: step-security/github-actions-pr-is-linked-to-work-item@main
         continue-on-error: true
