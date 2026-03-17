@@ -23,3 +23,5 @@ jobs:
 
       - name: Run Cypress Github Action
         uses: step-security/cypress-io-github-action@release
+        with:
+          working-directory: ./testdata/cypress-io-github-action

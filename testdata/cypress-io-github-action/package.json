@@ -1,0 +1,13 @@
+{
+  "name": "cypress-test",
+  "version": "1.0.0",
+  "description": "Minimal Cypress test for cypress-io-github-action",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "15.12.0"
+  }
+}
