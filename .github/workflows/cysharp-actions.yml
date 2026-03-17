@@ -19,7 +19,7 @@ jobs:
       # Scenario 1: Clean directory — no untracked .meta files
       - name: Run check-metas on clean directory
         id: clean-check
-        uses: step-security/Cysharp-Actions/.github/actions/check-metas@release
+        uses: step-security/Cysharp-Actions/.github/actions/check-metas@main
         with:
           directory: testdata/cysharp-actions
           exit-on-error: false
@@ -39,7 +39,7 @@ jobs:
 
       - name: Run check-metas on dirty directory
         id: dirty-check
-        uses: step-security/Cysharp-Actions/.github/actions/check-metas@release
+        uses: step-security/Cysharp-Actions/.github/actions/check-metas@main
         with:
           directory: testdata/cysharp-actions
           exit-on-error: false
@@ -57,7 +57,7 @@ jobs:
       - name: Run check-metas with exit-on-error true
         id: fail-check
         continue-on-error: true
-        uses: step-security/Cysharp-Actions/.github/actions/check-metas@release
+        uses: step-security/Cysharp-Actions/.github/actions/check-metas@main
         with:
           directory: testdata/cysharp-actions
           exit-on-error: true
@@ -88,7 +88,7 @@ jobs:
       - name: Run unity-builder
         id: unity-build
         continue-on-error: true
-        uses: step-security/Cysharp-Actions/.github/actions/unity-builder@release
+        uses: step-security/Cysharp-Actions/.github/actions/unity-builder@main
         with:
           targetPlatform: StandaloneLinux64
           projectPath: testdata/cysharp-actions
