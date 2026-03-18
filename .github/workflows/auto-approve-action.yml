@@ -1,0 +1,22 @@
+name: auto-approve-action
+
+on:
+  workflow_dispatch:
+    inputs:
+      pullRequestNumber:
+        description: "Pull request number to auto-approve"
+        required: true
+        type: string
+
+jobs:
+  test-auto-approve:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Auto approve PR
+        uses: step-security/auto-approve-action@release
+        with:
+          pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
+          review-message: "Auto approved by test workflow"
