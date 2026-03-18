@@ -1,0 +1,55 @@
+name: find-comment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create Test Issue
+        id: create-issue
+        uses: step-security/create-issue-from-file@release
+        with:
+          title: Find Comment Test Issue - Public Repo
+          content-filepath: ./testdata/find-comment/issue.md
+
+      - name: Add Test Comment
+        run: |
+          gh issue comment ${{ steps.create-issue.outputs.issue-number }} --body "Test comment for find-comment action - unique marker 12345"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Find Comment
+        id: find-comment
+        uses: step-security/find-comment@release
+        with:
+          issue-number: ${{ steps.create-issue.outputs.issue-number }}
+          body-includes: "unique marker 12345"
+
+      - name: Verify Comment Found
+        run: |
+          if [ -z "${{ steps.find-comment.outputs.comment-id }}" ]; then
+            echo "ERROR: Comment not found!"
+            exit 1
+          fi
+          echo "Found comment ID: ${{ steps.find-comment.outputs.comment-id }}"
+
+      - name: Cleanup - Close Test Issue
+        if: always() && steps.create-issue.outputs.issue-number
+        run: gh issue close ${{ steps.create-issue.outputs.issue-number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
