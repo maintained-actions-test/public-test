@@ -3,6 +3,10 @@ name: create-issue-from-file
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   subscription-check:
     name: Subscription Check
@@ -17,7 +21,14 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Create Issue From File
+        id: create-issue
         uses: step-security/create-issue-from-file@release
         with:
           title: Test Issue - Public Repo
           content-filepath: ./testdata/create-issue-from-file/issue.md
+
+      - name: Close Test Issue
+        if: steps.create-issue.outputs.issue-number
+        run: gh issue close ${{ steps.create-issue.outputs.issue-number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
