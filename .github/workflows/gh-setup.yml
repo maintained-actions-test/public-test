@@ -30,7 +30,7 @@ jobs:
           repo: k1LoW/tbls
           force: true
           strict: true
-          gh-setup-version: v1.11.7
+          gh-setup-version: v1.11.6
 
       - name: Test @main setup
         run: tbls version
