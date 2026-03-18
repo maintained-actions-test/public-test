@@ -1,0 +1,23 @@
+name: create-issue-from-file
+
+on:
+  workflow_dispatch:
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create Issue From File
+        uses: step-security/create-issue-from-file@release
+        with:
+          title: Test Issue - Public Repo
+          content-filepath: ./testdata/create-issue-from-file/issue.md
