@@ -1,0 +1,37 @@
+
+name: gh-setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job-run-test-main:
+    name: Setup test with @main
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DEBUG: true
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+
+      - name: Get latest version
+        id: latest_version
+        run: |
+          echo -n 'version=' > $GITHUB_OUTPUT
+          gh release list --exclude-drafts --exclude-pre-releases --limit 1 | cut -f 1 >> $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Run setup as a action with @main
+        uses: step-security/gh-setup@main
+        with:
+          repo: k1LoW/tbls
+          force: true
+          strict: true
+          gh-setup-version: v1.11.7
+
+      - name: Test @main setup
+        run: tbls version
+        shell: bash
