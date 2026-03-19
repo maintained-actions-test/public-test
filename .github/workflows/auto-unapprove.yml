@@ -18,7 +18,7 @@ jobs:
           egress-policy: audit
 
       - name: Dismiss Stale Reviews
-        uses: step-security/auto-unapprove@release
+        uses: step-security/auto-unapprove@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pr-number: ${{ github.event.number }}
