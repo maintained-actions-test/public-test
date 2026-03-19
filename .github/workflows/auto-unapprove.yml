@@ -1,0 +1,27 @@
+name: auto-unapprove
+
+on:
+  pull_request:
+    types: [synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  auto-unapprove:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Dismiss Stale Reviews
+        uses: step-security/auto-unapprove@release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-number: ${{ github.event.number }}
+          dry-run: "true"
+          target-branch: ${{ github.event.pull_request.base.ref }}
+          team-start-with: "@"
