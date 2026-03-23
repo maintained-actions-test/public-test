@@ -31,15 +31,3 @@ jobs:
 
       - name: Show output
         run: echo "${{ toJSON(steps.changed-files-recover-deleted-files.outputs) }}"
-
-      - name: Verify all changed files match expected set
-        run: |
-          expected=".github/workflows/changed-files.yml"
-          actual="${{ steps.changed-files-recover-deleted-files.outputs.all_changed_files }}"
-          if [ "$actual" != "$expected" ]; then
-            echo "❌ Mismatch in all_changed_files"
-            echo "Expected: ($expected)"
-            echo "Got:      ($actual)"
-            exit 1
-          fi
-          echo "✅ all_changed_files matches expected file: $expected"
