@@ -22,7 +22,7 @@ jobs:
 
       - name: Run changed-files with recover_deleted_files
         id: changed-files-recover-deleted-files
-        uses: step-security/changed-files@auto-cherry-pick
+        uses: step-security/changed-files@main
         with:
           base_sha: 2c89711478a63642214d157b5e1ae4f9b1283dd5
           sha: 45b8585d128f45f46c9a09e8b4e670ba69936d50
