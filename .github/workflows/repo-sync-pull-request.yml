@@ -1,0 +1,47 @@
+name: repo-sync-pull-request
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-PR-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Create test branch with changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B test/repo-sync-pull-request-main
+          echo "Test change at $(date -u +%Y-%m-%dT%H:%M:%SZ)" > test-pull-request.txt
+          git add test-pull-request.txt
+          git commit -m "test: update test file for repo-sync-pull-request"
+          git push origin test/repo-sync-pull-request-main --force
+
+      - name: Create pull request (with @main)
+        uses: step-security/repo-sync-pull-request@release
+        id: create-pr
+        with:
+          source_branch: test/repo-sync-pull-request-main
+          destination_branch: main
+          pr_title: "Test: repo-sync-pull-request action (with @main)"
+          pr_body: "Automated PR created by repo-sync-pull-request test workflow."
+          pr_label: test
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print outputs
+        run: |
+          echo "PR URL: ${{ steps.create-pr.outputs.pr_url }}"
+          echo "PR Number: ${{ steps.create-pr.outputs.pr_number }}"
+          echo "PR Created: ${{ steps.create-pr.outputs.pr_created }}"
+          echo "Has Changed Files: ${{ steps.create-pr.outputs.has_changed_files }}"
