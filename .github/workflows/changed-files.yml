@@ -1,0 +1,45 @@
+
+name: changed-files
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+  test-change-deleted-file:
+    name: Test Changed Files
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run changed-files with recover_deleted_files
+        id: changed-files-recover-deleted-files
+        uses: step-security/changed-files@auto-cherry-pick
+        with:
+          base_sha: 2c89711478a63642214d157b5e1ae4f9b1283dd5
+          sha: 45b8585d128f45f46c9a09e8b4e670ba69936d50
+          recover_deleted_files: true
+          fetch_depth: 60000
+
+      - name: Show output
+        run: echo "${{ toJSON(steps.changed-files-recover-deleted-files.outputs) }}"
+
+      - name: Verify all changed files match expected set
+        run: |
+          expected=".github/workflows/changed-files.yml"
+          actual="${{ steps.changed-files-recover-deleted-files.outputs.all_changed_files }}"
+          if [ "$actual" != "$expected" ]; then
+            echo "❌ Mismatch in all_changed_files"
+            echo "Expected: ($expected)"
+            echo "Got:      ($actual)"
+            exit 1
+          fi
+          echo "✅ all_changed_files matches expected file: $expected"
