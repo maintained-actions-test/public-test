@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Auto approve PR
-        uses: step-security/auto-approve-action@release
+        uses: step-security/auto-approve-action@main
         with:
           pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
           review-message: "Auto approved by test workflow"
