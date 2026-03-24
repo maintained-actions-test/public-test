@@ -22,6 +22,6 @@ jobs:
           node-version: 24
 
       - name: Run Cypress Github Action
-        uses: step-security/cypress-io-github-action@release
+        uses: step-security/cypress-io-github-action@main
         with:
           working-directory: ./testdata/cypress-io-github-action
