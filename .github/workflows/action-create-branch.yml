@@ -11,6 +11,8 @@ on:
       sha:
         description: "Optional SHA (leave empty to use current commit)"
         required: false
+permissions:
+  contents: write
 
 jobs:
   test-create-branch:
