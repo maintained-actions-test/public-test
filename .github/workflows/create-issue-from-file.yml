@@ -22,7 +22,7 @@ jobs:
 
       - name: Create Issue From File
         id: create-issue
-        uses: step-security/create-issue-from-file@release
+        uses: step-security/create-issue-from-file@main
         with:
           title: Test Issue - Public Repo
           content-filepath: ./testdata/create-issue-from-file/issue.md
