@@ -1,0 +1,11 @@
+name: setup-gcloud
+on: 
+  workflow_dispatch:
+
+jobs:
+    Gcloud:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: setup-gcloud
+              uses: step-security/setup-gcloud@main
+                
