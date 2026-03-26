@@ -1,0 +1,52 @@
+
+name: add-pr-comment
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull Request number to comment on'
+        required: true
+        type: number
+
+jobs:
+
+  test-comment-main:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Add PR comment (with @main)
+        uses: step-security/add-pr-comment@main
+        with:
+          issue: ${{ inputs.pr_number }}
+          message: "✅ **Test Comment with @main**
+This is a test comment using @main tag on PR #${{ inputs.pr_number }}."
+          message-id: "test-main-job-id"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add PR comment (status override test with @main)
+        uses: step-security/add-pr-comment@main
+        with:
+          issue: ${{ inputs.pr_number }}
+          message: "✅ All good with @main!"
+          message-failure: "❌ Something went wrong with @main!"
+          message-id: "status-test-main-comment"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+
+      - name: Add PR comment (find-and-replace test with @main)
+        uses: step-security/add-pr-comment@main
+        with:
+          issue: ${{ inputs.pr_number }}
+          message: "Hello 👋"
+          message-id: "replace-test-main-comment"
+          find: "Hello"
+          replace: "Hi there"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
