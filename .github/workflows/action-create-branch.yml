@@ -24,7 +24,7 @@ jobs:
 
       - name: Create branch using action
         id: create_branch
-        uses: step-security/action-create-branch@release
+        uses: step-security/action-create-branch@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
