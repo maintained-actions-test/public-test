@@ -1,0 +1,54 @@
+name: action-gh-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-tag:
+        description: "Tag for the test release (e.g., v0.0.0-test)"
+        required: true
+        default: "v0.0.0-test"
+
+jobs:
+  test-release-main:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure Tag Exists
+        run: |
+          TAG_NAME="${{ github.event.inputs.release-tag }}"
+          git fetch --tags
+          if ! git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "❌ Tag '$TAG_NAME' does not exist locally. Syncing with remote."
+            git fetch origin "refs/tags/$TAG_NAME:refs/tags/$TAG_NAME"
+          fi
+          echo "✅ Verified tag '$TAG_NAME' exists locally."
+      - name: Generate Test File
+        run: echo "Test Release File" > test-release.txt
+
+      - name: Generate Test Changelog
+        run: echo -e "## Test Release Notes\n- This is a test release." > CHANGELOG.txt
+
+      - name: Verify Files Before Release
+        run: |
+          echo "Current Directory:"
+          pwd
+          echo "Files in workspace:"
+          ls -l
+      - name: Create Test GitHub Release
+        uses: step-security/action-gh-release@main
+        with:
+          tag_name: ${{ github.event.inputs.release-tag }}
+          name: "Test Release ${{ github.event.inputs.release-tag }}"
+          body_path: ${{ github.workspace }}/CHANGELOG.txt
+          files: test-release.txt
+          draft: true
+          prerelease: true
+          fail_on_unmatched_files: true
+          generate_release_notes: true
