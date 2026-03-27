@@ -1,0 +1,41 @@
+name: setup-tflint
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-setup-tflint:
+    name: Test setup-tflint on ${{ matrix.os }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Terraform files for testing
+        shell: bash
+        run: |
+          cat > main.tf <<'EOF'
+          terraform {
+            required_version = ">= 1.0.0"
+          }
+
+          resource "null_resource" "example" {}
+          EOF
+
+          cat > .tflint.hcl <<'EOF'
+          plugin "terraform" {
+            enabled = true
+            preset  = "recommended"
+          }
+          EOF
+
+      - name: Setup TFLint
+        uses: step-security/setup-tflint@release
+        with:
+          tflint_version: latest
+          cache: true
+
+      - name: Verify TFLint installation
+        run: tflint --version
+
