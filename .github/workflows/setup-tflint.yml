@@ -34,7 +34,6 @@ jobs:
         uses: step-security/setup-tflint@release
         with:
           tflint_version: latest
-          cache: true
 
       - name: Verify TFLint installation
         run: tflint --version
