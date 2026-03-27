@@ -1,0 +1,25 @@
+name: setup-terraform
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-terraform:
+    name: Setup Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Terraform
+        uses: step-security/setup-terraform@release
+        with:
+          terraform_version: latest
+
+      - name: Verify Terraform
+        run: terraform version
