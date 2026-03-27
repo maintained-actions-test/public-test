@@ -31,7 +31,7 @@ jobs:
           EOF
 
       - name: Setup TFLint
-        uses: step-security/setup-tflint@release
+        uses: step-security/setup-tflint@main
         with:
           tflint_version: latest
 
