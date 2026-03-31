@@ -1,0 +1,26 @@
+name: action-junit-report
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  junit-report-main:
+    name: JUnit Report (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Publish JUnit Report
+        uses: step-security/action-junit-report@release
+        if: success() || failure()
+        with:
+          report_paths: "packages/test-reporter/reports/jest-junit.xml"
+          check_name: "JUnit Test Report (main)"
+          include_passed: "true"
+          detailed_summary: "true"
+          require_tests: "true"
