@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup Terraform
-        uses: step-security/setup-terraform@release
+        uses: step-security/setup-terraform@main
         with:
           terraform_version: latest
 
