@@ -1,0 +1,19 @@
+name: setup-opentofu
+on:
+  workflow_dispatch:
+
+jobs:
+    setup-opentofu-main:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@rc
+              with:
+                egress-policy: audit
+
+            - uses: step-security/setup-opentofu@release
+              with:
+                tofu_version: "latest"
+                tofu_wrapper: false
+
+            - run: tofu version
