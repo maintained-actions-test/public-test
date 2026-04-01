@@ -11,7 +11,7 @@ jobs:
               with:
                 egress-policy: audit
 
-            - uses: step-security/setup-opentofu@release
+            - uses: step-security/setup-opentofu@main
               with:
                 tofu_version: "latest"
                 tofu_wrapper: false
