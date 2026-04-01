@@ -16,6 +16,9 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Checkout
+        uses: actions/checkout@v6
+
       - name: Create test issue
         id: create-issue
         env:
