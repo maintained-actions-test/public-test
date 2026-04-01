@@ -3,6 +3,9 @@ name: ad-m-github-push-action
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   subscription-check:
     name: Subscription Check
