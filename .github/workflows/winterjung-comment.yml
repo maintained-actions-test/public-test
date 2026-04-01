@@ -1,0 +1,41 @@
+name: winterjung-comment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Create test issue
+        id: create-issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE_URL=$(gh issue create --repo ${{ github.repository }} --title "Test winterjung-comment action" --body "Automated test issue" | tail -1)
+          ISSUE_NUMBER=$(echo "$ISSUE_URL" | grep -o '[0-9]*$')
+          echo "issue-number=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
+
+      - name: Create comment
+        uses: step-security/winterjung-comment@release
+        with:
+          type: create
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue_number: ${{ steps.create-issue.outputs.issue-number }}
+          body: "Test comment from winterjung-comment action"
+
+      - name: Close test issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue close ${{ steps.create-issue.outputs.issue-number }} --repo ${{ github.repository }}
