@@ -1,0 +1,31 @@
+name: release-downloader
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download release asset
+        uses: step-security/release-downloader@release
+        with:
+          repository: 'step-security/setup-terraform'
+          tag: 'v4.0.0'
+          fileName: 'provenance.json'
+          out-file-path: './test-downloads'
+
+      - name: Verify download
+        run: ls -lrth test-downloads/provenance.json
