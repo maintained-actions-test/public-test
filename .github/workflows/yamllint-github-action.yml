@@ -1,0 +1,22 @@
+name: yamllint-github-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  yamllint-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+  
+      - name: Checkout code
+        uses: actions/checkout@v6
+  
+      - name: yamllint
+        uses: step-security/yamllint-github-action@release
+        with:
+          yamllint_file_or_dir: "."
+          yamllint_comment: "true"
