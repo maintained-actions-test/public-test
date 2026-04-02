@@ -30,12 +30,18 @@ jobs:
           echo "issue-number=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
 
       - name: Create comment
+        id: create-comment
         uses: step-security/winterjung-comment@release
         with:
           type: create
           token: ${{ secrets.GITHUB_TOKEN }}
           issue_number: ${{ steps.create-issue.outputs.issue-number }}
           body: "Test comment from winterjung-comment action"
+
+      - name: Print outputs
+        run: |
+          echo "id: ${{ steps.create-comment.outputs.id }}"
+          echo "body: ${{ steps.create-comment.outputs.body }}"
 
       - name: Close test issue
         if: always()
