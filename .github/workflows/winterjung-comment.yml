@@ -31,7 +31,7 @@ jobs:
 
       - name: Create comment
         id: create-comment
-        uses: step-security/winterjung-comment@release
+        uses: step-security/winterjung-comment@main
         with:
           type: create
           token: ${{ secrets.GITHUB_TOKEN }}
