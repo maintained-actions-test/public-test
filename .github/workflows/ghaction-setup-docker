@@ -1,0 +1,11 @@
+name: ghaction-setup-docker
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker
+        uses: step-security/ghaction-setup-docker@main
