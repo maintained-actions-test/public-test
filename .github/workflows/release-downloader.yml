@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Download release asset
-        uses: step-security/release-downloader@release
+        uses: step-security/release-downloader@main
         with:
           repository: 'step-security/setup-terraform'
           tag: 'v4.0.0'
