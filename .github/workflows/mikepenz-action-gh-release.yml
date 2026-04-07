@@ -1,0 +1,40 @@
+name: mikepenz-action-gh-release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create draft release
+        id: release
+        uses: step-security/mikepenz-action-gh-release@release
+        with:
+          tag_name: v0.0.0-test-${{ github.run_id }}
+          draft: true
+          name: "Test Release ${{ github.run_id }}"
+          body: "Automated test release"
+
+      - name: Print outputs
+        run: |
+          echo "url: ${{ steps.release.outputs.url }}"
+          echo "id: ${{ steps.release.outputs.id }}"
+
+      - name: Delete draft release
+        if: always() && steps.release.outputs.id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release delete "v0.0.0-test-${{ github.run_id }}" --yes --cleanup-tag
