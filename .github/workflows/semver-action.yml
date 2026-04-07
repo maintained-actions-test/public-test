@@ -1,0 +1,34 @@
+name: semver-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run semver-action
+        id: semver
+        uses: step-security/semver-action@release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          noNewCommitBehavior: current
+          noVersionBumpBehavior: current
+
+      - name: Print outputs
+        run: |
+          echo "current: ${{ steps.semver.outputs.current }}"
+          echo "next: ${{ steps.semver.outputs.next }}"
+          echo "bump: ${{ steps.semver.outputs.bump }}"
