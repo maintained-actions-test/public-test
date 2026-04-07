@@ -16,7 +16,7 @@ jobs:
 
       - name: Render Template
         id: render
-        uses: step-security/render-template@release
+        uses: step-security/render-template@main
         with:
           template: testdata/render-template/greeting.template.txt
           vars: |
