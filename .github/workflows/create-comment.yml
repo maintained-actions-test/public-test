@@ -1,0 +1,32 @@
+name: create-comment
+
+on:
+  workflow_dispatch:
+    inputs:
+      number-main:
+        description: "Issue or Pull Request number to post the comment on"
+        required: false
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  create-comment-main:
+    name: Create Comment (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create Comment
+        uses: step-security/create-comment@main
+        with:
+          comment: "Test comment from create-comment action (main)"
+          number: ${{ github.event.inputs.number-main }}
+          unique: "true"
+          check-only-first-line: "false"
+
+      - name: Print Issue/PR URL
+        run: echo "Visit https://github.com/${{ github.repository }}/issues/${{ github.event.inputs.number }}"
