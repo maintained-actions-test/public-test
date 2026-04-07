@@ -21,7 +21,7 @@ jobs:
 
       - name: Run semver-action
         id: semver
-        uses: step-security/semver-action@release
+        uses: step-security/semver-action@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           noNewCommitBehavior: current
