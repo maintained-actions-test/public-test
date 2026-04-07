@@ -1,0 +1,28 @@
+name: render-template
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render-template-main:
+    name: Render Template (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Render Template
+        id: render
+        uses: step-security/render-template@release
+        with:
+          template: testdata/render-template/greeting.template.txt
+          vars: |
+            name: World
+            project: render-template
+            build_number: 42
+
+      - name: Print Rendered Output
+        run: echo "${{ steps.render.outputs.result }}"
