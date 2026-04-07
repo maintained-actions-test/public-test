@@ -1,0 +1,39 @@
+name: vimtor-action-zip
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  # ------------------------------------------------------------
+  # 2️⃣ Main tag test
+  # ------------------------------------------------------------
+  main-tag-test:
+    runs-on: ubuntu-latest
+    name: Test vimtor-action-zip with @main
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+  
+      - name: Checkout repository
+        uses: actions/checkout@v6
+  
+      - name: Create test files
+        run: |
+          mkdir -p test-files/subdir
+          echo "hello world" > test-files/file1.txt
+          echo "foo bar" > test-files/file2.txt
+          echo "nested file" > test-files/subdir/nested.txt
+  
+      - name: Test zip with default dest
+        uses: step-security/vimtor-action-zip@release
+        with:
+          files: test-files/file1.txt test-files/file2.txt
+  
+      - name: Verify default zip exists
+        run: |
+          test -f result.zip
+          echo "result.zip created successfully"
+  
