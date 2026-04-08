@@ -1,0 +1,30 @@
+name: qodo-ai-pr-agent
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  pr-agent-main:
+    name: PR Agent (main)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run PR Agent
+        uses: step-security/qodo-ai-pr-agent@release
+        env:
+          OPENAI_KEY: "s"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
