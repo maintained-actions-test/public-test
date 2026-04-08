@@ -1,0 +1,11 @@
+name: ghaction-github-status
+on: 
+  workflow_dispatch:
+
+jobs:
+    github-status:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: status
+              uses: step-security/ghaction-github-status@main
+                
