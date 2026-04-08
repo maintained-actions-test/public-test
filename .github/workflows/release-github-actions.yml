@@ -1,0 +1,25 @@
+name: release-github-actions
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run release-github-actions
+        uses: step-security/release-github-actions@release
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
