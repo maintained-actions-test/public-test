@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run PR Agent
-        uses: step-security/qodo-ai-pr-agent@release
+        uses: step-security/qodo-ai-pr-agent@main
         env:
           OPENAI_KEY: "s"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
