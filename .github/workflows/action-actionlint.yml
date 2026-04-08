@@ -1,0 +1,12 @@
+name: action-actionlint
+on: 
+  workflow_dispatch:
+
+jobs:
+    lint-workflows:
+        runs-on: ubuntu-latest
+        steps:
+            - name: linting
+              uses: step-security/action-actionlint@main
+              with: 
+                  github_token: ${{secrets.GITHUB_TOKEN}}
