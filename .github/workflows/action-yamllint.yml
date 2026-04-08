@@ -1,0 +1,26 @@
+name: action-yamllint
+
+on:
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: "Tag for the action"
+        required: true
+        default: "main"
+
+jobs:
+  yamllint-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: yamllint
+        uses: step-security/action-yamllint@release
+        with:
+          file_or_dir: "."
