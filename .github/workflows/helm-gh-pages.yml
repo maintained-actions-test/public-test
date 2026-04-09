@@ -1,0 +1,17 @@
+name: helm gh pages
+
+on: 
+  workflow_dispatch:
+
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish Helm charts
+        uses: step-security/helm-gh-pages@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          charts_dir: testdata
