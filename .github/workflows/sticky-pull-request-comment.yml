@@ -1,0 +1,25 @@
+name: sticky-pull-request-comment
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Pull request number"
+        required: true
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Post sticky PR comment
+        uses: step-security/sticky-pull-request-comment@main
+        with:
+          number: ${{ github.event.inputs.pr_number }}
+          header: manual-run
+          message: |
+            Triggered by workflow_dispatch.
+            Commenting on PR #${{ github.event.inputs.pr_number }}.
