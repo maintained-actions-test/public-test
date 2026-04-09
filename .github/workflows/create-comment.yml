@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Create Comment
-        uses: step-security/create-comment@release
+        uses: step-security/create-comment@main
         with:
           comment: "Test comment from create-comment action (main)"
           number: ${{ github.event.inputs.number-main }}
