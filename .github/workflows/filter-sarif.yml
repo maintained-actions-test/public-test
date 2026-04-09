@@ -1,0 +1,14 @@
+name: filter-sarif
+on: 
+  workflow_dispatch:
+
+jobs:
+    filter-sarif:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: Filter Sarif
+              uses: step-security/filter-sarif@main
+              with:
+                patterns: "**/**"
+                input: result/java.sarif
+                output: result/java.sarif
