@@ -1,0 +1,16 @@
+name: ghcommit-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    Commit:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Commit
+              uses: step-security/ghcommit-action@main
+              env:
+                GITHUB_TOKEN: ${{ github.token }}
+              with:
+                commit_message: "xcvb"
+                repo: 'xcvb'
+                branch: "xcvb"
