@@ -1,0 +1,19 @@
+name: allure-report-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  allure-pr:
+    name: Check Allure Report Action on Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Allure Report action from repo
+        uses: step-security/allure-report-action@main
+        with:
+          allure_results: allure-results
+          allure_history: allure-history
+          keep_reports: 1
