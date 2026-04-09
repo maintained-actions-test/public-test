@@ -1,0 +1,13 @@
+name: argo-cd-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    Argo-cd:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup Argo
+              uses: step-security/argo-cd-action@main
+              with:
+                command: version
+                options: --client
