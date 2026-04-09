@@ -15,7 +15,7 @@ jobs:
           egress-policy: audit
 
       - name: Slash Command Dispatch
-        uses: step-security/slash-command-dispatch@release
+        uses: step-security/slash-command-dispatch@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commands: hello
