@@ -1,0 +1,67 @@
+name: s3-actions-cache
+
+on:
+  workflow_dispatch:
+
+jobs:
+  full-test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_KEY }}
+      AWS_REGION: us-east-1
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --------------------------------------
+      # Prepare dummy files to cache
+      - name: Create dummy folders and files
+        shell: bash
+        run: |
+          mkdir -p node_modules .cache test-cache
+          echo "Dummy node_modules content" > node_modules/test.txt
+          echo "Dummy .cache content" > .cache/test.txt
+          echo "Dummy test-cache content" > test-cache/test.txt
+
+      # --------------------------------------
+      # Save-only using direct sub-action call
+      - name: Save cache only
+        uses: step-security/s3-actions-cache/save@main
+        with:
+          endpoint: ${{ secrets.ENDPOINT }}
+          accessKey: ${{ secrets.ACCESS_KEY }}
+          secretKey: ${{ secrets.SECRET_KEY }}
+          bucket: ${{ secrets.BUCKET }}
+          key: ${{ runner.os }}-save-only-${{ github.run_id }}
+          path: test-cache
+
+      # --------------------------------------
+      # Clean up test-cache locally (simulate fresh runner)
+      - name: Remove test-cache folder
+        shell: bash
+        run: rm -rf test-cache
+
+      # --------------------------------------
+      # Restore-only using direct sub-action call
+      - name: Restore cache only
+        uses: step-security/s3-actions-cache/restore@main
+        with:
+          endpoint: ${{ secrets.ENDPOINT }}
+          bucket: ${{ secrets.BUCKET }}
+          key: ${{ runner.os }}-save-only-${{ github.run_id }}
+          path: test-cache
+
+      # --------------------------------------
+      # Validate restored content
+      - name: Validate restored test-cache
+        shell: bash
+        run: |
+          echo "Validating test-cache folder content..."
+          cat test-cache/test.txt
