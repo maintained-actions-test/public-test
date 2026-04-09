@@ -1,0 +1,52 @@
+name: dynamodb actions
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Put DynamoDB Item
+        uses: step-security/dynamodb-actions@main
+        with:
+          operation: put
+          region: us-east-1
+          table: dynamodb-actions-test
+          item: |
+            {
+              "key": "foo",
+              "value": "wow",
+              "awesome": true,
+              "stars": 12345
+            }
+        env:
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Get DynamoDB Item
+        id: config
+        uses: step-security/dynamodb-actions@main
+        with:
+          operation: get
+          region: us-east-1
+          table: dynamodb-actions-test
+          key: |
+            {
+              "key": "foo"
+            }
+          consistent: false
+        env:
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Print item
+        run: |
+          echo '${{ fromJson(steps.config.outputs.outputs).item }}'
