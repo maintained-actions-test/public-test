@@ -1,0 +1,20 @@
+name: cirruslabs-cache
+on: 
+  workflow_dispatch:
+
+jobs:
+    create-cache:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+            
+            - name: cache-dependency
+              uses: step-security/cirruslabs-cache@main
+              with: 
+                path: node_modules/
+                key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+                restore-keys: node-modules-${{ runner.os }}-
+
+            - name: Install dependencies
+              run: npm ci
