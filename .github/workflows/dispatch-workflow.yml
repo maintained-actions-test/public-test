@@ -1,0 +1,26 @@
+name: dispatch-workflow
+on:
+  workflow_dispatch:
+
+jobs:  
+  integration-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    env:
+      INTEGRATION_TEST_WORKFLOW_FILE: "integration-tests.yml"
+      INTEGRATION_TEST_WORKFLOW_ID: 184979976 
+    steps:
+      - uses: actions/checkout@v4
+      - uses: step-security/dispatch-workflow@main
+        id: fail-ref-workflow-dispatch
+        name: "Dispatch Workflow using workflow_dispatch Method, to a Non-existent Branch"
+        with:
+          dispatch-method: "workflow_dispatch"
+          repo: "${{ github.event.repository.name }}"
+          owner: "${{ github.repository_owner }}"
+          ref: "non-existent-branch/${{ github.run_id }}" # This branch cannot realistically exist
+          workflow: "${{ env.INTEGRATION_TEST_WORKFLOW_ID }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          workflow-inputs: '{"placeholder": "placeholder"}'
