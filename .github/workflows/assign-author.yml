@@ -1,0 +1,12 @@
+name: assign author
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  assignAuthor:
+      name: Assign author to issue
+      runs-on: ubuntu-latest
+      steps:
+      - name: Assign author to issue
+        uses: step-security/assign-author@main
