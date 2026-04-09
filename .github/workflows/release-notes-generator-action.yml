@@ -1,0 +1,18 @@
+name: release-notes-generator-action
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  create-release-notes:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Create Release Notes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        OUTPUT_FOLDER: temp_release_notes
+        MILESTONE_NUMBER: 1
+        USE_MILESTONE_TITLE: "true"
+      uses: step-security/release-notes-generator-action@main
+
