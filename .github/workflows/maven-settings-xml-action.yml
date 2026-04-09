@@ -1,0 +1,11 @@
+name: maven-settings-xml-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    generate-settings:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: generate-settings
+              uses: step-security/maven-settings-xml-action@main
+                
