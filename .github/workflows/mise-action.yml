@@ -1,0 +1,37 @@
+name: mise-action
+on: 
+  workflow_dispatch:
+
+jobs:
+  job-with-correct-bash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use shellcheck with mise
+        uses: step-security/mise-action@main
+        with:
+          install: "true"
+          cache: "true"
+          experimental: "true"
+          log_level: "debug"
+          mise_toml: |
+            [tools]
+            shellcheck = "0.9.0"
+      - run: shellcheck test-json.sh
+
+  job-with-incorrect-bash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use shellcheck with mise
+        uses: step-security/mise-action@main
+        with:
+          install: "true"
+          cache: "true"
+          experimental: "true"
+          log_level: "debug"
+          mise_toml: |
+            [tools]
+            shellcheck = "0.9.0"
+      - run: shellcheck wrongbash.sh
+        continue-on-error: true
