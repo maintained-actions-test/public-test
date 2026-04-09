@@ -1,0 +1,11 @@
+name: scp-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    ssh-connect:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: scp
+              uses: step-security/scp-action@main
+                
