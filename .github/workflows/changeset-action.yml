@@ -1,0 +1,24 @@
+name: changeset-action
+on: 
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: 'Tag for the action'
+        required: true
+        default: 'main'
+
+jobs:
+    create-release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+              
+            - name: create-PR
+              uses: step-security/changeset-action@main
+              with:
+                version: npm run version
+                publish: npm run publish     
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
