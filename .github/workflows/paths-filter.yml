@@ -13,10 +13,8 @@ jobs:
       - name: Filter paths
         id: filter
         uses: step-security/paths-filter@main
-        with:
-          filters: |
-            all_files:
-              - '**/*'
+        with: 
+          filters: "all_files:\n  - '**/*'"
 
       - name: All files changed
         if: ${{ fromJson(steps.filter.outputs.outputs).all_files == 'true' }}
