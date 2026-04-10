@@ -17,5 +17,5 @@ jobs:
           filters: "all_files:\n  - '**/*'"
 
       - name: All files changed
-        if: ${{ fromJson(steps.filter.outputs.outputs).all_files == 'true' }}
+        if: steps.filter.outputs.all_files == 'true'
         run: echo "Changes detected in the repository"
