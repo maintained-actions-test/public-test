@@ -1,0 +1,55 @@
+name: mikefarah-yq
+
+on:
+  workflow_dispatch:
+
+jobs:
+  yq-main:
+    name: yq with @release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+  
+      - name: Checkout repository
+        uses: actions/checkout@v6
+  
+      - name: Create test YAML
+        run: |
+          cat <<'EOF' > test.yaml
+          name: example
+          version: 1.0
+          config:
+            debug: true
+            timeout: 30
+          items:
+            - name: item1
+              value: foo
+            - name: item2
+              value: bar
+          EOF
+  
+      - name: Read a value
+        id: read_value
+        uses: step-security/mikefarah-yq@release
+        with:
+          cmd: yq '.config.debug' test.yaml
+  
+      - name: Print result
+        run: echo "Result=${{ steps.read_value.outputs.result }}"
+  
+      - name: Update a value
+        uses: step-security/mikefarah-yq@release
+        with:
+          cmd: yq -i '.config.timeout = 60' test.yaml
+  
+      - name: Verify update
+        id: verify_update
+        uses: step-security/mikefarah-yq@release
+        with:
+          cmd: yq '.config.timeout' test.yaml
+  
+      - name: Print updated result
+        run: echo "Updated timeout=${{ steps.verify_update.outputs.result }}"
