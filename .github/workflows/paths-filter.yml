@@ -1,0 +1,23 @@
+name: "paths-filter"
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  filter_paths:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Filter paths
+        id: filter
+        uses: step-security/paths-filter@main
+        with:
+          filters: |
+            all_files:
+              - '**/*'
+
+      - name: All files changed
+        if: ${{ fromJson(steps.filter.outputs.outputs).all_files == 'true' }}
+        run: echo "Changes detected in the repository"
