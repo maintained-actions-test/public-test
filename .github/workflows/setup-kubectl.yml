@@ -1,0 +1,18 @@
+name: setup-kubectl
+on: 
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: 'Tag for the action'
+        required: true
+        default: 'main'
+
+jobs:
+    install-kubectl:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install kubectl
+              uses: step-security/setup-kubectl@main
+              with:
+                version: latest
+            - run: "kubectl version --client -o json"
