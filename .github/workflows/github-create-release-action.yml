@@ -1,0 +1,44 @@
+name: github-create-release-action
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to create'
+        required: true
+        default: 'v1.2.3'
+      message:
+        description: 'Release message'
+        required: false
+        default: 'Test release message'
+
+jobs:
+  test-release-main:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Create GitHub release using custom action (with @main)
+        id: release
+        uses: step-security/github-create-release-action@main
+        with:
+          created_tag: ${{ github.event.inputs.tag }}-main
+          version_regex: ^v[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+.*$
+          release_text: ${{ steps.tag-annotation.outputs.git-tag-annotation }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Show release outputs
+        run: |
+          echo "Release ID: ${{ steps.release.outputs.id }}"
+          echo "Release URL: ${{ steps.release.outputs.html_url }}"
+          echo "Upload URL: ${{ steps.release.outputs.upload_url }}"
+          echo "Changelog: ${{ steps.release.outputs.changelog }}"
