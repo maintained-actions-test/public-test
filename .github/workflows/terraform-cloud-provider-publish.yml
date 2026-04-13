@@ -1,0 +1,14 @@
+name: terraform-cloud-provider-publish
+on: 
+  workflow_dispatch:
+
+jobs:
+    provider:
+        runs-on: ubuntu-latest
+        steps:
+            - name: provider
+              uses: step-security/terraform-cloud-provider-publish@main
+              with:
+                organization-name: workflow
+                gpg-key: any
+                organization-api-token: any
