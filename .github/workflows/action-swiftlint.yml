@@ -1,0 +1,36 @@
+name: action-swiftlint
+
+on:
+  workflow_dispatch:
+
+jobs:
+  swiftlint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create SwiftLint config + violating Swift file
+        run: |
+          cat > .swiftlint.yml <<'YAML'
+          opt_in_rules:
+            - force_unwrapping
+          included:
+            - Sources
+          YAML
+
+          mkdir -p Sources
+          cat > Sources/Bad.swift <<'SWIFT'
+          import Foundation
+
+          struct Demo {
+              func run() {
+                  let s: String? = nil
+                  print(s!) // force unwrap -> should violate force_unwrapping
+              }
+          }
+          SWIFT
+
+      - name: Run step-security/action-swiftlint (strict)
+        uses: step-security/action-swiftlint@release
+        with:
+          args: --strict
