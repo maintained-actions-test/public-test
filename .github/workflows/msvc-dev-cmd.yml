@@ -1,0 +1,11 @@
+name: msvc-dev-cmd
+on: 
+  workflow_dispatch:
+
+jobs:
+    msvc:
+        runs-on: windows-latest
+        steps:  
+            - name: msvc
+              uses: step-security/msvc-dev-cmd@main
+                
