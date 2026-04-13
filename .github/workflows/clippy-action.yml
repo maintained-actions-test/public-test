@@ -1,0 +1,29 @@
+name: clippy-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  lint:
+    name: clippy-action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: stable
+          components: clippy, rustfmt
+
+      - name: Run clippy (__fixtures__/no-clippy-error)
+        uses: step-security/clippy-action@main
+        with:
+            working-directory: ./test/__fixtures__/no-clippy-error
+            all-features: true
+            token: ${{github.token}}
