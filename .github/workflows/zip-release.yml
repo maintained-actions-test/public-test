@@ -1,0 +1,15 @@
+name: zip-release
+on: 
+  workflow_dispatch:
+
+jobs:
+    tzipg:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: zip
+              uses: step-security/zip-release@main
+              with:
+                filename: test-release.tar.gz
+                path: test-files
+                type: tar.gz
+                exclusions: '*.log'
