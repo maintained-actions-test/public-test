@@ -1,0 +1,49 @@
+name: google-github-auth
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: step-security/google-github-auth@main
+        with:
+          service_account: Testing-action@balmy-ground-313307.iam.gserviceaccount.com
+          workload_identity_provider: projects/530691134020/locations/global/workloadIdentityPools/github/providers/my-repo
+
+      - name: Verify credentials file is excluded
+        run: git status
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Verify Google Cloud Authentication
+        run: |
+          gcloud info
+          gcloud projects list
+
+      - name: Validate Authenticated Service Account
+        run: |
+          ACCOUNT=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+          PROJECT_ID=$(gcloud info --format="value(config.project)")
+
+          echo "🔍 Checking if account '$ACCOUNT' exists in project '$PROJECT_ID'..."
+
+          if gcloud iam service-accounts describe "$ACCOUNT" --project="$PROJECT_ID" > /dev/null 2>&1; then
+            echo "✅ Service account exists and is valid."
+          else
+            echo "❌ Service account does not exist or access is denied."
+            exit 1
+          fi
