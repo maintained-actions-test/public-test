@@ -1,0 +1,11 @@
+name: allure-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    allure-report:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: allure
+              uses: step-security/allure-action@main
+                
