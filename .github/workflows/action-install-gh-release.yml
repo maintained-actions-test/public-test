@@ -1,0 +1,12 @@
+name: action-install-gh-release
+on: 
+  workflow_dispatch:
+
+jobs:
+    install-release:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: Install release
+              uses: step-security/action-install-gh-release@main
+              with:
+                repo: aquasecurity/tfsec
