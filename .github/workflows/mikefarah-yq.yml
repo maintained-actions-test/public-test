@@ -5,7 +5,7 @@ on:
 
 jobs:
   yq-main:
-    name: yq with @release
+    name: yq with @main
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
@@ -33,7 +33,7 @@ jobs:
   
       - name: Read a value
         id: read_value
-        uses: step-security/mikefarah-yq@release
+        uses: step-security/mikefarah-yq@main
         with:
           cmd: yq '.config.debug' test.yaml
   
@@ -41,13 +41,13 @@ jobs:
         run: echo "Result=${{ steps.read_value.outputs.result }}"
   
       - name: Update a value
-        uses: step-security/mikefarah-yq@release
+        uses: step-security/mikefarah-yq@main
         with:
           cmd: yq -i '.config.timeout = 60' test.yaml
   
       - name: Verify update
         id: verify_update
-        uses: step-security/mikefarah-yq@release
+        uses: step-security/mikefarah-yq@main
         with:
           cmd: yq '.config.timeout' test.yaml
   
