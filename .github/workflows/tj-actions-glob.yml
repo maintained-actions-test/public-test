@@ -1,0 +1,11 @@
+name: tj-actions-glob
+on: 
+  workflow_dispatch:
+
+jobs:
+    glob:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: find-files
+              uses: step-security/tj-actions-glob@main
+                
