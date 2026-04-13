@@ -1,0 +1,12 @@
+name: gh-find-current-pr
+on: 
+  workflow_dispatch:
+
+jobs:
+    PR:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Find PR
+              uses: step-security/gh-find-current-pr@main
+              with:
+                state: open
