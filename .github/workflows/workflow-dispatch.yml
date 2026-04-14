@@ -1,0 +1,17 @@
+name: workflow-dispatch
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  testAction:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Invoke Echo
+        uses: step-security/workflow-dispatch@main
+        with: 
+           workflow: "workflow-dispatch-test.yml"
+           inputs: "{ \"message\": \"blah blah this is a test\" }"
+          
