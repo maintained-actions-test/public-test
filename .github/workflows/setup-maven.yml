@@ -1,0 +1,28 @@
+name: setup-maven
+
+on: 
+  workflow_dispatch:
+
+
+jobs:
+  test-maven-setup:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Maven
+      uses: step-security/setup-maven@main
+      with:
+        maven-version: 3.8.2
+          
+    - name: Verify Maven installation
+      run: |
+        mvn --version
+        echo "Maven installation verified successfully"
+    
+    - name: Test Maven commands
+      run: |
+        mvn help:evaluate -Dexpression=maven.version -q -DforceStdout
+        mvn help:system | head -10
