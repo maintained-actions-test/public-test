@@ -1,0 +1,20 @@
+
+name: git-tag-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: Test with giving input
+        uses: step-security/git-tag-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_repo: ${{ github.repository }}
+          git_commit_sha: ${{ github.sha }}
+          version: "1.0.0-test"
+          git_tag_prefix: "v"
