@@ -1,0 +1,23 @@
+name: fetch-gh-release-asset
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    name: Download
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Create a subdirectory
+        run: mkdir -p subdir || true
+        shell: bash
+      - name: Get a specific version
+        id: get_release
+        uses: step-security/fetch-gh-release-asset@main
+        with:
+          repo: 'step-security/workflow-playground'
+          version: ${{ matrix.version }}
+          file: 'plague-linux.zip'
+          target: 'subdir/plague-linux.zip'
