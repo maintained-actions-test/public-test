@@ -1,0 +1,20 @@
+name: action-download-artifact
+
+on: 
+  workflow_dispatch:
+
+
+jobs:
+  download-latest:
+    runs-on: ubuntu-latest
+    steps:          
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Download
+        uses: step-security/action-download-artifact@release
+        with:
+          workflow: upload.yml
+          name: artifact
+          path: artifact
+      - name: Test
+        run: cat artifact/sha | grep $GITHUB_SHA
