@@ -1,0 +1,20 @@
+name: nats action
+on: 
+  workflow_dispatch:
+
+jobs:
+  test-cluster-main:
+    runs-on: ubuntu-latest
+    name: Test cluster (with @main)
+
+    steps:
+      - name: Create Nats server (with @main)
+        uses: step-security/nats-action@main
+        with:
+          port: "4222"
+
+      - name: connect to server
+        uses: onichandame/nats-client-action@master
+        with:
+          servers: "nats://localhost:4222"
+          cluster: "true"
