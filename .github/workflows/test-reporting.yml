@@ -1,0 +1,14 @@
+name: test-reporting
+on: 
+  workflow_dispatch:
+
+jobs:
+    report:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Report tests
+              uses: step-security/test-reporting@main
+              with:
+                name: any
+                reporter: any
+                path: any
