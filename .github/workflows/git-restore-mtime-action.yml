@@ -1,0 +1,38 @@
+name: git-restore-mtime-action
+
+on: 
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: 'Tag for the action'
+        required: true
+        default: 'main'
+
+jobs:
+  tests:
+    name: "Test git restore mtime"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: "main"
+          fetch-depth: 0
+
+      - name: restore timestamps
+        uses: step-security/dynamic-uses@v1
+        with:
+          uses: step-security/git-restore-mtime-action@${{ github.event.inputs.action-tag }}
+
+  tests-main:
+    name: "Test git restore mtime (main)"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: "main"
+          fetch-depth: 0
+
+      - name: restore timestamps
+        uses: step-security/git-restore-mtime-action@main
