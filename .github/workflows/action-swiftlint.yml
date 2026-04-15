@@ -31,6 +31,6 @@ jobs:
           SWIFT
 
       - name: Run step-security/action-swiftlint (strict)
-        uses: step-security/action-swiftlint@release
+        uses: step-security/action-swiftlint@main
         with:
           args: --strict
