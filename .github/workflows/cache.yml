@@ -1,0 +1,133 @@
+name: runs-on-cache
+
+on:
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        required: true
+        default: main
+
+jobs:
+  save-cache:
+    name: Save Test Cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Create test files in repo folder
+        run: |
+          mkdir -p test-cache
+          echo "Hello from workspace" > test-cache/hello.txt
+          curl -o test-cache/ubuntu.iso https://releases.ubuntu.com/jammy/ubuntu-22.04.3-live-server-amd64.iso
+
+      - name: Create test files outside workspace
+        run: |
+          mkdir -p ~/test-cache
+          echo "Hello from home dir" > ~/test-cache/home.txt
+
+      - name: Save cache
+        uses: step-security/dynamic-uses@v1
+        with:
+          uses: step-security/runs-on-cache@${{ github.event.inputs.action-tag }}
+          with: >
+            {
+              "key": "playground-test-${{ github.run_id }}",
+              "path": "test-cache\n~/test-cache"
+            }
+
+  restore-cache:
+    name: Restore and Verify
+    needs: save-cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Restore cache
+        uses: step-security/dynamic-uses@v1
+        with:
+          uses: step-security/runs-on-cache@${{ github.event.inputs.action-tag }}
+          with: >
+            {
+              "key": "playground-test-${{ github.run_id }}",
+              "restore-keys": "playground-test-",
+              "path": "test-cache\n~/test-cache"
+            }
+
+      - name: Verify restored files
+        run: |
+          echo "📦 Checking test-cache"
+          ls -lh test-cache
+          echo "📦 Checking ~/test-cache"
+          ls -lh ~/test-cache
+
+  save-cache-main:
+    name: Save Test Cache with @main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Create test files in repo folder
+        run: |
+          mkdir -p test-cache
+          echo "Hello from workspace" > test-cache/hello.txt
+          curl -o test-cache/ubuntu.iso https://releases.ubuntu.com/jammy/ubuntu-22.04.3-live-server-amd64.iso
+
+      - name: Create test files outside workspace
+        run: |
+          mkdir -p ~/test-cache
+          echo "Hello from home dir" > ~/test-cache/home.txt
+
+      - name: Save cache
+        uses: step-security/runs-on-cache@main
+        with:
+          key: playground-test-${{ github.run_id }}
+          path: |
+            test-cache
+            ~/test-cache
+
+  restore-cache-main:
+    name: Restore and Verify with @main
+    needs: save-cache-main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Restore cache
+        uses: step-security/runs-on-cache@main
+        with:
+          key: playground-test-${{ github.run_id }}
+          restore-keys: playground-test-
+          path: |
+            test-cache
+            ~/test-cache
+
+      - name: Verify restored files
+        run: |
+          echo "📦 Checking test-cache"
+          ls -lh test-cache
+          echo "📦 Checking ~/test-cache"
+          ls -lh ~/test-cache
