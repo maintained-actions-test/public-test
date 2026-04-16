@@ -1,0 +1,29 @@
+
+name: action-read-yaml
+
+on:
+  workflow_dispatch:
+
+jobs:
+  basic-config:
+    runs-on: ubuntu-latest
+    name: Test Basic YAML config
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create basic YAML config
+        run: |
+          mkdir -p examples
+          cat <<'EOF' > examples/basic.yaml
+          namespace: namespace_example
+          location: location_example
+          environment: dev
+          resource_group_name: $(namespace)-$(location)-$(environment)
+          EOF
+      - name: Run Read YAML Action
+        id: read_basic
+        uses: step-security/action-read-yaml@main
+        with:
+          config: ${{ github.workspace }}/examples/basic.yaml
+
