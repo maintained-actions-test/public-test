@@ -1,0 +1,10 @@
+name: github-actions-ensure-sha-pinned-actions
+on: 
+  workflow_dispatch:
+
+jobs:
+    Pinned-Sha:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check Action Pinning
+              uses: step-security/github-actions-ensure-sha-pinned-actions@main
