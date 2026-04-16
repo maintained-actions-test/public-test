@@ -7,6 +7,11 @@ jobs:
     commit:
         runs-on: ubuntu-latest
         steps:  
+            - name: Create test file
+              run: |
+                echo "Test file created at $(date)" > test-commit-file-main.txt
+                echo "This file tests the add-and-commit action (main branch)" >> test-commit-file-main.txt
+                echo "Run ID: ${{ github.run_id }}" >> test-commit-file-main.txt
             - name: commit
               uses: step-security/add-and-commit@main
               with:
