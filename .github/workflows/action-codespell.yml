@@ -1,0 +1,32 @@
+name: "actions-codespell"
+
+on:
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: "Tag or branch to use for codespell action"
+        required: true
+        default: "main"
+
+jobs:
+  spellcheck:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run StepSecurity Codespell via dynamic-uses
+        uses: step-security/actions-codespell@main
+        with: 
+            path: "."
+            check_filenames: true
+            check_hidden: true
+            skip: "node_modules,dist,build,*.min.js"
+            builtin: "clear,rare"
+            ignore_words_list: abandonned,ackward,teh
+            ignore_words_file: .codespellignore
+            uri_ignore_words_list: "*"
+            only_warn: "1"
