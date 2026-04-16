@@ -1,0 +1,26 @@
+name: "setup-zig"
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  setup-zig-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Zig Compiler
+        uses: step-security/setup-zig@main
+        with:
+          version: "0.13.0"
+          use-cache: "true"
+
+      - name: Build and Test Zig Project
+        run: |
+          echo "Zig setup action completed."
+          echo "Version: 0.13.0"
+          echo "Action Tag Used: ${{ github.event.inputs.action-tag }}"
+          zig build
+          zig build test
