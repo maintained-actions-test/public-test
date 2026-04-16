@@ -1,0 +1,28 @@
+
+name: wait-on-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-wait-on:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start HTTP server (background)
+        run: |
+          python3 -m http.server 8080 >/tmp/http.log 2>&1 &
+          echo $! > /tmp/http.pid
+
+      - name: Wait for HTTP to be ready
+        uses: step-security/wait-on-action@main
+        with:
+          resource: http://localhost:8080
+          interval: 250
+          timeout: 15000
+          log: true
+          verbose: tru
