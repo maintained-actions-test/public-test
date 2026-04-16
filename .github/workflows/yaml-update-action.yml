@@ -1,0 +1,29 @@
+name: yaml-update-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run yaml-update-action
+        uses: step-security/yaml-update-action@release
+        with:
+          valueFile: 'testdata/yaml-update-action/values.yaml'
+          propertyPath: 'image.tag'
+          value: 'test-v1.0.0'
+          commitChange: false
+          token: ${{ secrets.GITHUB_TOKEN }}
