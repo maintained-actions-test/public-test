@@ -9,4 +9,8 @@ jobs:
         steps:  
             - name: commit
               uses: step-security/add-and-commit@main
-                
+              with:
+                add: "."
+                author_name: "github-actions[bot]"
+                author_email: "41898282+github-actions[bot]@users.noreply.github.com"
+                message: "Test commit from workflow run ${{ github.run_id }} (main branch)"
