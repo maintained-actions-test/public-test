@@ -9,4 +9,4 @@ jobs:
             - name: Install release
               uses: step-security/action-install-gh-release@main
               with:
-                repo: aquasecurity/tfsec
+                repo: helmfile/helmfile
