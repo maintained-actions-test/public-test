@@ -23,7 +23,7 @@ jobs:
   
       - name: Run release-please-action (main)
         id: release
-        uses: step-security/release-please-action@release
+        uses: step-security/release-please-action@main
         with:
           release-type: simple
           token: ${{ secrets.GITHUB_TOKEN }}
