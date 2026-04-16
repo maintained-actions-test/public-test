@@ -1,0 +1,11 @@
+name: setup-qemu-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    setup-qemu:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: qemu
+              uses: step-security/setup-qemu-action@main
+                
