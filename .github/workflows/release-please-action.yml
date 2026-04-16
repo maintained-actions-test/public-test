@@ -1,0 +1,35 @@
+name: release-please-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  test-release-please-main:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+  
+      - name: Checkout code
+        uses: actions/checkout@v6
+  
+      - name: Run release-please-action (main)
+        id: release
+        uses: step-security/release-please-action@release
+        with:
+          release-type: simple
+          token: ${{ secrets.GITHUB_TOKEN }}
+  
+      - name: Print outputs
+        run: |
+          echo "releases_created: ${{ steps.release.outputs.releases_created }}"
+          echo "prs_created: ${{ steps.release.outputs.prs_created }}"
+          echo "paths_released: ${{ steps.release.outputs.paths_released }}"
