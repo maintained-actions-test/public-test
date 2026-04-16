@@ -2,7 +2,8 @@ name: git-auto-commit-action
 
 on: 
   workflow_dispatch:
-
+permissions:
+  contents: write
 jobs:
   job-with-changes:
     runs-on: ubuntu-latest
