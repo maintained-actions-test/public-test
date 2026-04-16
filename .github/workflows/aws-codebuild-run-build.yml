@@ -1,0 +1,25 @@
+name: aws-codebuild-run-build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codebuild-run-build-main:
+    name: CodeBuild Run Build (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run CodeBuild
+        uses: step-security/aws-codebuild-run-build@release
+        with:
+          project-name: "test-codebuild-project"
