@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run yaml-update-action
-        uses: step-security/yaml-update-action@release
+        uses: step-security/yaml-update-action@main
         with:
           valueFile: 'testdata/yaml-update-action/values.yaml'
           propertyPath: 'image.tag'
