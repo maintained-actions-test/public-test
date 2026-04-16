@@ -1,7 +1,8 @@
 name: add-and-commit
 on: 
   workflow_dispatch:
-
+permissions:
+  contents: write
 jobs:
     commit:
         runs-on: ubuntu-latest
