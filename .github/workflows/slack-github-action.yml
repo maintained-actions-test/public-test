@@ -1,0 +1,10 @@
+name: slack-github-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    slack:
+        runs-on: ubuntu-latest
+        steps:
+            - name: slack
+              uses: step-security/slack-github-action@main
