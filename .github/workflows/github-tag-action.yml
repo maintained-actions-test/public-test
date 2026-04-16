@@ -1,0 +1,17 @@
+name: github-tag-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    tag:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: tag
+              uses: step-security/github-tag-action@main
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                default_bump: patch
+                tag_prefix: v
+                release_branches: main,master
+                dry_run: false
+                fetch_all_tags: true
