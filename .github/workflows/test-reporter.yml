@@ -1,0 +1,28 @@
+name: 'test-reporter'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: packages/test-reporter
+
+      - name: Test
+        run: npm test
+        working-directory: packages/test-reporter
+
+      - name: Upload test results
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: packages/test-reporter/reports/jest-junit.xml
