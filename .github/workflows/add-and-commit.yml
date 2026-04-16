@@ -7,6 +7,7 @@ jobs:
     commit:
         runs-on: ubuntu-latest
         steps:  
+            - uses: actions/checkout@v4         
             - name: Create test file
               run: |
                 echo "Test file created at $(date)" > test-commit-file-main.txt
