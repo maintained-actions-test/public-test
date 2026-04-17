@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -25,7 +24,30 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-
+      - name: Delete existing tag if exists
+        run: |
+          TAG="${{ github.event.inputs.tag }}-main"
+          if git tag -l | grep -q "^${TAG}$"; then
+            echo "Deleting existing tag: $TAG"
+            git tag -d "$TAG"
+            git push origin --delete "$TAG" || echo "Remote tag doesn't exist"
+          else
+            echo "Tag $TAG doesn't exist, nothing to delete"
+          fi
+      - name: Create and push tag (with @main)
+        id: create-tag
+        env:
+          TAG: ${{ github.event.inputs.tag }}-main
+        run: |
+          git tag -a "$TAG" -m "${{ github.event.inputs.message }} (main branch test)"
+          git push origin "$TAG"
+      - name: Extract tag annotation
+        id: tag-annotation
+        run: |
+          annotation=$(git for-each-ref --format="%(contents)" refs/tags/${{ github.event.inputs.tag }}-main)
+          echo "git-tag-annotation<<EOF" >> $GITHUB_OUTPUT
+          echo "$annotation" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
       - name: Create GitHub release using custom action (with @main)
         id: release
         uses: step-security/github-create-release-action@main
@@ -36,9 +58,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Show release outputs
+      - name: Verify release was created
         run: |
-          echo "Release ID: ${{ steps.release.outputs.id }}"
-          echo "Release URL: ${{ steps.release.outputs.html_url }}"
-          echo "Upload URL: ${{ steps.release.outputs.upload_url }}"
-          echo "Changelog: ${{ steps.release.outputs.changelog }}"
+          echo "Checking if release was created for tag: ${{ github.event.inputs.tag }}"
+          gh release view "${{ github.event.inputs.tag }}" --json id,url,uploadUrl,body
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
