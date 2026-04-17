@@ -19,4 +19,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run commitlint
-        uses: step-security/commitlint-github-action@release
+        uses: step-security/commitlint-github-action@main
