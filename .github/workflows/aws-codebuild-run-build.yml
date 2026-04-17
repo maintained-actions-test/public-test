@@ -20,6 +20,6 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run CodeBuild
-        uses: step-security/aws-codebuild-run-build@release
+        uses: step-security/aws-codebuild-run-build@main
         with:
           project-name: "test-codebuild-project"
