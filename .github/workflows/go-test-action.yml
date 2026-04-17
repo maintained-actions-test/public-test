@@ -1,0 +1,31 @@
+name: go-test-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  go-test-main:
+    name: Go Test (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.21"
+
+      - name: Go Test
+        uses: step-security/go-test-action@release
+        with:
+          moduleDirectory: "."
+          testArguments: "./..."
