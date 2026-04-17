@@ -1,0 +1,32 @@
+name: docker-build-push-action
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  test-buildx-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (needed for path context)
+        uses: actions/checkout@v6
+
+      - name: Build with Buildx (no push)
+        id: build
+        uses: step-security/docker-build-push-action@main
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: false
+          load: false
+          tags: test/image:ci
+          cache-from: |
+            type=gha
+          cache-to: |
+            type=gha,mode=max
+          secrets: |
+            MY_SECRET=my_secret.txt
+          outputs: |
+            type=local,dest=./out
