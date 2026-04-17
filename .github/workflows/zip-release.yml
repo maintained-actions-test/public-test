@@ -6,6 +6,13 @@ jobs:
     tzipg:
         runs-on: ubuntu-latest
         steps:  
+            - name: Create test files
+              run: |
+                mkdir -p test-files/subdir
+                echo "hello world" > test-files/file1.txt
+                echo "foo bar" > test-files/file2.txt
+                echo "exclude me" > test-files/exclude.log
+                echo "nested file" > test-files/subdir/nested.txt
             - name: zip
               uses: step-security/zip-release@main
               with:
