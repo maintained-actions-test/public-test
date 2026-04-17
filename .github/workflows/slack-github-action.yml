@@ -8,3 +8,19 @@ jobs:
         steps:
             - name: slack
               uses: step-security/slack-github-action@main
+              
+    run-cli-main:
+     runs-on: ubuntu-latest
+     permissions:
+      contents: read
+     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Check Slack CLI version
+        id: cli
+        uses: step-security/slack-github-action/cli@main
+        with:
+          command: "version"
