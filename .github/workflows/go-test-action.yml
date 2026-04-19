@@ -25,7 +25,7 @@ jobs:
           go-version: "1.21"
 
       - name: Go Test
-        uses: step-security/go-test-action@release
+        uses: step-security/go-test-action@main
         with:
           moduleDirectory: "."
           testArguments: "./..."
