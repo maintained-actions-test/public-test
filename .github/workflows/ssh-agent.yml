@@ -1,0 +1,22 @@
+name: ssh-agent
+
+on: 
+    workflow_dispatch:
+        inputs:
+            action-tag:
+                description: 'Tag for the action'
+                required: true
+                default: 'main'
+
+jobs:
+    ssh-clone:
+        runs-on: ubuntu-latest
+        steps:
+            - name: clone-with-ssh
+              uses: step-security/ssh-agent@main
+              with: 
+                ssh-private-key: ${{ secrets.SSH_CLONE_KEY }}
+            - run: |
+                 git clone git@github.com:amanstep/close-milestone.git repo-ssh
+                 git clone https://github.com/amanstep/close-milestone.git repo-https
+                 git clone ssh://git@github.com/amanstep/close-milestone.git repo-ssh-url
