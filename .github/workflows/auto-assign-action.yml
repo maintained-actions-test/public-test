@@ -1,0 +1,15 @@
+name: auto-assign-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Run Auto Assign Action
+        uses: step-security/auto-assign-action@main
+
