@@ -1,0 +1,48 @@
+
+name: ghaction-github-runtime
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+
+jobs:
+  github-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Env before
+        run: |
+          env | sort
+      - name: Expose GitHub Runtime
+        uses: step-security/ghaction-github-runtime@main
+      - name: Env after
+        run: |
+          env | sort
+  go-actions-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Expose GitHub Runtime
+        uses: step-security/ghaction-github-runtime@main
+      - name: Env after
+        run: |
+          env | sort
+      - name: Checkout go-actions-cache
+        uses: actions/checkout@v4
+        with:
+          repository: tonistiigi/go-actions-cache
+          path: go-actions-cache
+      - name: Setup go
+        uses: actions/setup-go@v5
+      - name: Test
+        working-directory: ./go-actions-cache
+        run: |
+          go test -v .
