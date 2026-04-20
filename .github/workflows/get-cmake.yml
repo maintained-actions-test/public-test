@@ -1,0 +1,23 @@
+name: get cmake
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install CMake and Ninja
+        uses: step-security/get-cmake@main
+        with:
+          useCloudCache: true
+          cmakeVersion: latest
+          ninjaVersion: latest 
+
+      - name: Print installed CMake and Ninja versions
+        run: |
+          echo "✅ CMake path: $(which cmake)"
+          cmake --version
+          echo ""
+          echo "✅ Ninja path: $(which ninja)"
+          ninja --version
