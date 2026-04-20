@@ -1,0 +1,16 @@
+name: gha-setup-swift
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Setup Swift toolchain (official)
+        uses: step-security/gha-setup-swift@main
+        with:
+          swift-version: swift-5.5-release
+          swift-build: 5.5-RELEASE
