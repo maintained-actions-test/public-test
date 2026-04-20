@@ -5,12 +5,25 @@ on:
 
 
 jobs:
-  windows:
+  gha-setup-swift-main:
     runs-on: windows-latest
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
       - name: Setup Swift toolchain (official)
         uses: step-security/gha-setup-swift@main
         with:
-          swift-version: swift-5.5-release
-          swift-build: 5.5-RELEASE
+          swift-version: swift-6.0.3-release
+          swift-build: 6.0.3-RELEASE
+
+      - name: Show Swift version
+        shell: pwsh
+        run: |
+          swift --version
