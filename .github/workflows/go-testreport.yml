@@ -1,0 +1,34 @@
+name: go-testreport
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  go-testreport-main:
+    name: Go Test Report (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+  
+      - name: Create sample test report
+        run: |
+          cat > /tmp/report.json << 'EOF'
+          {"Time":"2024-01-01T00:00:00Z","Action":"start","Package":"example.com/hello"}
+          {"Time":"2024-01-01T00:00:00.001Z","Action":"run","Package":"example.com/hello","Test":"TestHello"}
+          {"Time":"2024-01-01T00:00:00.002Z","Action":"output","Package":"example.com/hello","Test":"TestHello","Output":"=== RUN   TestHello\n"}
+          {"Time":"2024-01-01T00:00:00.003Z","Action":"output","Package":"example.com/hello","Test":"TestHello","Output":"--- PASS: TestHello (0.00s)\n"}
+          {"Time":"2024-01-01T00:00:00.004Z","Action":"pass","Package":"example.com/hello","Test":"TestHello","Elapsed":0}
+          {"Time":"2024-01-01T00:00:00.005Z","Action":"output","Package":"example.com/hello","Output":"ok  \texample.com/hello\t0.001s\n"}
+          {"Time":"2024-01-01T00:00:00.006Z","Action":"pass","Package":"example.com/hello","Elapsed":0.001}
+          EOF
+  
+      - name: Go Test Report
+        uses: step-security/go-testreport@release
+        with:
+          input: /tmp/report.json
