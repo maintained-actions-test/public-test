@@ -1,0 +1,17 @@
+
+name: ghaction-import-gpg
+
+on:
+  workflow_dispatch:
+
+jobs:
+  import-gpg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Import GPG key
+        uses: step-security/ghaction-import-gpg@main
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ""
+      - name: List keys
+        run: gpg -K
