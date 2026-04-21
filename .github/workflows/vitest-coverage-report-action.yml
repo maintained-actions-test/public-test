@@ -1,10 +1,14 @@
 name: "vitest-coverage-report-action"
 
-on: 
+on:
   workflow_dispatch:
+    inputs:
+      pr-number:
+        description: "PR number to comment on"
+        required: true
 
 jobs:
-  build-and-test:
+  test-main:
     runs-on: ubuntu-latest
 
     permissions:
@@ -15,5 +19,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Run Vitest Coverage Report Action
+      - name: Run Vitest Coverage Report Action without dynamic uses
         uses: step-security/vitest-coverage-report-action@main
+        with:
+          name: "Mock Reports Direct"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: "./test/mockReports"
+          json-summary-path: "coverage/coverage-summary.json"
+          json-final-path: "coverage/coverage-final.json"
+          file-coverage-mode: "changes"
+          pr-number: ${{ github.event.inputs.pr-number }}
+          comment-on: "pr"
+  
