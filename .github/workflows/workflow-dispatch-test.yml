@@ -1,0 +1,24 @@
+name: workflow-dispatch-test
+
+on: 
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "Message to echo"
+        required: true
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo message
+        run: echo '${{ inputs.message }}'
+
+      - name: Compare message with expected text
+        run: |
+          if [ "${{ inputs.message }}" != "blah blah this is a test" ]; then
+            echo "❌ Message does not match expected text"
+            exit 1
+          else
+            echo "✅ Message matches expected text"
+          fi
