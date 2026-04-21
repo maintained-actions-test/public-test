@@ -1,30 +1,28 @@
 name: retry
 
-on: 
+on:
   workflow_dispatch:
-    inputs:
-      retry-action-tag:
-        description: 'Tag for the retry action'
-        required: true
-        default: 'main'
+
+permissions:
+  contents: read
 
 jobs:
-  Subscription-check:
+  subscription-check:
+    name: Subscription Check
     runs-on: ubuntu-latest
 
     steps:
-    - name: Harden Runner
-      uses: step-security/harden-runner@rc
-      with:
-        egress-policy: audit
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
 
-    - name: Checkout Repository
-      uses: actions/checkout@v6
+      - name: Checkout Repository
+        uses: actions/checkout@v6
 
-    - name: Run Retry Action with @main
-      uses: step-security/retry@main
-      with:
-        max_attempts: 3
-        timeout_seconds: 15
-        command: "echo Hello, retry action!"
-
+      - name: Run Retry Action with @main
+        uses: step-security/retry@main
+        with:
+          max_attempts: 3
+          timeout_seconds: 15
+          command: "echo Hello, retry action!"
