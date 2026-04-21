@@ -1,4 +1,4 @@
-name: Cypress.io GitHub Actions
+name: cypress-io-github-action
 
 on:
   workflow_dispatch:
