@@ -1,0 +1,22 @@
+name: codeowners-validator
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codeowners-validator-main:
+    name: Test codeowners-validator with Main Branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run codeowners-validator with main branch
+        uses: step-security/codeowners-validator@release
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          checks: "syntax,duppatterns"
+          check_failure_level: "warning"
