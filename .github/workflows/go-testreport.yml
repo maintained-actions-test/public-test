@@ -34,6 +34,6 @@ jobs:
           EOF
   
       - name: Go Test Report
-        uses: step-security/go-testreport@release
+        uses: step-security/go-testreport@main
         with:
           input: /tmp/report.json
