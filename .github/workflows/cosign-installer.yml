@@ -1,0 +1,10 @@
+name: cosign-installer
+on: 
+  workflow_dispatch:
+
+jobs:
+    co-sign:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: Setup cosign
+              uses: step-security/cosign-installer@main
