@@ -1,0 +1,23 @@
+name: test-reporter 2
+
+on:
+  workflow_run:
+    workflows: ['test-reporter']
+    types:
+      - completed
+
+jobs:
+  report:
+    name: Workflow test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run StepSecurity Test Reporter
+        uses: step-security/test-reporter@main
+        with:
+          artifact: test-results
+          name: Workflow Report
+          path: '*.xml'
+          reporter: jest-junit
