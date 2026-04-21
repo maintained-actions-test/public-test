@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run codeowners-validator with main branch
-        uses: step-security/codeowners-validator@release
+        uses: step-security/codeowners-validator@main
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
           checks: "syntax,duppatterns"
