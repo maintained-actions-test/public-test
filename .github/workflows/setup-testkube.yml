@@ -1,0 +1,26 @@
+name: setup-testkube
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Testkube
+        uses: step-security/setup-testkube@release
+
+      - name: Verify testkube CLI
+        run: testkube version
