@@ -1,0 +1,10 @@
+name: action-golangci-lint
+on: 
+  workflow_dispatch:
+
+jobs:
+    go-lint:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: lint
+              uses: step-security/action-golangci-lint@main
