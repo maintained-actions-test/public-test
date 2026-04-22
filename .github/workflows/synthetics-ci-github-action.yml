@@ -1,0 +1,24 @@
+name: synthetics-ci-github-action
+
+on:
+  workflow_dispatch
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run E2E Synthetic tests
+        uses: step-security/synthetics-ci-github-action@main
+        id: run-synthetics-tests
+        env:
+          FORCE_COLOR: 1
+        with:
+          api-key: ${{ secrets.DATADOG_API_KEY }}
+          app-key: ${{ secrets.DATADOG_APP_KEY }}
+          config-path: './.github/workflows/e2e/global.config.json'
+          public-ids: |
+            rqm-rn4-s5d
+          datadog-site: 'us5.datadoghq.com'

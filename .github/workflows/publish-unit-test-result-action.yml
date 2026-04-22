@@ -1,0 +1,41 @@
+name: publish-unit-test-result-action
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Generate Dummy Test Results
+        run: |
+          mkdir -p artifacts/TestResults
+          echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > artifacts/TestResults/results.xml
+          echo "<testsuites>" >> artifacts/TestResults/results.xml
+          echo "  <testsuite name=\"example\" tests=\"2\" failures=\"1\" errors=\"0\" skipped=\"0\">" >> artifacts/TestResults/results.xml
+          echo "    <testcase classname=\"example.TestClass\" name=\"testSuccess\" time=\"0.1\" />" >> artifacts/TestResults/results.xml
+          echo "    <testcase classname=\"example.TestClass\" name=\"testFailure\" time=\"0.2\">" >> artifacts/TestResults/results.xml
+          echo "      <failure type=\"junit.framework.AssertionFailedError\">expected:&lt;1&gt; but was:&lt;0&gt;</failure>" >> artifacts/TestResults/results.xml
+          echo "    </testcase>" >> artifacts/TestResults/results.xml
+          echo "  </testsuite>" >> artifacts/TestResults/results.xml
+          echo "</testsuites>" >> artifacts/TestResults/results.xml
+
+      - name: Publish Test Results
+        uses: step-security/publish-unit-test-result-action@main
+        with:
+          files: artifacts/TestResults/**/*.xml
