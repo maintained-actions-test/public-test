@@ -27,7 +27,7 @@ jobs:
         uses: step-security/carabiner-dev-actions/ampel/verify@main
         with:
           subject: /tmp/bnd
-          collector: https://github.com/carabiner-dev/bnd/mains/download/v0.4.1/attestations.jsonl
+          collector: https://github.com/carabiner-dev/bnd/releases/download/v0.4.1/attestations.jsonl
           policy: "git+https://github.com/carabiner-dev/policies#slsa/has-attestation.json"
           attest: "false"
 
