@@ -21,13 +21,13 @@ jobs:
         shell: bash
         run: |
           curl -sSfL -o /tmp/bnd \
-            "https://github.com/carabiner-dev/bnd/releases/download/v0.4.1/bnd-v0.4.1-linux-amd64"
+            "https://github.com/carabiner-dev/bnd/mains/download/v0.4.1/bnd-v0.4.1-linux-amd64"
 
       - name: Verify bnd with ampel/verify
-        uses: step-security/carabiner-dev-actions/ampel/verify@release
+        uses: step-security/carabiner-dev-actions/ampel/verify@main
         with:
           subject: /tmp/bnd
-          collector: https://github.com/carabiner-dev/bnd/releases/download/v0.4.1/attestations.jsonl
+          collector: https://github.com/carabiner-dev/bnd/mains/download/v0.4.1/attestations.jsonl
           policy: "git+https://github.com/carabiner-dev/policies#slsa/has-attestation.json"
           attest: "false"
 
@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Install ampel
-        uses: step-security/carabiner-dev-actions/install/ampel@release
+        uses: step-security/carabiner-dev-actions/install/ampel@main
 
       - name: Verify ampel runs
         shell: bash
@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Install bnd
-        uses: step-security/carabiner-dev-actions/install/bnd@release
+        uses: step-security/carabiner-dev-actions/install/bnd@main
 
       - name: Verify bnd runs
         shell: bash
