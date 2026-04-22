@@ -21,7 +21,7 @@ jobs:
         shell: bash
         run: |
           curl -sSfL -o /tmp/bnd \
-            "https://github.com/carabiner-dev/bnd/mains/download/v0.4.1/bnd-v0.4.1-linux-amd64"
+            "https://github.com/carabiner-dev/bnd/releases/download/v0.4.1/bnd-v0.4.1-linux-amd64"
 
       - name: Verify bnd with ampel/verify
         uses: step-security/carabiner-dev-actions/ampel/verify@main
