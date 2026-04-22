@@ -1,0 +1,60 @@
+name: carabiner-dev-actions
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+jobs:
+  # ── main branch jobs (commented out) ──────────────────────────
+  ampel-verify-main:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Download bnd binary as test subject
+        shell: bash
+        run: |
+          curl -sSfL -o /tmp/bnd \
+            "https://github.com/carabiner-dev/bnd/releases/download/v0.4.1/bnd-v0.4.1-linux-amd64"
+
+      - name: Verify bnd with ampel/verify
+        uses: step-security/carabiner-dev-actions/ampel/verify@release
+        with:
+          subject: /tmp/bnd
+          collector: https://github.com/carabiner-dev/bnd/releases/download/v0.4.1/attestations.jsonl
+          policy: "git+https://github.com/carabiner-dev/policies#slsa/has-attestation.json"
+          attest: "false"
+
+  install-ampel-main:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install ampel
+        uses: step-security/carabiner-dev-actions/install/ampel@release
+
+      - name: Verify ampel runs
+        shell: bash
+        run: ampel version
+
+  install-bnd-main:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install bnd
+        uses: step-security/carabiner-dev-actions/install/bnd@release
+
+      - name: Verify bnd runs
+        shell: bash
+        run: bnd version
