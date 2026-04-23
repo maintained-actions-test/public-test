@@ -1,0 +1,35 @@
+name: quarto-actions
+on: 
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: 'Tag for the action'
+        required: true
+        default: 'main'
+
+jobs:
+    setup:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install and print quarto version
+              uses: step-security/quarto-actions/setup@main
+              with:
+                version: release
+    render:
+        runs-on: ubuntu-latest
+        steps:        
+            - name: Render using quarto
+              uses: step-security/quarto-actions/render@main
+              with:
+                path: ./quarto
+
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Publish using quarto
+              uses: step-security/quarto-actions/publish@main
+              with:
+                   path: ./quarto
+                   to: netlify
+                   render: false
+                   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
