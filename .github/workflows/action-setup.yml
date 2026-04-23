@@ -1,0 +1,35 @@
+name: action setup
+
+on: 
+  workflow_dispatch:
+
+
+jobs:
+  test_default_inputs:
+    name: Test with default inputs
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pnpm:
+          - 4.11.1
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run the action
+        uses: step-security/action-setup@main
+        with:
+          version: 4.11.1
+
+      - name: 'Test: which'
+        run: which pnpm; which pnpx
+
+      - name: 'Test: install'
+        run: pnpm install
