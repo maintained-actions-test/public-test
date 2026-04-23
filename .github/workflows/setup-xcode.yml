@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Lint Workflows
+      - name: Setup Xcode
         uses: step-security/setup-xcode@main
         with: 
             xcode-version: latest-stable
