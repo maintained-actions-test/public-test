@@ -1,0 +1,40 @@
+name: launchdarkly-gha-flags
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  eval-flags-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Evaluate flags
+        id: flags
+        uses: step-security/launchdarkly-gha-flags@main
+        with: 
+          sdk-key: ${{ secrets.LD_SDK_KEY }}
+          flags: | 
+            test-string-flag
+            test-number-flag
+            test-boolean-flag
+            test-json-flag
+
+      - name: Fail if string value is incorrect
+        if: steps.flags.outputs.test-string-flag != 'custom'
+        run: exit 1
+
+      - name: Fail if numeric value is incorrect
+        if: fromJSON(steps.flags.outputs.test-number-flag) != -1
+        run: exit 1
+
+      - name: Fail if boolean value is incorrect
+        if: fromJSON(steps.flags.outputs.test-boolean-flag) != true
+        run: exit 1
+
+      - name: Fail if JSON value is incorrect
+        if: fromJSON(steps.flags.outputs.test-json-flag).pet != 'cat'
+        run: exit 1
