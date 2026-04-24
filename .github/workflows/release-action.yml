@@ -1,0 +1,116 @@
+name: release-action
+
+on:
+  workflow_dispatch:
+
+
+permissions:
+  contents: write
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.vars.outputs.tag }}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute tag
+        id: vars
+        run: |
+            TAG="v0-test-${{ github.run_number }}"
+            echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare test artifacts
+        run: |
+          mkdir -p dist
+          echo "Hello from $GITHUB_REPOSITORY at $GITHUB_SHA" > dist/hello.txt
+          {
+            echo "# Test Release"
+            echo
+            echo "- Run: $GITHUB_RUN_NUMBER"
+            echo "- SHA: $GITHUB_SHA"
+          } > body.md
+          tar -czf release.tar.gz dist
+      - name: Create release and upload artifacts
+        id: release
+        uses: step-security/release-action@main
+        with:
+          tag: ${{ steps.vars.outputs.tag }}
+          commit: ${{ github.sha }}
+          name: "Test Release ${{ steps.vars.outputs.tag }}"
+          bodyFile: "body.md"
+          artifacts: "release.tar.gz,dist/*.txt"
+          artifactErrorsFailBuild: true
+          generateReleaseNotes: true
+          prerelease: true
+          immutableCreate: true
+          makeLatest: "legacy"
+
+      - name: Assert outputs exist
+        run: |
+          echo "Release ID: $ID"
+          echo "HTML URL:  $HTML_URL"
+          echo "Upload URL: $UPLOAD_URL"
+          if [ -z "$ID" ] || [ -z "$HTML_URL" ] || [ -z "$UPLOAD_URL" ]; then
+            echo "Required outputs missing"; exit 1
+          fi
+        env:
+          ID: ${{ steps.release.outputs.id }}
+          HTML_URL: ${{ steps.release.outputs.html_url }}
+          UPLOAD_URL: ${{ steps.release.outputs.upload_url }}
+
+  update_and_skip:
+    needs: create_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Touch artifact to simulate update
+        run: |
+          mkdir -p dist
+          echo "Updated $(date)" >> dist/hello.txt
+          tar -czf release.tar.gz dist
+      - name: Update existing release (allowUpdates)
+        id: update
+        uses: step-security/release-action@main
+        with:
+          tag: ${{ needs.create_release.outputs.tag }}
+          allowUpdates: true
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
+          artifacts: "release.tar.gz,dist/*.txt"
+          replacesArtifacts: true
+
+      - name: Verify update outputs
+        run: |
+          echo "Updated Release ID: $ID"
+          if [ -z "$ID" ]; then
+            echo "Update did not return an ID"; exit 1
+          fi
+        env:
+          ID: ${{ steps.update.outputs.id }}
+
+      - name: Skip if release exists (skipIfReleaseExists)
+        id: skip_check
+        uses: step-security/release-action@main
+        with:
+          tag: ${{ needs.create_release.outputs.tag }}
+          skipIfReleaseExists: true
+
+      - name: Confirm skip behavior
+        run: |
+          echo "If the action was skipped, outputs may be empty. That's OK for this step."
+          echo "ID from skipped run (likely empty): '${{ steps.skip_check.outputs.id }}'"
