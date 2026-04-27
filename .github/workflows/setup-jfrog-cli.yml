@@ -17,4 +17,4 @@ jobs:
           node-version: "20.x"
 
       - name: Setup JFrog CLI (default)
-        uses: step-security/setup-jfrog-cli@release
+        uses: step-security/setup-jfrog-cli@main
