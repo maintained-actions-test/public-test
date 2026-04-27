@@ -21,7 +21,7 @@ jobs:
         java-version: 17
 
     - name: Setup sbt
-      uses: step-security/setup-sbt@release
+      uses: step-security/setup-sbt@main
 
     - name: Verify sbt
       shell: bash
