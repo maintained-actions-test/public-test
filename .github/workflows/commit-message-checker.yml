@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check Commit Messages
-        uses: step-security/commit-message-checker@release
+        uses: step-security/commit-message-checker@main
         with:
           pattern: '^(feat|fix|chore|ci|docs|build|refactor|test|perf|style|revert)(\(.+\))?(!)?: .+'
           error: 'Commit message must follow Conventional Commits format: <type>(<optional scope>): <description>. Allowed types: feat, fix, chore, ci, docs, build, refactor, test, perf, style, revert.'
