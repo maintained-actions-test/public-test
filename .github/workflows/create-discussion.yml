@@ -22,7 +22,7 @@ jobs:
   
       - name: Create Discussion
         id: create-discussion
-        uses: step-security/create-discussion@release
+        uses: step-security/create-discussion@main
         with:
           title: "Test Discussion from workflow-playground (main) - Run #${{ github.run_number }}"
           body: "This is a test discussion created by the create-discussion action using main branch."
