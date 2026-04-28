@@ -1,0 +1,21 @@
+name: backstage-entity-validator
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  entity-validator-main:
+    name: Backstage Entity Validator (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate Backstage Entity
+        uses: step-security/backstage-entity-validator@release
+        with:
+          path: "testdata/backstage-entity-validator/catalog-info.yaml"
+          verbose: "true"
