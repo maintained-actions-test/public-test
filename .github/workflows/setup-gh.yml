@@ -1,0 +1,28 @@
+name: setup-gh
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup gh
+        uses: step-security/setup-gh@release
+        with:
+          token: ""
+
+      - name: Verify gh CLI
+        run: gh --version
