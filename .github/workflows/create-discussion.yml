@@ -1,0 +1,35 @@
+name: create-discussion
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  discussions: write
+
+jobs:
+  create-discussion-main:
+    name: Create Discussion (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+  
+      - name: Checkout
+        uses: actions/checkout@v6
+  
+      - name: Create Discussion
+        id: create-discussion
+        uses: step-security/create-discussion@release
+        with:
+          title: "Test Discussion from workflow-playground (main) - Run #${{ github.run_number }}"
+          body: "This is a test discussion created by the create-discussion action using main branch."
+          category-name: General
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+  
+      - name: Print Discussion URL
+        run: |
+          echo "Discussion URL: ${{ steps.create-discussion.outputs.discussion-url }}"
+        shell: bash
