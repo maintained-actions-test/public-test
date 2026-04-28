@@ -1,0 +1,33 @@
+name: setup-licensed
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-licensed-main:
+    name: Setup Licensed (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+
+      - name: Setup Licensed
+        uses: step-security/setup-licensed@release
+        with:
+          version: "4.x"
+
+      - name: Verify Licensed
+        run: licensed version
