@@ -21,7 +21,7 @@ jobs:
           ruby-version: ruby
 
       - name: Setup Licensed
-        uses: step-security/setup-licensed@release
+        uses: step-security/setup-licensed@main
         with:
           version: "4.x"
 
