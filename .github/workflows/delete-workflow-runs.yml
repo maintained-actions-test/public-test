@@ -1,0 +1,28 @@
+name: delete-workflow-runs
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run delete-workflow-runs
+        uses: step-security/delete-workflow-runs@release
+        with:
+          retain_days: 30
+          keep_minimum_runs: 6
+          dry_run: "true"
