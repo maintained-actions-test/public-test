@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup gh
-        uses: step-security/setup-gh@release
+        uses: step-security/setup-gh@main
         with:
           gh-version: "2.50.0"
           token: ""
