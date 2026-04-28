@@ -22,7 +22,10 @@ jobs:
       - name: Setup gh
         uses: step-security/setup-gh@release
         with:
+          gh-version: "2.50.0"
           token: ""
 
-      - name: Verify gh CLI
-        run: gh --version
+      - name: Verify gh CLI version
+        run: |
+          gh --version
+          gh --version | grep "gh version 2.50.0" || (echo "Expected gh 2.50.0, got different version" && exit 1)
