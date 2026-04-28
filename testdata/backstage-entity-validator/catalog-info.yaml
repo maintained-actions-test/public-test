@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sample-service
+  description: A sample service for testing backstage entity validation
+  annotations:
+    github.com/project-slug: step-security/workflow-playground
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-testing
