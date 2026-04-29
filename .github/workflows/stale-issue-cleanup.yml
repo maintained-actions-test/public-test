@@ -1,0 +1,37 @@
+name: stale-issue-cleanup
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale-issue-cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Stale Issue Cleanup
+        uses: step-security/stale-issue-cleanup@release
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-issue-message: "This issue is stale because it has been open 14 days with no activity."
+          stale-pr-message: "This PR is stale because it has been open 14 days with no activity."
+          ancient-issue-message: "This issue is ancient and will be closed soon."
+          ancient-pr-message: "This PR is ancient and will be closed soon."
+          stale-issue-label: closing-soon
+          exempt-issue-labels: awaiting-approval
+          stale-pr-label: no-pr-activity
+          exempt-pr-labels: awaiting-approval
+          response-requested-label: response-requested
+          closed-for-staleness-label: closed-for-staleness
+          days-before-stale: 14
+          days-before-close: 7
+          days-before-ancient: 365
+          loglevel: DEBUG
+          dry-run: true
