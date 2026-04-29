@@ -1,0 +1,46 @@
+name: deployment-status
+on:
+  workflow_dispatch:
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Create deployment
+        id: deployment
+        uses: step-security/deployment-action@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          environment: test-deployment-status
+          ref: main
+
+      - name: Update deployment status to success
+        uses: step-security/deployment-status@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: success
+          environment-url: https://test.example.com
+          description: Deployment successful from main branch
+
+      - name: 🧪 Verify deployment status is success
+        run: |
+          statuses=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/deployments/${{ steps.deployment.outputs.deployment_id }}/statuses")
+
+          latest_state=$(echo "$statuses" | jq -r '.[0].state')
+
+          if [ "$latest_state" == "success" ]; then
+            echo "✅ Deployment status is success"
+          else
+            echo "❌ Deployment status is $latest_state, expected success"
+            exit 1
+          fi
