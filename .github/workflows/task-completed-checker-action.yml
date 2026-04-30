@@ -1,0 +1,24 @@
+name: task-completed-checker-action
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  task-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Task Completed Checker
+        uses: step-security/task-completed-checker-action@release
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
