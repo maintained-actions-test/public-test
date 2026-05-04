@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Create A File
-        uses: step-security/create-a-file-action@main
+        uses: step-security/create-a-file-action@release
         with:
           path: "src"
           isAbsolutePath: false
