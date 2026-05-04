@@ -1,0 +1,14 @@
+name: read-yaml
+on: 
+  workflow_dispatch:
+
+jobs:
+    read-yaml:
+        runs-on: self-hosted
+        steps:  
+            - name: read-yaml
+              uses: step-security/read-yaml@main
+              with:
+                file: './github/labeler.yml'
+                key-path: '["version"]'
+                
