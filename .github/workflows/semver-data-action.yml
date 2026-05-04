@@ -1,0 +1,33 @@
+name: semver-data-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  semver-data:
+    name: SemVer Data (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Parse SemVer
+        id: version
+        uses: step-security/semver-data-action@release
+        with:
+          version: "1.2.3-alpha.1"
+
+      - name: Print outputs
+        run: |
+          echo "version=${{ steps.version.outputs.version }}"
+          echo "major=${{ steps.version.outputs.major }}"
+          echo "minor=${{ steps.version.outputs.minor }}"
+          echo "patch=${{ steps.version.outputs.patch }}"
+          echo "isPreRelease=${{ steps.version.outputs.isPreRelease }}"
+          echo "preReleaseString=${{ steps.version.outputs.preReleaseString }}"
+          echo "nextMajor=${{ steps.version.outputs.nextMajor }}"
+          echo "nextMinor=${{ steps.version.outputs.nextMinor }}"
+          echo "nextPatch=${{ steps.version.outputs.nextPatch }}"
