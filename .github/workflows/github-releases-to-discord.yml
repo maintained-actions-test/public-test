@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: GitHub Releases to Discord
-        uses: step-security/github-releases-to-discord@release
+        uses: step-security/github-releases-to-discord@main
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
           release_name: Test Release v1.0.0
