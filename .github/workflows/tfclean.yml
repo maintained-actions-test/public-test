@@ -1,0 +1,11 @@
+name: tfclean
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  tfclean:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install
+        uses: step-security/tfclean@main
