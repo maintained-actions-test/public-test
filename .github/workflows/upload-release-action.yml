@@ -13,5 +13,5 @@ jobs:
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
           file: Readme.md
-          tag: v1.0.0
+          tag: v0.0.1
           
