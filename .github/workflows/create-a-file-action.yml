@@ -1,0 +1,37 @@
+name: create-a-file-action
+
+on:
+  workflow_dispatch:
+
+
+permissions:
+  contents: read
+
+jobs:
+  create-a-file-main:
+    name: Create A File (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create A File
+        uses: step-security/create-a-file-action@main
+        with:
+          path: "src"
+          isAbsolutePath: false
+          file: "foo.bar"
+          content: |
+            Hello
+            World
+
+      - name: Verify file was created
+        run: |
+          ls -la src/
+          test -f src/foo.bar
+          cat src/foo.bar
