@@ -1,0 +1,23 @@
+name: setup-k6-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-k6:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup k6
+        uses: step-security/setup-k6-action@release
+        with:
+          k6-version: '0.49.0'
+
+      - name: Verify k6 installation
+        run: k6 version
