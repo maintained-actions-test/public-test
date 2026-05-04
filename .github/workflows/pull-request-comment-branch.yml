@@ -1,0 +1,37 @@
+name: pull-request-comment-branch
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  pr-comment-branch-main:
+    name: Pull Request Comment Branch (main)
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/test-comment-branch')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Get PR comment branch
+        id: comment-branch
+        uses: step-security/pull-request-comment-branch@release
+        with:
+          repo_token: ${{ github.token }}
+
+      - name: Print outputs
+        run: |
+          echo "base_ref=${{ steps.comment-branch.outputs.base_ref }}"
+          echo "base_sha=${{ steps.comment-branch.outputs.base_sha }}"
+          echo "head_ref=${{ steps.comment-branch.outputs.head_ref }}"
+          echo "head_sha=${{ steps.comment-branch.outputs.head_sha }}"
