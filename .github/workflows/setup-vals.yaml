@@ -1,0 +1,17 @@
+name: setup-vals
+
+on:
+  workflow_dispatch:
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup vals
+        uses: step-security/setup-vals@main
+        with:
+          version: latest
+
+      - name: Check installed version
+        run: vals version
