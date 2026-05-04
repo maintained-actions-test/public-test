@@ -4,7 +4,7 @@ on:
 
 jobs:
     read-yaml:
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         steps:  
             - name: read-yaml
               uses: step-security/read-yaml@main
