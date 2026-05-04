@@ -1,0 +1,17 @@
+name: uploade-release-action
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  file-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: upload release
+        uses: step-security/upload-release-action@main
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          file: Readme.md
+          tag: v1.0.0
+          
