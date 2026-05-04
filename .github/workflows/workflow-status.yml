@@ -1,0 +1,10 @@
+name: workflow-status
+on: 
+  workflow_dispatch:
+
+jobs:
+    notification:
+        runs-on: ubuntu-latest
+        steps:
+            - name: check status
+              uses: step-security/workflow-status@main
