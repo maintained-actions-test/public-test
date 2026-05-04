@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup bazelisk
-        uses: step-security/setup-bazelisk@release
+        uses: step-security/setup-bazelisk@main
         with:
           bazelisk-version: "1.20.0"
 
