@@ -10,6 +10,6 @@ jobs:
             - name: read-yaml
               uses: step-security/read-yaml@main
               with:
-                file: './github/labeler.yml'
+                file: './.github/labeler.yml'
                 key-path: '["version"]'
                 
