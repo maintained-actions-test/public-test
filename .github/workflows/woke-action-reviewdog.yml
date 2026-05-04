@@ -1,0 +1,16 @@
+
+name: woke-action-reviewdog
+on: 
+  workflow_dispatch
+
+jobs:
+    check-wokeness:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: woke-check
+              uses: step-security/woke-action-reviewdog@main
+              with: 
+                  level: warning
+                  filter-mode: nofilter
+                  reporter: github-pr-review
