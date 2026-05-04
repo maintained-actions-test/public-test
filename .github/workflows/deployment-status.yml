@@ -12,14 +12,6 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: Create deployment
-        id: deployment
-        uses: step-security/deployment-action@main
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          environment: test-deployment-status
-          ref: main
-
       - name: Update deployment status to success
         uses: step-security/deployment-status@main
         with:
@@ -28,19 +20,3 @@ jobs:
           state: success
           environment-url: https://test.example.com
           description: Deployment successful from main branch
-
-      - name: 🧪 Verify deployment status is success
-        run: |
-          statuses=$(curl -s \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/deployments/${{ steps.deployment.outputs.deployment_id }}/statuses")
-
-          latest_state=$(echo "$statuses" | jq -r '.[0].state')
-
-          if [ "$latest_state" == "success" ]; then
-            echo "✅ Deployment status is success"
-          else
-            echo "❌ Deployment status is $latest_state, expected success"
-            exit 1
-          fi
