@@ -16,7 +16,7 @@ jobs:
 
       - name: Parse SemVer
         id: version
-        uses: step-security/semver-data-action@release
+        uses: step-security/semver-data-action@main
         with:
           version: "1.2.3-alpha.1"
 
