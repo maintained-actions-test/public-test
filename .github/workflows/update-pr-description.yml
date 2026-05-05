@@ -1,0 +1,35 @@
+
+name: update-pr-description
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-content-extraction:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+            egress-policy: audit
+      - uses: actions/checkout@v4
+      
+      - name: Test Content Extraction with Regex
+        uses: step-security/update-pr-description@main
+        with:
+          content: |
+            <!-- START_EXTRACT -->
+            ## Important Changes
+            This section will be extracted and used in the PR description.
+            
+            - Feature A implemented
+            - Bug B fixed
+            <!-- END_EXTRACT -->
+            
+            This content will be ignored during extraction.
+          contentRegex: '<!-- START_EXTRACT -->(.*?)<!-- END_EXTRACT -->'
+          contentRegexFlags: 's'
+          regex: '---.*'
+          token: ${{ secrets.GITHUB_TOKEN }}
