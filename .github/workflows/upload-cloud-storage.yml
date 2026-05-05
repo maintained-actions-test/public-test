@@ -1,0 +1,13 @@
+name: upload-cloud-storage
+on: 
+  workflow_dispatch:
+
+jobs:
+    upload:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: upload to gcs
+              uses: step-security/upload-cloud-storage@main
+              with:
+                path: Readme.md
+                destination: bucket
