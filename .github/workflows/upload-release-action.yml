@@ -1,17 +1,52 @@
-name: uploade-release-action
-
+name: upload-release-action
 on: 
   workflow_dispatch:
 
-jobs:
-  file-sync:
-    runs-on: ubuntu-latest
+permissions:
+  contents: write
 
+jobs:
+  test-main: # make sure the action works on a clean machine without building
+    name: Check upload release-main
+    runs-on: ubuntu-latest
     steps:
-      - name: upload release
-        uses: step-security/upload-release-action@main
-        with:
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          file: Readme.md
-          tag: v0-test-1
-          
+    - name: Harden the runner (Audit all outbound calls)
+      uses: step-security/harden-runner@rc
+      with:
+        egress-policy: audit
+
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Make Release
+      id: make-release-main
+      uses: step-security/upload-release-action@main
+      with: 
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: README.md
+          asset_name: TEST.md
+          tag: ci-test-main-${{ github.run_id }}
+          body: "Test release for action - upload-release-action"
+
+    - name: Verify Release Upload
+      run: |
+        # Verify the release was created
+        gh release view "ci-test-main-${{ github.run_id }}" --json url,tagName,assets
+        
+        # Check that the asset was uploaded
+        ASSET_COUNT=$(gh release view "ci-test-main-${{ github.run_id }}" --json assets --jq '.assets | length')
+        if [ "$ASSET_COUNT" -eq 0 ]; then
+          echo "ERROR: No assets found in release"
+          exit 1
+        fi
+        
+        # Verify specific asset exists
+        gh release view "ci-test-main-${{ github.run_id }}" --json assets --jq '.assets[].name' | grep "TEST.md"
+        if [ $? -ne 0 ]; then
+          echo "ERROR: TEST.md asset not found in release"
+          exit 1
+        fi
+        
+        echo "✅ Release upload verification successful"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
