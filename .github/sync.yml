@@ -1,0 +1,3 @@
+amanstep/close-milestone:
+  - source: text.md 
+    dest: README.md
