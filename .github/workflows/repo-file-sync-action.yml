@@ -1,0 +1,21 @@
+name: repo-file-sync-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  file-sync-main:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Harden Runner
+          uses: step-security/harden-runner@rc
+          with:
+            egress-policy: audit
+
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Sync Files main
+          uses: step-security/repo-file-sync-action@main
+          with:
+            GH_PAT: ${{secrets.TOKEN_WITH_ALL_PERMISSIONS}}
