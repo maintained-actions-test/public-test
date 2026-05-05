@@ -1,0 +1,12 @@
+name: readmeio-rdme
+on: 
+  workflow_dispatch:
+
+jobs:
+    readme:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: openapi validate
+              uses: step-security/readmeio-rdme@main
+              with:
+               rdme: openapi validate openapi.json
