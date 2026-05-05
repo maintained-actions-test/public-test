@@ -6,8 +6,19 @@ jobs:
     upload:
         runs-on: ubuntu-latest
         steps:  
-            - name: upload to gcs
-              uses: step-security/upload-cloud-storage@main
-              with:
-                path: Readme.md
-                destination: bucket
+
+        - uses: actions/checkout@v6
+  
+        - name: Authenticate to Google Cloud (with @main)
+          id: "auth"
+          uses: step-security/google-github-auth@main
+          with:
+              service_account: "test-account@arc-gke-demo2.iam.gserviceaccount.com"
+              workload_identity_provider: "projects/786066019368/locations/global/workloadIdentityPools/github-pool/providers/github"
+  
+        - name: Upload to GCS
+          id: "secret"
+          uses: step-security/upload-cloud-storage@main
+          with:
+              path: 'README.md'
+              destination: maintained-actions-bucket
