@@ -49,7 +49,7 @@ jobs:
         run: swift test --enable-code-coverage
 
       - name: Run spm-lcov-action
-        uses: step-security/spm-lcov-action@release
+        uses: step-security/spm-lcov-action@main
 
       - name: Verify lcov.info was produced
         run: |
