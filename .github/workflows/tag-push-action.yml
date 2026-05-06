@@ -39,9 +39,9 @@ jobs:
       - name: Test tag-push-action (main)
         uses: step-security/tag-push-action@main
         with:
-          src: ghcr.io/step-security/workflow-playground:latest
+          src: ghcr.io/maintained-actions-test/public-test:latest
           dst: |
-            ghcr.io/step-security/workflow-playground:copy
+            ghcr.io/maintained-actions-test/public-test:copy
       - name: Verify pushed image
         run: |
           docker pull ghcr.io/step-security/workflow-playground:copy
