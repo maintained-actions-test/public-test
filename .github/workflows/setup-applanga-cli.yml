@@ -1,0 +1,18 @@
+name: setup-applanga-cli
+on: 
+  workflow_dispatch:
+
+jobs:
+    install-applanga-main:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Harden the runner (Audit all outbound calls)
+                  uses: step-security/harden-runner@rc
+                  with:
+                    egress-policy: audit
+
+                - name: Install and print applanga/cli version
+                  uses: step-security/setup-applanga-cli@main
+                  with: 
+                    version: 1.0.111
+                - run: "applanga --version"
