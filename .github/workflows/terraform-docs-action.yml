@@ -21,9 +21,3 @@ jobs:
           output-file: USAGE.md
           indention: 3
 
-      - run: |
-          git status
-        shell: bash
-      - run: |
-          cat terraform/USAGE.md
-        shell: bash
