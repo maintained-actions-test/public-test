@@ -25,7 +25,7 @@ jobs:
 
       - name: Get PR comment branch
         id: comment-branch
-        uses: step-security/pull-request-comment-branch@release
+        uses: step-security/pull-request-comment-branch@main
         with:
           repo_token: ${{ github.token }}
 
