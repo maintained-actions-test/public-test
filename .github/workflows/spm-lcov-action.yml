@@ -19,5 +19,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Install llvm (for llvm-cov used by cov.sh)
+        run: sudo apt-get install -y llvm
+        working-directory: .
+
       - name: Run spm-lcov-action
         uses: step-security/spm-lcov-action@release
