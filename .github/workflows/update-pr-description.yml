@@ -14,10 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@rc
-        with:
-            egress-policy: audit
       - uses: actions/checkout@v4
       
       - name: Test Content Extraction with Regex

@@ -5,9 +5,11 @@ on:
 jobs:
     upload:
         runs-on: ubuntu-latest
-        steps:  
+        steps:
+            - uses: actions/checkout@v4
+
             - name: upload to gcs
               uses: step-security/upload-cloud-storage@main
               with:
-                path: Readme.md
+                path: README.md
                 destination: bucket
