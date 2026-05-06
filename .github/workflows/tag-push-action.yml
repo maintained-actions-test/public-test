@@ -1,0 +1,14 @@
+name: tag-push-action
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  tag-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: retag
+        uses: step-security/tag-push-action@main
+        with:
+          src: "jklsdf"
+          dst: "dfsjjk"
