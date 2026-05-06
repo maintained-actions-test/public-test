@@ -3,8 +3,27 @@ on:
   workflow_dispatch:
 
 jobs:
-    Terraform-docs:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Terraform docs
-              uses: step-security/terraform-docs-action@main
+    Generate-terraform-docs-main:
+      name: Terraform docs main
+      runs-on: ubuntu-latest
+      steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: step-security/terraform-docs-action@main
+        with:
+          working-dir: terraform
+          output-file: USAGE.md
+          indention: 3
+
+      - run: |
+          git status
+        shell: bash
+      - run: |
+          cat terraform/USAGE.md
+        shell: bash
