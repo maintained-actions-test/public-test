@@ -6,6 +6,9 @@ on:
 jobs:
   tag-push-main:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@rc
