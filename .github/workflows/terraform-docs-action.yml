@@ -1,0 +1,10 @@
+name: terraform-docs-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    Terraform-docs:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Terraform docs
+              uses: step-security/terraform-docs-action@main
