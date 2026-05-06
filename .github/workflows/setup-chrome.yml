@@ -1,0 +1,27 @@
+name: setup-chrome
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-chrome:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: step-security/setup-chrome@release
+        with:
+          chrome-version: stable
+          install-chromedriver: true
+
+      - name: Verify Chrome installation
+        run: |
+          ${{ steps.setup-chrome.outputs.chrome-path }} --version
