@@ -1,14 +1,17 @@
-// swift-tools-version: 5.10
-
+// swift-tools-version:5.5
 import PackageDescription
 
 let package = Package(
-    name: "MyLibrary",
-    products: [
-        .library(name: "MyLibrary", targets: ["MyLibrary"]),
-    ],
+    name: "TestSpmLcov",
     targets: [
-        .target(name: "MyLibrary"),
-        .testTarget(name: "MyLibraryTests", dependencies: ["MyLibrary"], path: "SwiftTests"),
+        .target(
+            name: "TestSpmLcov",
+            path: "Sources/TestSpmLcov"
+        ),
+        .testTarget(
+            name: "TestSpmLcovTests",
+            dependencies: ["TestSpmLcov"],
+            path: "Tests/TestSpmLcovTests"
+        ),
     ]
 )

@@ -7,8 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  subscription-check:
-    name: Subscription Check
+  spm-lcov-action-test:
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
@@ -19,9 +18,46 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install llvm (for llvm-cov used by cov.sh)
-        run: sudo apt-get install -y llvm
-        working-directory: .
+      - name: Install Swift system deps + llvm-cov
+        # Apple's canonical Ubuntu dep list for running Swift, plus llvm for
+        # llvm-cov used by cov.sh. Install BEFORE setup-swift, which calls
+        # `swift --version` to verify the install.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            binutils \
+            libc6-dev \
+            libcurl4-openssl-dev \
+            libedit2 \
+            libgcc-13-dev \
+            libncurses6 \
+            libpython3-dev \
+            libsqlite3-0 \
+            libstdc++-13-dev \
+            libxml2-dev \
+            libz3-dev \
+            pkg-config \
+            zlib1g-dev \
+            llvm
+
+      - name: Setup Swift
+        uses: step-security/setup-swift@v1
+        with:
+          swift-version: "6.0"
+
+      - name: Run swift test with coverage
+        run: swift test --enable-code-coverage
 
       - name: Run spm-lcov-action
         uses: step-security/spm-lcov-action@release
+
+      - name: Verify lcov.info was produced
+        run: |
+          test -f .build/debug/codecov/lcov.info
+          # llvm-cov's lcov export starts each record with SF: (no leading TN:).
+          if ! grep -q "^SF:" .build/debug/codecov/lcov.info; then
+            echo "::error::lcov.info exists but has no SF: records"
+            exit 1
+          fi
+          echo "✓ lcov.info produced ($(wc -l < .build/debug/codecov/lcov.info) lines)"
+
