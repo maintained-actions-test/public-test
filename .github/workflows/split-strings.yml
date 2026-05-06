@@ -1,0 +1,21 @@
+name: split-strings
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Split version code
+        uses: step-security/split-strings@main
+        id: split
+        with:
+          string: 2.17.3
+          separator: '.'
+          limit: -1
