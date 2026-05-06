@@ -1,0 +1,25 @@
+name: setup-crate
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  setup-crate-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up crate
+        uses: step-security/setup-crate@main
+        with: 
+          repo: rust-lang/mdBook
+
+      - name: Test
+        run: mdbook --version
+        shell: bash
