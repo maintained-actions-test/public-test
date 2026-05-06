@@ -1,0 +1,28 @@
+name: "setup-gh-cli-action"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-gh-cli-main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4
+
+      - name: setup-gh-cli (with @main)
+        id: setup-gh
+        uses: step-security/setup-gh-cli-action@main
+        with:
+          version: "stable"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Output Installed GH CLI Version and Test
+        run: |
+          gh --version
+          echo "GH CLI successfully installed with @main"
