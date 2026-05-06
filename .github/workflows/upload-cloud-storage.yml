@@ -1,6 +1,10 @@
 name: upload-cloud-storage
-on: 
+on:
   workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
     upload:
