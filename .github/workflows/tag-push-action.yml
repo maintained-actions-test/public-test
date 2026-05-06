@@ -44,5 +44,5 @@ jobs:
             ghcr.io/maintained-actions-test/public-test:copy
       - name: Verify pushed image
         run: |
-          docker pull ghcr.io/step-security/workflow-playground:copy
+          docker pull ghcr.io/maintained-actions-test/public-test:copy
           echo "Main branch: image retagged and pushed successfully"
