@@ -17,7 +17,7 @@ jobs:
 
       - name: Setup Chrome
         id: setup-chrome
-        uses: step-security/setup-chrome@release
+        uses: step-security/setup-chrome@main
         with:
           chrome-version: stable
           install-chromedriver: true
