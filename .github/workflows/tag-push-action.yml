@@ -4,11 +4,42 @@ on:
   workflow_dispatch:
 
 jobs:
-  tag-push:
+  tag-push-main:
     runs-on: ubuntu-latest
     steps:
-      - name: retag
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Log in to GitHub Container Registry
+        uses: step-security/docker-login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: step-security/setup-buildx-action@v3
+  
+      - name: Build and push Docker image
+        uses: step-security/docker-build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+      - name: Test tag-push-action (main)
         uses: step-security/tag-push-action@main
         with:
-          src: "jklsdf"
-          dst: "dfsjjk"
+          src: ghcr.io/step-security/workflow-playground:latest
+          dst: |
+            ghcr.io/step-security/workflow-playground:copy
+      - name: Verify pushed image
+        run: |
+          docker pull ghcr.io/step-security/workflow-playground:copy
+          echo "Main branch: image retagged and pushed successfully"
