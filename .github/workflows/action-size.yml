@@ -21,4 +21,4 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run action-size
-        uses: step-security/action-size@release
+        uses: step-security/action-size@main
