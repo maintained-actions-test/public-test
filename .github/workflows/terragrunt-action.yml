@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout code
-        uses: actions/checkout@v
+        uses: actions/checkout@v6
 
       - name: Install Terragrunt and OpenTofu
         uses: step-security/terragrunt-action@release
