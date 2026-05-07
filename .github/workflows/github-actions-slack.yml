@@ -1,0 +1,19 @@
+name: github-actions-slack
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  test-1-slack-notification:
+    runs-on: ubuntu-latest
+    name: Test 1 [ubuntu-latest]
+    steps:
+      
+      - name: Send Slack Message
+        uses: step-security/github-actions-slack@main
+        with:
+          slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
+          slack-channel: "D08HV48ALB1"
+          slack-text: "Test 1 - 🔥"
+          slack-optional-icon_emoji: ":fire:"
