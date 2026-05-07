@@ -1,0 +1,19 @@
+name: npm-get-version-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-main-direct:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Get NPM Version with @main
+        id: get_version_main
+        uses: step-security/npm-get-version-action@main
+
+      - name: Print NPM Version
+        run: |
+            echo "NPM Version: ${{ steps.get_version_main.outputs.current-version }}"
