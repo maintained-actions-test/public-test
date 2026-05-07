@@ -1,0 +1,51 @@
+name: golangci-lint-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  golangci-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: Create test Go project
+        run: |
+          mkdir -p testgo
+          cat > testgo/go.mod << 'EOF'
+          module github.com/test/example
+
+          go 1.22
+          EOF
+          cat > testgo/main.go << 'EOF'
+          package main
+
+          import "fmt"
+
+          func main() {
+              fmt.Println("Hello, World!")
+          }
+          EOF
+
+      - name: golangci-lint
+        uses: step-security/golangci-lint-action@release
+        with:
+          version: latest
+          working-directory: testgo
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-cache: 'true'
+          verify: 'false'
