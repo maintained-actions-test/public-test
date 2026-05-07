@@ -1,0 +1,16 @@
+name: octocov-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: step-security/octocov-action@main
+        with:
+          work-dir: testdatacopy/path/to/.octocov.yml
+        env:
+          ARTIFACT_NAME: "octocov-report-with-work-dir-${{ matrix.os }}"
+
