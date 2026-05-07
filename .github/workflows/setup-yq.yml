@@ -1,0 +1,24 @@
+name: setup-yq
+
+on: 
+    workflow_dispatch:
+
+jobs:
+    yq-main:
+        name: YQ with @main
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Harden Runner
+          uses: step-security/harden-runner@v2
+          with:
+            egress-policy: audit
+        
+        - uses: actions/checkout@v1
+
+        - name: Setup YQ
+          uses: step-security/setup-yq@main
+
+        - name: Show folks how to run YQ
+          run: |
+            yq --help
