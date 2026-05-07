@@ -1,0 +1,26 @@
+name: setup-just
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-without-version-main:
+    name: Test Default Setup Main (no version specified, without dynamic uses)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Just (no version)
+        uses: step-security/setup-just@main
+
+      - name: Verify installation
+        run: |
+          echo "Installed version:"
+          just --version
