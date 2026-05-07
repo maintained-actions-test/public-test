@@ -1,24 +1,45 @@
 name: action-size
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'testdata/action-size/test-change.txt'
 
 permissions:
-  contents: read
-  pull-requests: read
+  contents: write
+  pull-requests: write
 
 jobs:
-  subscription-check:
-    name: Subscription Check
+  action-size-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
 
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v6
 
       - name: Run action-size
+        id: size
         uses: step-security/action-size@main
+
+      - name: Apply size label
+        if: steps.size.outputs.new_label != ''
+        uses: step-security/action-add-labels@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: ${{ steps.size.outputs.new_label }}
+
+      - name: Cleanup - close PR and delete branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr close "$PR_NUM" \
+            --delete-branch \
+            --comment "Functional test complete. Computed size label: '${{ steps.size.outputs.new_label }}'."

@@ -1,0 +1,62 @@
+name: action-size-trigger
+
+on:
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: "Tag for the action (encoded in PR title; action.yml itself runs @main for now)"
+        required: true
+        default: "main"
+      added_lines:
+        description: "Number of lines to add (controls the expected size label)"
+        required: true
+        type: choice
+        default: "50"
+        options:
+          - "5"
+          - "20"
+          - "50"
+          - "200"
+          - "800"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.FOR_SUBSCRIPTION_TESTS }}
+
+      - name: Create test branch with controlled diff and open PR
+        env:
+          GH_TOKEN: ${{ secrets.FOR_SUBSCRIPTION_TESTS }}
+          ADDED: ${{ inputs.added_lines }}
+          REF: ${{ inputs.action-tag }}
+        run: |
+          BRANCH="test/action-size-${{ github.run_id }}"
+          git checkout -b "$BRANCH"
+          mkdir -p testdata/action-size
+          : > testdata/action-size/test-change.txt
+          for i in $(seq 1 "$ADDED"); do
+            echo "// throwaway line $i" >> testdata/action-size/test-change.txt
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add testdata/action-size/test-change.txt
+          git commit -m "test: action-size $ADDED lines"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "Test action-size ${{ github.run_id }} ($ADDED lines, ref=$REF)" \
+            --body "Automated smoke test for action-size. Added $ADDED lines. Will be auto-closed by the test workflow." \
+            --head "$BRANCH" \
+            --base main
