@@ -42,7 +42,7 @@ jobs:
           EOF
 
       - name: golangci-lint
-        uses: step-security/golangci-lint-action@release
+        uses: step-security/golangci-lint-action@main
         with:
           version: latest
           working-directory: testgo
