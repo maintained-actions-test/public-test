@@ -1,0 +1,50 @@
+name: setup-msbuild
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-main-branch:
+    name: Test MSBuild Setup (main branch)
+    runs-on: windows-latest
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+          
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup MSBuild (default x86)
+        id: setup_msbuild_x86
+        uses: step-security/setup-msbuild@main
+
+      - name: Verify x86 MSBuild
+        run: |
+          echo "MSBuild Path: ${{ steps.setup_msbuild_x86.outputs.msbuildPath }}"
+          msbuild -version
+
+      - name: Setup MSBuild (x64)
+        id: setup_msbuild_x64
+        uses: step-security/setup-msbuild@main
+        with:
+          msbuild-architecture: x64
+          vs-prerelease: true
+
+      - name: Verify x64 MSBuild
+        run: |
+          echo "MSBuild x64 Path: ${{ steps.setup_msbuild_x64.outputs.msbuildPath }}"
+          msbuild -version
+
+      - name: Setup MSBuild (vswhere-path)
+        id: setup_msbuild_vswhere
+        uses: step-security/setup-msbuild@main
+        with:
+          vswhere-path: C:\ProgramData\chocolatey\bin
+
+      - name: Verify vswhere-path MSBuild
+        run: |
+          echo "MSBuild vswhere Path: ${{ steps.setup_msbuild_vswhere.outputs.msbuildPath }}"
+          msbuild -version
