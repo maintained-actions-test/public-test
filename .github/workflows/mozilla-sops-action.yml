@@ -1,0 +1,13 @@
+name: mozilla-sops-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    Install-sops-main:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install (with @main)
+              uses: step-security/mozilla-sops-action@main
+              with:
+                version: "latest"
+            - run: sops -v
