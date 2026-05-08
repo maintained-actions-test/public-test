@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Install Terragrunt and OpenTofu
-        uses: step-security/terragrunt-action@release
+        uses: step-security/terragrunt-action@main
         with:
           tg_version: '0.82.3'
           tofu_version: '1.10.1'
