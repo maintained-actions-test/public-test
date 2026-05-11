@@ -1,0 +1,28 @@
+
+name: issue-closed-labeler-action
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  issue-closed-labeler-dynamic:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_STEP_DEBUG: true
+      ACTIONS_RUNNER_DEBUG: true
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Issue Closed Labeler (release)
+        uses: step-security/issue-closed-labeler-action@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          rules: '[{"condition": "chore", "add": "bug"}]'
