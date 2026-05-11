@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Setup PHP
-        uses: step-security/setup-php@release
+        uses: step-security/setup-php@main
         with:
           php-version: '8.4'
           coverage: none
