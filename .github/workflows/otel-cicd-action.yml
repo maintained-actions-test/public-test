@@ -33,7 +33,7 @@ jobs:
           egress-policy: audit
 
       - name: Export workflow traces
-        uses: step-security/otel-cicd-action@release
+        uses: step-security/otel-cicd-action@main
         with:
           otlpEndpoint: ${{ secrets.OTLP_ENDPOINT }}
           otlpHeaders: ${{ secrets.OTLP_HEADERS }}
