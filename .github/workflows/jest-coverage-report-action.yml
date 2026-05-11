@@ -1,0 +1,26 @@
+name: jest-coverage-report-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm install
+
+      - name: Jest Coverage Report
+        uses: step-security/jest-coverage-report-action@main
+        with:
+          test-script: npm test
