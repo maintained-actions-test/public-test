@@ -1,0 +1,10 @@
+name: install-poetry
+on: 
+  workflow_dispatch:
+
+jobs:
+    install-poetry:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: install-poetry
+              uses: step-security/install-poetry@main
