@@ -9,10 +9,6 @@ jobs:
     name: GoReleaser Action (main)
     runs-on: ubuntu-latest
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -20,7 +16,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v6
       - name: Run GoReleaser
-        uses: step-security/goreleaser-action@release
+        uses: step-security/goreleaser-action@main
         with:
           distribution: goreleaser
           version: "~> v2"
