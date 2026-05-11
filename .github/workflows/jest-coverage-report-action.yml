@@ -1,0 +1,10 @@
+name: jest-coverage-report-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    coverage:
+        runs-on: ubuntu-latest
+        steps:
+            - name: coverage
+              uses: step-security/jest-coverage-report-action@main
