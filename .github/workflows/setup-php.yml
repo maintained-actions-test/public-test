@@ -1,0 +1,26 @@
+name: setup-php
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-php:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup PHP
+        uses: step-security/setup-php@release
+        with:
+          php-version: '8.4'
+          coverage: none
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify PHP version
+        run: php --version
