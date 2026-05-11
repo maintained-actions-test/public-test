@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "test": "jest --ci --json --coverage --testLocationInResults --outputFile=report.json",
+    "test1": "jest --ci --json --coverage --testLocationInResults --outputFile=report.json"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
