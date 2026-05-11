@@ -4,11 +4,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  otel-cicd-action:
+  work:
     runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run some work
+        run: echo "Hello, World!"
+
+  otel-cicd-action:
+    needs: [work]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      checks: read
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@rc
