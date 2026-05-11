@@ -1,0 +1,16 @@
+name: kubepug-installer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test_kubepug_action:
+    runs-on: ubuntu-latest
+
+    name: Install kubepug and test presence in path
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install kubepug
+      uses: step-security/kubepug-installer@main
+    - name: Check install!
+      run: kubepug version
