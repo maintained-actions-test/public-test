@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: '20'
 
-      - run: npm install
+      - run: npm ci
 
       - name: Jest Coverage Report
         uses: step-security/jest-coverage-report-action@main
