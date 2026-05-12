@@ -1,0 +1,32 @@
+name: "increment"
+
+on:
+  workflow_dispatch:
+    inputs:
+      variable-name:
+        description: "Name of the variable to increment"
+        required: true
+        default: "MY_VARIABLE"
+      increment-amount:
+        description: "Amount to increment by"
+        required: false
+        default: "1"
+
+jobs:
+  increment-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test increment action
+        id: increment
+        uses: step-security/increment@main
+        with:
+          name: ${{ github.event.inputs.variable-name }}
+          amount: ${{ github.event.inputs.increment-amount }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Output incremented value
+        run: |
+          echo "New value: ${{ steps.increment.outputs.value }}"
