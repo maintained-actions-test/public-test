@@ -6,7 +6,62 @@ jobs:
     Commit:
         runs-on: ubuntu-latest
         steps:
-            - name: Commit
-              uses: step-security/github-api-commit-action@main
-              with:
-                token: ${{ github.token }}
+          - uses: actions/checkout@v4
+            with:
+              persist-credentials: true
+          - name: Setup test branch
+            id: setup-test-branch
+            run: |
+              BRANCH_NAME="test_not_on_remote-$(date +%s)"
+              
+              git config --global user.name 'github-actions[bot]'
+              git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+              
+              git checkout -b $BRANCH_NAME
+              
+              git status --porcelain=v2 --branch --untracked-files=no
+              
+              echo $BRANCH_NAME > "test-file.txt"
+              echo "branch-name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          - uses: step-security/dynamic-uses@v1
+            id: test-action
+            with:
+              uses: step-security/github-api-commit-action@${{ github.event.inputs.action-tag }}
+              with: |
+                {
+                  "token": ${{ toJson(github.token) }},
+                  "stage-all-files": "true",
+                  "create-branch-on-remote": "true",
+                  "commit-message": ${{ toJson(steps.setup-test-branch.outputs.branch-name) }}
+                }
+          - name: Delete test branch
+            if: ${{ always() }}
+            run: |
+              git push --force --delete origin "${TO_DELETE}"
+            env:
+              TO_DELETE: ${{ steps.setup-test-branch.outputs.branch-name }}
+          - name: Check output
+            env:
+                # The WHOLE outputs object as JSON (one string)
+                OUTPUTS_JSON: ${{ steps.test-action.outputs.outputs }}
+            run: |
+                # For debugging (optional)
+                echo "$OUTPUTS_JSON" | jq -r 'keys[]' || true
+                # Extract the commit-response (a JSON string), then parse it
+                COMMIT_JSON=$(echo "$OUTPUTS_JSON" | jq -r '."commit-response"')
+                if [[ -z "$COMMIT_JSON" || "$COMMIT_JSON" == "null" ]]; then
+                echo "commit-response missing from outputs"
+                exit 1
+                fi
+                # Now use jq to read fields from the GraphQL response
+                changedFilesIfAvailable=$(echo "$COMMIT_JSON" | jq -r '.data.createCommitOnBranch.commit.changedFilesIfAvailable // empty')
+                if [[ -z "$changedFilesIfAvailable" ]]; then
+                echo "Error: changedFilesIfAvailable not found in commit response"
+                echo "$COMMIT_JSON" | jq .
+                exit 1
+                fi
+                if [[ "$changedFilesIfAvailable" -ne 1 ]]; then
+                echo "Error: changedFilesIfAvailable is expected to be 1 but got $changedFilesIfAvailable."
+                exit 1
+                fi
+                echo "Validation passed: changedFilesIfAvailable is $changedFilesIfAvailable."
