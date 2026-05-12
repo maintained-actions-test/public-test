@@ -1,0 +1,12 @@
+name: github-api-commit-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    Commit:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Commit
+              uses: step-security/github-api-commit-action@main
+              with:
+                token: ${{ github.token }}
