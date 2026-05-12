@@ -1,0 +1,20 @@
+name: checkov-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  checkov-main:
+    name: Checkov Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run Checkov
+        uses: step-security/checkov-action@release
+        with:
+          directory: "."
+          soft_fail: true
+          output_format: cli
+          quiet: true
