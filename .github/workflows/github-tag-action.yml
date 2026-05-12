@@ -3,15 +3,49 @@ on:
   workflow_dispatch:
 
 jobs:
-    tag:
-        runs-on: ubuntu-latest
-        steps:  
-            - name: tag
-              uses: step-security/github-tag-action@main
-              with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                default_bump: patch
-                tag_prefix: v
-                release_branches: main,master
-                dry_run: false
-                fetch_all_tags: true
+  github-tag-main:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+      - name: Create test commit for tagging
+        run: |
+          # Create a test file with timestamp
+          echo "Test commit at $(date)" > test-tag-main-$(date +%s).txt
+          git add test-tag-main-*.txt
+          # Create a commit with conventional commit format
+          git commit -m "fix: add test file for main branch tag action testing
+          This is a test commit for the main branch test."
+          echo "Test commit created successfully"
+          git log --oneline -1
+      - name: Bump version and push tag (main branch)
+        id: tag_version
+        uses: step-security/github-tag-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+          tag_prefix: v
+          release_branches: main,master
+          dry_run: true
+          fetch_all_tags: true
+
+      - name: Display tag information
+        if: steps.tag_version.outputs.new_tag
+        run: |
+          echo "New tag created: ${{ steps.tag_version.outputs.new_tag }}"
+          echo "New version: ${{ steps.tag_version.outputs.new_version }}"
+          echo "Previous tag: ${{ steps.tag_version.outputs.previous_tag }}"
+          echo "Release type: ${{ steps.tag_version.outputs.release_type }}"
+          echo "Changelog:"
+          echo "${{ steps.tag_version.outputs.changelog }}"
