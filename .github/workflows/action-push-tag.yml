@@ -50,7 +50,7 @@ jobs:
           echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
 
       - name: push-tag
-        uses: step-security/action-push-tag@main
+        uses: step-security/action-push-tag@fix/jq
         with: 
             tag: ${{ steps.bump_version.outputs.new_tag }}
             message: "new tag pushed"
