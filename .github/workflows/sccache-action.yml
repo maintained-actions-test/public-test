@@ -1,0 +1,34 @@
+name: sccache-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup sccache
+        uses: step-security/sccache-action@main
+        with:
+          version: "v0.4.0"
+
+      - name: Verify sccache installation
+        shell: bash
+        run: ${SCCACHE_PATH} --start-server
+
+      - name: Show sccache stats
+        shell: bash
+        run: ${SCCACHE_PATH} --show-stats
