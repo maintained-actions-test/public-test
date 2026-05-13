@@ -1,0 +1,22 @@
+name: closed-issue-message
+on:
+  issues:
+    types: [closed]
+permissions:
+  contents: read
+jobs:
+  closed-issue-message-main:
+    name: Closed Issue Message (main)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run closed-issue-message
+        uses: step-security/closed-issue-message@release
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          message: "Test comment from closed-issue-message action (main job)."
