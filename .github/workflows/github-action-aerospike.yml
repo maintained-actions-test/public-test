@@ -1,0 +1,10 @@
+name: github-action-aerospike
+on: 
+  workflow_dispatch:
+
+jobs:
+    setup-aerospike:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: aerospike
+              uses: step-security/github-action-aerospike@main
