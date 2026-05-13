@@ -1,0 +1,57 @@
+name: action-push-tag
+
+on:
+  workflow_dispatch:
+
+jobs:
+  push-tag-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-tags: true
+
+      - name: Get latest tag and bump minor version
+        id: bump_version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Fetch the latest tag
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          if [ -z "$LATEST_TAG" ]; then
+            echo "No existing tags found, starting with v0.1.0"
+            NEW_TAG="v0.1.0"
+          else
+            echo "Latest tag: $LATEST_TAG"
+
+            # Remove 'v' prefix if present
+            VERSION=${LATEST_TAG#v}
+
+            # Split version into major.minor.patch
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+            # Bump minor version and reset patch to 0
+            MINOR=$((MINOR + 1))
+            PATCH=0
+
+            NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+          fi
+
+          echo "New tag: $NEW_TAG"
+          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
+
+      - name: push-tag
+        uses: step-security/action-push-tag@main
+        with: 
+            tag: ${{ steps.bump_version.outputs.new_tag }}
+            message: "new tag pushed"
+            
