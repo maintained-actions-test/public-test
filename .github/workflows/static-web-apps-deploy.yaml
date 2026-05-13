@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run static-web-apps-deploy (version dry-run)
-        uses: step-security/static-web-apps-deploy@release
+        uses: step-security/static-web-apps-deploy@main
         with:
           action: "version"
           azure_static_web_apps_api_token: "dummy-token"
