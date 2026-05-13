@@ -1,0 +1,86 @@
+name: abc-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: "Tag for the action"
+        required: true
+        default: "main"
+
+permissions:
+  contents: read
+
+jobs:
+  closed-issue-message-dynamic:
+    name: Closed Issue Message (dynamic)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Inject fake issue payload into GITHUB_EVENT_PATH
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          issue_number=$(gh issue list --state open --limit 1 --json number --jq '.[0].number')
+          if [ -z "$issue_number" ] || [ "$issue_number" = "null" ]; then
+            echo "No open issues found in this repo; cannot test closed-issue-message."
+            exit 1
+          fi
+          echo "Using issue #$issue_number"
+          printf '{"issue": {"number": %s}}\n' "$issue_number" > "$GITHUB_EVENT_PATH"
+
+      - name: Run closed-issue-message
+        uses: step-security/dynamic-uses@v1
+        with:
+          uses: step-security/closed-issue-message@${{ github.event.inputs.action-tag }}
+          with: |
+            {
+              "repo-token": "${{ secrets.GITHUB_TOKEN }}",
+              "message": "Test comment from closed-issue-message action (dynamic job)."
+            }
+
+  closed-issue-message-main:
+    name: Closed Issue Message (main)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Inject fake issue payload into GITHUB_EVENT_PATH
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          issue_number=$(gh issue list --state open --limit 1 --json number --jq '.[0].number')
+          if [ -z "$issue_number" ] || [ "$issue_number" = "null" ]; then
+            echo "No open issues found in this repo; cannot test closed-issue-message."
+            exit 1
+          fi
+          echo "Using issue #$issue_number"
+          printf '{"issue": {"number": %s}}\n' "$issue_number" > "$GITHUB_EVENT_PATH"
+
+      - name: Run closed-issue-message
+        uses: step-security/closed-issue-message@main
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          message: "Test comment from closed-issue-message action (main job)."
+
