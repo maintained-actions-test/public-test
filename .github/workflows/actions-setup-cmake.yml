@@ -1,0 +1,24 @@
+name: actions-setup-cmake
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-cmake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup cmake
+        uses: step-security/actions-setup-cmake@release
+        with:
+          cmake-version: '3.16.x'
+
+      - name: Verify cmake installation
+        run: cmake --version
