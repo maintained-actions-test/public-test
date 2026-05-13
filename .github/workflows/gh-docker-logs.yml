@@ -1,0 +1,14 @@
+name: gh-docker-logs
+
+on: 
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Docker Logs Action
+        uses: step-security/gh-docker-logs@main
+        with:
+          images: busybox
