@@ -1,0 +1,30 @@
+name: repository-dispatch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v5
+
+      - name: Test repository dispatch (with payload)
+        uses: step-security/repository-dispatch@main
+        with:
+          event-type: tests
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+      - name: Test repository dispatch (default payload)
+        uses: step-security/repository-dispatch@main
+        with:
+          event-type: tests
