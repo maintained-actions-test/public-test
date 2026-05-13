@@ -1,0 +1,66 @@
+name: action-openfga-deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-model-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install OpenFGA Server
+        uses: step-security/action-install-gh-release@v2
+        with:
+          repo: openfga/openfga
+          cache: enable
+
+      - name: Run a local OpenFGA Server
+        shell: bash
+        ## The key used here is a mock for demo purposes only
+        run: |
+          openfga --authn-method preshared --authn-preshared-keys key1 run&
+
+      - name: Create a store
+        shell: bash
+        run: |
+          curl -X POST http://localhost:8080/stores -H "content-type: application/json" -H "Authorization: Bearer key1" -d '{"name": "FGA Demo Store"}' > id.json
+
+      - name: Get store ID
+        id: get-store-id
+        shell: bash
+        run: |
+          echo "store_id=$(jq -r '.id' id.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy using a file
+        id: deploy-file
+        uses: step-security/action-openfga-deploy@main
+        with:
+          api-url: http://localhost:8080
+          api-token: key1
+          store-id: ${{ steps.get-store-id.outputs.store_id }}
+          model-file-path: ./test-files/openfga-deploy/model.fga
+
+      - name: Output the model ID from file deploy
+        run: |
+          echo "The model ID is ${{ steps.deploy-file.outputs.authorization_model_id }}"
+
+      - name: Deploy using a string
+        id: deploy-string
+        uses: step-security/action-openfga-deploy@main
+        with:
+          api-url: http://localhost:8080
+          api-token: key1
+          store-id: ${{ steps.get-store-id.outputs.store_id }}
+          format: json
+          model: '{\"schema_version\":\"1.1\",\"type_definitions\":\[\{\"type\":\"user\"\},\{\"type\":\"document\",\"relations\":\{\"reader\":\{\"this\":\{\}\},\"writer\":\{\"this\":\{\}\},\"owner\":\{\"this\":\{\}\}\},\"metadata\":\{\"relations\":\{\"reader\":\{\"directly_related_user_types\":\[\{\"type\":\"user\"\}\]\},\"writer\":\{\"directly_related_user_types\":\[\{\"type\":\"user\"\}\]\},\"owner\":\{\"directly_related_user_types\":\[\{\"type\":\"user\"\}\]\}\}\}\}\]\}'
+
+      - name: Output the model ID from string deploy
+        run: |
+          echo "The model ID is ${{ steps.deploy-string.outputs.authorization_model_id }}"
