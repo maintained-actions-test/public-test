@@ -1,0 +1,49 @@
+name: workflow-conclusion-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run a Success Step
+        run: echo "This step will succeed."
+
+      - name: Run a Warning Step
+        run: |
+          echo "This step will cause a warning."
+          echo "::warning::This is a warning message"
+
+      - name: Run a Failure Step
+        run: |
+          echo "This step will fail."
+          exit 1
+        continue-on-error: true  # Allow the workflow to continue despite the failure
+
+      - name: Run a Skipped Step
+        if: false
+        run: echo "This step is intentionally skipped."
+
+      - name: Run a Success After Failure Step
+        run: echo "This step will succeed after a failure."
+
+      - name: Get Workflow Conclusion
+        id: conclusion
+        uses: step-security/workflow-conclusion-action@main
+
+      - name: Display Workflow Conclusion
+        run: |
+          echo "Workflow Conclusion: ${{ env.WORKFLOW_CONCLUSION }}"
