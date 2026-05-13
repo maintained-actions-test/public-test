@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run closed-issue-message
-        uses: step-security/closed-issue-message@release
+        uses: step-security/closed-issue-message@main
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           message: "Test comment from closed-issue-message action (main job)."
