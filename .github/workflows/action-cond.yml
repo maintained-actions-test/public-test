@@ -1,0 +1,25 @@
+name: "action-cond"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-action-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4
+
+      - name: action-cond (with @main)
+        id: condval
+        uses: step-security/action-cond@main
+        with:
+          cond: "true"
+          if_true: "condition_is_true"
+          if_false: "condition_is_false"
+      - name: condval outputvalue
+        run: echo "${{ steps.condval.outputs.outputs }}"
