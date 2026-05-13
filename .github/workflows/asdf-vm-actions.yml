@@ -1,0 +1,60 @@
+name: asdf-vm-actions
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  install-main:
+    name: install (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install asdf and tools
+        uses: step-security/asdf-vm-actions/install@main
+        with:
+          before_install: echo asdf nodejs import-keyring
+          tool_versions: nodejs 22.14.0
+      - run: node --version
+  setup-main:
+    name: setup (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install asdf CLI
+        uses: step-security/asdf-vm-actions/setup@main
+      - run: |
+          echo ASDF_DIR="${ASDF_DIR}"
+          echo ASDF_DATA_DIR="${ASDF_DATA_DIR}"
+          asdf --version
+  plugin-test-main:
+    name: plugin-test (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Test asdf plugin
+        uses: step-security/asdf-vm-actions/plugin-test@main
+        with:
+          command: alp --version
+          plugin: alp
+          giturl: https://github.com/asdf-community/asdf-alp.git
+          gitref: master
+  plugins-add-main:
+    name: plugins-add (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Add asdf plugins
+        uses: step-security/asdf-vm-actions/plugins-add@main
+        with:
+          tool_versions: |
+            # tools won't be installed by this action, only plugins
+            elixir foo
+            nodejs bar
+      - run: |
+          asdf plugin list --urls --refs | grep elixir
+          asdf plugin list --urls --refs | grep nodejs
