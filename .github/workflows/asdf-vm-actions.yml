@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Install asdf and tools
-        uses: step-security/asdf-vm-actions/install@main
+        uses: step-security/asdf-vm-actions/install@release
         with:
           before_install: echo asdf nodejs import-keyring
           tool_versions: nodejs 22.14.0
