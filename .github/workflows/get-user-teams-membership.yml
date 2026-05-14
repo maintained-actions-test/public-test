@@ -1,0 +1,14 @@
+name: get-user-teams-membership
+on: 
+  workflow_dispatch:
+
+jobs:
+    get-team:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: Fetch team details
+              uses: step-security/get-user-teams-membership@main
+              with: 
+                username: amanstep
+                GITHUB_TOKEN: ${{ github.token }}
+    
