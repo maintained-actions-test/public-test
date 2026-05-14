@@ -31,12 +31,8 @@ jobs:
         id: get_release
         uses: step-security/fetch-gh-release-asset@main
         with:
-          repo: 'step-security/workflow-playground'
+          repo: 'maintained-actions-test/public-test'
           version: ${{ matrix.version }}
           file: 'README.2.md'
           target: 'subdir/README.2.md'
-      - name: Display the outputs
-        run: |
-          echo "${{ steps.get_release.outputs.version }}"
-          echo "${{ steps.get_release.outputs.name }}"
-          echo "${{ steps.get_release.outputs.body }}"
+
