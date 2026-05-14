@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run Azure PowerShell (no-op script)
-        uses: step-security/powershell@release
+        uses: step-security/powershell@main
         with:
           inlineScript: |
             Write-Output "StepSecurity powershell smoke test"
