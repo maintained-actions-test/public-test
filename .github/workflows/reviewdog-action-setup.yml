@@ -1,0 +1,28 @@
+name: reviewdog-action-setup
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Reviewdog
+        uses: step-security/reviewdog-action-setup@main
+        with:
+          reviewdog_version: v0.20.3
+
+      - name: Verify Reviewdog Installation
+        run: reviewdog -version
