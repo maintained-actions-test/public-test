@@ -1,0 +1,12 @@
+name: file-existence-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    check-file:
+        runs-on: ubuntu-latest
+        steps:
+            - name: check-file-existence
+              uses: step-security/file-existence-action@main
+              with: 
+                  files: README.md
