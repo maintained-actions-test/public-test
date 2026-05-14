@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Install asdf and tools
-        uses: step-security/asdf-vm-actions/install@release
+        uses: step-security/asdf-vm-actions/install@main
         with:
           before_install: echo asdf nodejs import-keyring
           tool_versions: nodejs 22.14.0
@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Install asdf CLI
-        uses: step-security/asdf-vm-actions/setup@release
+        uses: step-security/asdf-vm-actions/setup@main
       - run: |
           echo ASDF_DIR="${ASDF_DIR}"
           echo ASDF_DATA_DIR="${ASDF_DATA_DIR}"
@@ -36,7 +36,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Test asdf plugin
-        uses: step-security/asdf-vm-actions/plugin-test@release
+        uses: step-security/asdf-vm-actions/plugin-test@main
         with:
           command: alp --version
           plugin: alp
@@ -49,7 +49,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Add asdf plugins
-        uses: step-security/asdf-vm-actions/plugins-add@release
+        uses: step-security/asdf-vm-actions/plugins-add@main
         with:
           tool_versions: |
             # tools won't be installed by this action, only plugins
