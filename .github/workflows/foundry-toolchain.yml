@@ -1,0 +1,54 @@
+name: foundry-toolchain
+on: 
+  workflow_dispatch:
+
+jobs:
+  check-main:
+    name: Foundry project (with @main)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Foundry (with @main)
+        uses: step-security/foundry-toolchain@main
+
+      - name: Setup Foundry Project
+        run: |
+          mkdir -p lib src test
+          curl -L https://github.com/dapphub/ds-test/archive/refs/heads/master.zip -o ds-test.zip
+          unzip ds-test.zip -d lib/
+          mv lib/ds-test-master lib/ds-test
+          rm ds-test.zip
+          echo "// SPDX-License-Identifier: MIT" > src/TestContract.sol
+          echo "pragma solidity ^0.8.0;" >> src/TestContract.sol
+          echo "contract TestContract {" >> src/TestContract.sol
+          echo "    function testFunction() public pure returns (string memory) {" >> src/TestContract.sol
+          echo "        return 'Hello, Foundry!';" >> src/TestContract.sol
+          echo "    }" >> src/TestContract.sol
+          echo "}" >> src/TestContract.sol
+
+          echo "// SPDX-License-Identifier: MIT" > test/TestContract.t.sol
+          echo "pragma solidity ^0.8.0;" >> test/TestContract.t.sol
+          echo "import \"ds-test/test.sol\";" >> test/TestContract.t.sol
+          echo "import \"../src/TestContract.sol\";" >> test/TestContract.t.sol
+          echo "contract TestContractTest is DSTest {" >> test/TestContract.t.sol
+          echo "    TestContract testContract;" >> test/TestContract.t.sol
+          echo "    function setUp() public {" >> test/TestContract.t.sol
+          echo "        testContract = new TestContract();" >> test/TestContract.t.sol
+          echo "    }" >> test/TestContract.t.sol
+          echo "    function testFunction() public {" >> test/TestContract.t.sol
+          echo "        assertEq(testContract.testFunction(), 'Hello, Foundry!');" >> test/TestContract.t.sol
+          echo "    }" >> test/TestContract.t.sol
+          echo "}" >> test/TestContract.t.sol
+
+      - name: Run tests
+        run: forge test -vvv
+
+      - name: Run snapshot
+        run: forge snapshot
+
+      - name: Cleanup
+        run: |
+          rm -rf lib src test
