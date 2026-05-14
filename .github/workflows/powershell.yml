@@ -1,0 +1,28 @@
+name: powershell
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run Azure PowerShell (no-op script)
+        uses: step-security/powershell@release
+        with:
+          inlineScript: |
+            Write-Output "StepSecurity powershell smoke test"
+            $PSVersionTable
+          azPSVersion: "latest"
