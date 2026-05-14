@@ -32,7 +32,6 @@ jobs:
         uses: step-security/fetch-gh-release-asset@main
         with:
           repo: 'maintained-actions-test/public-test'
-          version: ${{ matrix.version }}
-          file: 'README.2.md'
-          target: 'subdir/README.2.md'
-
+          version: 'tags/v92.12.0'
+          file: 'donald-trump-and-the-nihilist-penguin.avif'
+          target: 'subdir/donald-trump-and-the-nihilist-penguin.avif'
