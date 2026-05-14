@@ -1,3 +1,4 @@
+
 name: fetch-gh-release-asset
 
 on:
@@ -5,9 +6,22 @@ on:
 
 jobs:
   download:
+    strategy:
+      matrix:
+        runs-on:
+          - ubuntu-latest
+
+        version:
+          - 'tags/v92.12.0'
+
     name: Download
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runs-on }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Checkout
         uses: actions/checkout@v6
       - name: Create a subdirectory
@@ -19,5 +33,10 @@ jobs:
         with:
           repo: 'step-security/workflow-playground'
           version: ${{ matrix.version }}
-          file: 'plague-linux.zip'
-          target: 'subdir/plague-linux.zip'
+          file: 'README.2.md'
+          target: 'subdir/README.2.md'
+      - name: Display the outputs
+        run: |
+          echo "${{ steps.get_release.outputs.version }}"
+          echo "${{ steps.get_release.outputs.name }}"
+          echo "${{ steps.get_release.outputs.body }}"
