@@ -1,0 +1,20 @@
+
+name: "create json"
+
+on: 
+    workflow_dispatch:
+
+jobs:
+  test-action-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: create-json (with @main)
+        id: create-json
+        uses: step-security/create-json@main
+        with:
+          name: "test.json"
+          json: '{"name":"json sucessfully created!"}'
+
+      - run: sh ./test-json.sh
