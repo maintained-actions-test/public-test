@@ -1,0 +1,33 @@
+name: semver-utils
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Use Semver Utils
+        id: semver
+        uses: step-security/semver-utils@main
+        with:
+          version: "1.2.3"
+
+      - name: Print Semver Parts
+        run: |
+          echo "Major: ${{ steps.semver.outputs.major }}"
+          echo "Minor: ${{ steps.semver.outputs.minor }}"
+          echo "Patch: ${{ steps.semver.outputs.patch }}"
+
