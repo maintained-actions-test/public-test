@@ -1,0 +1,46 @@
+name: delete-untagged-ghcr-action
+on:
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: 'Tag for the action'
+        required: true
+        default: 'main'
+
+permissions:
+  packages: write
+  contents: read
+
+jobs:
+  delete-test-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v5
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push test image to GHCR
+        run: |
+          IMAGE=ghcr.io/${{ github.repository_owner }}/workflow-playground
+          docker build -t $IMAGE .
+          docker push $IMAGE
+
+      - name: Delete untagged packages
+        uses: step-security/delete-untagged-ghcr-action@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository_owner: ${{ github.repository_owner }}
+          repository: ${{ github.repository }}
+          package_name: workflow-playground
+          untagged_only: false
+          owner_type: user
