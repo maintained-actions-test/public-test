@@ -1,0 +1,30 @@
+name: push-to-gcr-github-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Build & Push to GCR
+        uses: step-security/push-to-gcr-github-action@main
+        with:
+          gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+          registry: us-east1-docker.pkg.dev
+          project_id: arc-gke-demo2/push-to-gcr
+          image_name: push-to-gcr-smoke
+          image_tag: test-${{ github.run_number }},latest
+          dockerfile: ./Dockerfile
+          context: .
