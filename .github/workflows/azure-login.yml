@@ -22,7 +22,6 @@ jobs:
 
       - name: Azure Login (dummy creds, expected to fail at az login)
         uses: step-security/azure-login@release
-        continue-on-error: true
         with:
           client-id: "00000000-0000-0000-0000-000000000000"
           tenant-id: "00000000-0000-0000-0000-000000000000"
