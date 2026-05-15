@@ -1,0 +1,20 @@
+name: delete-deployment-environment
+
+on:
+  workflow_dispatch:
+
+env:
+  ENVIRONMENT: test
+  REF: delete-deployment-environment
+  REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+jobs:
+  full-cleanup:
+    name: 🧼 Full Cleanup - Delete Deployments & Environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete deployments & environment
+        uses: step-security/delete-deployment-environment@main
+        with:
+          token: "abc"
+          environment: ${{ env.ENVIRONMENT }}
