@@ -1,0 +1,35 @@
+name: trigger-workflow-and-wait
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Trigger workflow and wait
+        uses: step-security/trigger-workflow-and-wait@main
+        with:
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          ref: ${{ github.event.repository.default_branch || 'main' }}
+          github_token: ${{ secrets.REPO_TOKEN }}
+          workflow_file_name: selftest.yaml
+          client_payload: '{"test": "true"}'
+          wait_interval: 11
+          trigger_workflow: true
+          wait_workflow: true
+          propagate_failure: true
