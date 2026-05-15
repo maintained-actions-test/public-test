@@ -1,0 +1,36 @@
+name: envsubst-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-main-direct:
+    name: Test envsubst with @main without dynamic uses
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create template.json for direct test
+        run: |
+          cat <<EOF > template-direct.json
+          {
+            "version": "\${VERSION}",
+            "instance": "\${INSTANCE}",
+            "environment": "\${ENVIRONMENT}"
+          }
+          EOF
+
+      - name: Run envsubst-action directly with @main
+        uses: step-security/envsubst-action@main
+        with:
+          input: template-direct.json
+          output: deployment-direct.json
+        env:
+          VERSION: "2.0.0"
+          INSTANCE: "production"
+          ENVIRONMENT: "prod"
+
+      - name: Show Direct Output File
+        run: cat deployment-direct.json
