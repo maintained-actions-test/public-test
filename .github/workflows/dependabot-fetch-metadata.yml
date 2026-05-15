@@ -1,54 +1,11 @@
 name: dependabot-fetch-metadata
+on: 
+  workflow_dispatch:
 
-on:
-  pull_request:
 
 jobs:
-  fetch-dependabot-metadata:
-    runs-on: ubuntu-latest
-
-    # We only want to check the metadata on pull_request events from Dependabot itself,
-    # any subsequent pushes to the PR should just skip this step so we don't go into
-    # a loop on commits created by the `build-dependabot-changes` job
-    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
-    # Map the step output to a job output for subsequent jobs
-    steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@rc
-        with:
-          egress-policy: audit  
-
-      - uses: actions/checkout@v6
-
-      - name: Fetch dependabot metadata
-        id: dependabot-metadata
-        uses: step-security/dependabot-fetch-metadata@main
-
-      - name: Comment metadata on PR
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const metadata = {
-              "dependency-names": "${{ steps.dependabot-metadata.outputs.dependency-names }}",
-              "dependency-type": "${{ steps.dependabot-metadata.outputs.dependency-type }}",
-              "update-type": "${{ steps.dependabot-metadata.outputs.update-type }}",
-              "package-ecosystem": "${{ steps.dependabot-metadata.outputs.package-ecosystem }}",
-              "target-branch": "${{ steps.dependabot-metadata.outputs.target-branch }}",
-              "previous-version": "${{ steps.dependabot-metadata.outputs.previous-version }}",
-              "new-version": "${{ steps.dependabot-metadata.outputs.new-version }}",
-              "compatibility-score": "${{ steps.dependabot-metadata.outputs.compatibility-score }}",
-              "maintainer-changes": "${{ steps.dependabot-metadata.outputs.maintainer-changes }}",
-              "dependency-group": "${{ steps.dependabot-metadata.outputs.dependency-group }}",
-              "alert-state": "${{ steps.dependabot-metadata.outputs.alert-state }}",
-              "ghsa-id": "${{ steps.dependabot-metadata.outputs.ghsa-id }}",
-              "cve-id": "${{ steps.dependabot-metadata.outputs.cve-id }}"
-            };
-
-            const comment = `## Dependabot Metadata\n\n\`\`\`json\n${JSON.stringify(metadata, null, 2)}\n\`\`\``;
-
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: comment
-            });
+    fetch:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: fetch metadata
+              uses: step-security/dependabot-fetch-metadata@main
