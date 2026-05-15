@@ -1,0 +1,10 @@
+name: dependabot-fetch-metadata
+on: 
+  workflow_dispatch:
+
+jobs:
+    fetch:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: fetch metadata
+              uses: step-security/dependabot-fetch-metadata@main
