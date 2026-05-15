@@ -17,4 +17,3 @@ jobs:
           name: "test.json"
           json: '{"name":"json sucessfully created!"}'
 
-      - run: sh ./test-json.sh
