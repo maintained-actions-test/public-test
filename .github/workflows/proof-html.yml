@@ -1,0 +1,26 @@
+name: proof-html
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Validate HTML with proof-html
+        uses: step-security/proof-html@main
+        continue-on-error: true
+        with:
+          directory: testdata/proof-html
