@@ -1,0 +1,39 @@
+name: publish-crates
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Test publish-crates (dry-run)
+        id: publish-test
+        uses: step-security/publish-crates@main
+        with:
+          path: ./__tests__
+          dry-run: true
+          check-repo: false
+          ignore-unpublished-changes: true
+
+      - name: Verify published output
+        run: |
+          echo "Published crates output: ${{ steps.publish-test.outputs.published }}"
+          if [ "${{ steps.publish-test.outputs.published }}" != "[]" ]; then
+            echo "Crates that would be published:"
+            echo '${{ steps.publish-test.outputs.published }}' | jq -r '.[] | "- \(.name) v\(.version)"'
+          else
+            echo "No crates would be published"
+          fi
