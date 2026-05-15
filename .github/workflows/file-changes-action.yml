@@ -2,6 +2,11 @@ name: file-changes-action
 
 on:
   workflow_dispatch:
+    inputs:
+      prNumber:
+        description: 'PR number to get file changes from'
+        required: false
+        default: 29
 
 jobs:
   file-changes:
@@ -20,6 +25,10 @@ jobs:
         uses: step-security/file-changes-action@release
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          githubRepo: ${{ github.repository }}
+          prNumber: ${{ github.event.inputs.prNumber }}
+          output: json
+          fileOutput: json
 
       - name: Show outputs
         run: |
