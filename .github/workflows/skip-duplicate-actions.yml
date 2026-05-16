@@ -1,0 +1,31 @@
+name: skip duplicate actions
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  skip_main_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run Skip Duplicate Actions with @main
+        id: skip_check_main
+        uses: step-security/skip-duplicate-actions@main
+        with:
+          cancel_others: false
+          paths: '["src/**"]'
+          do_not_skip: '[]'
+
+      - name: Simulate Task
+        if: ${{ steps.skip_check_main.outputs.should_skip != 'true' }}
+        run: |
+          echo "Run only if src/ changed..." && sleep 30
+          echo "Do other stuff..."
