@@ -1,0 +1,47 @@
+
+name: slackify-markdown-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+          
+      - name: Convert Markdown to Slack mrkdwn
+        id: convert
+        uses: step-security/slackify-markdown-action@main
+        with:
+          text: |
+            # Heading 1
+            ## Heading 2
+            [Link](http://example.com)
+            * List Item 1
+            * List Item 2
+      - name: Verify Slackified Text
+        run: |
+          echo "Slackified Output:"
+          echo "${{ steps.convert.outputs.text }}"
+      - name: Verify
+        shell: bash
+        env:
+          ACTUAL: ${{ steps.convert.outputs.text }}
+          EXPECTED: |
+            *Heading 1*
+            
+            *Heading 2*
+            
+            <http://example.com|Link>
+            
+            •   List Item 1
+            •   List Item 2
+        run: |
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "Actual: '$ACTUAL'"
+            echo "Expected: '$EXPECTED'"
+            exit 1
+          fi
