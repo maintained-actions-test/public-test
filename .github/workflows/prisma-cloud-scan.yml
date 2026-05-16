@@ -1,0 +1,37 @@
+name: prisma-cloud-scan
+
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: test-image:${{ github.sha }}
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Build base test image
+        run: |
+          echo "FROM alpine:3.18" > Dockerfile
+          echo "RUN apk add --no-cache curl bash" >> Dockerfile
+          docker build -t $IMAGE_NAME .
+
+      - name: Run Prisma Cloud Scan (dummy creds, expected to fail after subscription check)
+        uses: step-security/prisma-cloud-scan@main
+        with:
+          pcc_console_url: "https://fake-url.invalid"
+          pcc_user: invalid
+          pcc_pass: invalid
+          image_name: ${{ env.IMAGE_NAME }}
