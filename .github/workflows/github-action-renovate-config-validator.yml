@@ -1,0 +1,37 @@
+name: github-action-renovate-config-validator
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-renovate-validator-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v5
+
+      - name: Create test renovate.json
+        run: |
+          cat <<EOF > renovate.json
+          {
+            "extends": ["config:recommended"],
+            "packageRules": [
+              {
+                "matchPackageNames": ["lodash"],
+                "enabled": true
+              }
+            ],
+            "labels": ["dependencies"],
+            "schedule": ["before 4am"]
+          }
+          EOF
+
+      - name: Run Renovate Config Validator (main)
+        uses: step-security/github-action-renovate-config-validator@main
+        with:
+          strict: "true"
+          config_file_path: renovate.json
