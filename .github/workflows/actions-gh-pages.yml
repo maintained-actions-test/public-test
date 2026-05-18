@@ -5,6 +5,8 @@ on:
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write
         steps:  
             - name: deploy
               uses: step-security/actions-gh-pages@main
