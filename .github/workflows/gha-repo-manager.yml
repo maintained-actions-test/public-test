@@ -1,0 +1,26 @@
+name: gha-repo-manager
+
+on: 
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+        
+jobs:
+  manage-repo-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Apply settings
+        uses: step-security/gha-repo-manager@main
+        with: 
+            token: ${{secrets.GITHUB_TOKEN}}
+            action: apply
