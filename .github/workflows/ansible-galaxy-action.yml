@@ -1,0 +1,21 @@
+name: ansible-galaxy-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-galaxy-import-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run ansible-galaxy-action in test mode
+        uses: step-security/ansible-galaxy-action@main
+        with:
+          galaxy_api_key: ${{ secrets.galaxy_api_key }}
