@@ -15,7 +15,7 @@ jobs:
       - name: Send Slack Notification
         uses: step-security/action-slack-notify@main
         env:
-          SLACK_WEBHOOK: "https://hooks.slack.com/services/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"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: general
           SLACK_USERNAME: step-security
           SLACK_ICON: https://github.com/step-security.png?size=48
