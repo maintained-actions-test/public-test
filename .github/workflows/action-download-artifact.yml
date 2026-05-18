@@ -11,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Download
-        uses: step-security/action-download-artifact@main
+        uses: actions/upload-artifact@v6
         with:
           workflow: upload.yml
           name: artifact
