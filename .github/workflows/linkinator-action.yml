@@ -1,0 +1,27 @@
+name: linkinator-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run StepSecurity Linkinator Action
+        uses: step-security/linkinator-action@main
+        with:
+          paths: test.md
+          verbosity: INFO
+          markdown: true
+          linksToSkip: "http://fake.local, http://fake.local/fake"
