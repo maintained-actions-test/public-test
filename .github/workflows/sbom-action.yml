@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Generate SBOM
-        uses: step-security/sbom-action@release
+        uses: step-security/sbom-action@main
         with:
           path: .
           format: spdx-json
