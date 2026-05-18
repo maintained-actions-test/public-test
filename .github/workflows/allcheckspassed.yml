@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Wait for all checks (no-op smoke test)
-        uses: step-security/allcheckspassed@release
+        uses: step-security/allcheckspassed@main
         with:
           commit_sha: ${{ github.sha }}
           delay: 0
