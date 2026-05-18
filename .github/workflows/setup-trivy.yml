@@ -23,7 +23,7 @@ jobs:
       - name: Install Trivy
         uses: step-security/setup-trivy@main
         with:
-          version: v0.68.2
+          version: v0.70.0
           cache: true
 
       - name: Verify Trivy is installed
