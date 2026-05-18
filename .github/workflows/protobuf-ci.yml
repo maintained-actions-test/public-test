@@ -1,0 +1,54 @@
+name: protobuf-ci
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Test checkout action
+        uses: step-security/protobuf-ci/checkout@main
+        with:
+          ref: main
+
+  test-ccache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Test ccache action
+        uses: step-security/protobuf-ci/ccache@main
+        with:
+          cache-prefix: test
+
+  test-composer-setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - run: mkdir -p test && echo '{}' > test/composer.json
+
+      - name: Test composer-setup action
+        uses: step-security/protobuf-ci/composer-setup@main
+        with:
+          cache-prefix: test
+          directory: test
