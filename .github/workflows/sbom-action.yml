@@ -1,0 +1,20 @@
+name: sbom-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  sbom-action-main:
+    name: Anchore SBOM Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Generate SBOM
+        uses: step-security/sbom-action@release
+        with:
+          path: .
+          format: spdx-json
+          artifact-name: sbom-main
+          upload-release-assets: "false"
