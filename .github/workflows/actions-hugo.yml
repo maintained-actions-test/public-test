@@ -1,0 +1,34 @@
+name: actions hugo
+
+on: 
+    workflow_dispatch:
+
+jobs:
+  test-main:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - 'ubuntu-latest'
+        hugo-version:
+          - 'latest'
+          - '0.61.0'
+        extended:
+          - true
+          - false
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Setup Hugo (with @main)
+        uses: step-security/actions-hugo@main
+        with:
+          hugo-version: ${{ matrix.hugo-version }}
+          extended: ${{ matrix.extended }}
+
+      - name: Run hugo version
+        run: echo "::set-output name=hugo_version::$(hugo version)"
+        id: hugo_version
+
+      - name: '${{ steps.hugo_version.outputs.hugo_version }}'
+        run: echo '${{ steps.hugo_version.outputs.hugo_version }}'
