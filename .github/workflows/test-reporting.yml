@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: read
+  checks: write
 
 jobs:
   report:
@@ -21,6 +22,6 @@ jobs:
       - name: Report tests
         uses: step-security/test-reporting@main
         with:
-          name: any
-          reporter: any
-          path: any
+          name: smoke
+          reporter: jest-junit
+          path: testdata/test-reporting/junit.xml
