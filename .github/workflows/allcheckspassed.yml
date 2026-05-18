@@ -1,0 +1,30 @@
+name: allcheckspassed
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: read
+  statuses: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Wait for all checks (no-op smoke test)
+        uses: step-security/allcheckspassed@release
+        with:
+          commit_sha: ${{ github.sha }}
+          delay: 0
+          poll: false
+          fail_step: false
