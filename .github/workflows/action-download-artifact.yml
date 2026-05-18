@@ -10,14 +10,15 @@ jobs:
     steps:          
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Download
-        uses: actions/upload-artifact@v6
+      - name: Dump
+        run: |
+          mkdir artifact
+          echo $GITHUB_SHA > artifact/sha
+      - name: Upload
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          workflow: upload.yml
           name: artifact
           path: artifact
-      - name: Test
-        run: cat artifact/sha | grep $GITHUB_SHA
 
   wait:
     runs-on: ubuntu-latest
