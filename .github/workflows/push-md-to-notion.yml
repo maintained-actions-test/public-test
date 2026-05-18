@@ -1,0 +1,25 @@
+name: push-md-to-notion
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  push-md-files-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Sync Markdown Files (dry-run)
+        uses: step-security/push-md-to-notion@main
+        with:
+          notion-token: ${{ secrets.NOTION_TOKEN }}
+          dry-run: "true"
