@@ -1,15 +1,37 @@
-# 0.2.0 (2026-03-10)
+# sut-server
 
+## 1.0.6
 
-### Bug Fixes
+### Patch Changes
 
-* Rename list-files-action to list-files-action.yml ([caffd32](https://github.com/maintained-actions-test/public-test/commit/caffd323830c55a6b8a135b4d37a72a1637d6939))
+- Automated CI-generated changeset.
 
+## 1.0.5
 
-### Features
+### Patch Changes
 
-* create list-files-action ([6ca8127](https://github.com/maintained-actions-test/public-test/commit/6ca812703ee11fb61121a7acce12026ae5ba47c9))
-* update list-files-action.yml ([65b2220](https://github.com/maintained-actions-test/public-test/commit/65b22200e39e85bf0c636fe1a93cd2c4a21d0736))
+- Automated CI-generated changeset.
 
+## 1.0.4
 
+### Patch Changes
 
+- Automated CI-generated changeset.
+
+## 1.0.3
+
+### Patch Changes
+
+- Automated CI-generated changeset.
+
+## 1.0.2
+
+### Patch Changes
+
+- Automated CI-generated changeset.
+
+## 1.0.1
+
+### Patch Changes
+
+- Automated CI-generated changeset.

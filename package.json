@@ -1,9 +1,11 @@
 {
+  "name": "sut-server",
+  "version": "1.0.6",
+  "main": "server.js",
   "scripts": {
-    "test": "jest --ci --json --coverage --testLocationInResults --outputFile=report.json",
-    "test1": "jest --ci --json --coverage --testLocationInResults --outputFile=report.json"
+    "start": "node server.js"
   },
-  "devDependencies": {
-    "jest": "^29.7.0"
+  "publishConfig": {
+    "access": "public"
   }
 }
