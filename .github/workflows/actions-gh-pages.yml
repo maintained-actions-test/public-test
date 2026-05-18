@@ -1,0 +1,21 @@
+name: actions-gh-pages
+on: 
+  workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: deploy
+              uses: step-security/actions-gh-pages@main
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                publish_branch: gh-pages-ubuntu-latest
+                publish_dir: ./test_projects/mdbook/book
+                # external_repository: ''
+                allow_empty_commit: true
+                # keep_files: true
+                # force_orphan: true
+                user_name: 'github-actions[bot]'
+                user_email: 'github-actions[bot]@users.noreply.github.com'
+                # commit_message: ${{ github.event.head_commit.message }}
