@@ -1,0 +1,20 @@
+name: auto-assign-issue
+on: 
+  issues:
+    types: ["opened"]
+
+
+jobs:
+    auto-assign-issue:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Harden Runner
+              uses: step-security/harden-runner@v2
+              with:
+                egress-policy: audit
+            - name: auto-assign-issue
+              uses: step-security/auto-assign-issue@main
+              with: 
+                  assignees: amanstep,Raj-StepSecurity
+                  numOfAssignee: 1
+                  allowSelfAssign: true
