@@ -1,0 +1,37 @@
+name: "background-action"
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  test-bg-main:
+    runs-on: ubuntu-latest
+    env:
+      API_PORT: 3001
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js dependencies
+        run: npm install
+        working-directory: packages/background-action
+
+      - name: Start background server and wait (with @main)
+        uses: step-security/background-action@main
+        with:
+          run: "PORT=${{ env.API_PORT }} node server.js &"
+          wait-on: "http://localhost:${{ env.API_PORT }}"
+          wait-for: "30s"
+          tail: true
+          log-output: "stderr,stdout" 
+          log-output-if: "failure"
+          working-directory: "packages/background-action"
+
+      - name: Run follow-up step (optional)
+        run: echo "✅ Background server with @main is running and ready!"
