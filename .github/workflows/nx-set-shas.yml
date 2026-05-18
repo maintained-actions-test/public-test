@@ -1,0 +1,32 @@
+name: nx-set-shas
+
+on:
+  workflow_dispatch:
+
+jobs:
+  nx-set-shas:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Derive appropriate SHAs for base and head
+        uses: step-security/nx-set-shas@release
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          main-branch-name: main
+
+      - name: Print SHAs
+        run: |
+          echo "NX_BASE: $NX_BASE"
+          echo "NX_HEAD: $NX_HEAD"
