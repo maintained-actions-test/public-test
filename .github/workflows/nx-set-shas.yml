@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Derive appropriate SHAs for base and head
-        uses: step-security/nx-set-shas@release
+        uses: step-security/nx-set-shas@main
         with:
           gh-token: ${{ secrets.GITHUB_TOKEN }}
           main-branch-name: main
