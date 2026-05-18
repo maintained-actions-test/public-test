@@ -1,0 +1,79 @@
+name: run-vcpkg
+
+on:
+  workflow_dispatch:
+    inputs:
+      action-tag:
+        description: "Tag for the action"
+        required: true
+        default: "main"
+
+permissions:
+  contents: read
+
+jobs:
+  run-vcpkg-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: testdata/run-vcpkg
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup vcpkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: step-security/dynamic-uses@v1
+        with:
+          uses: step-security/run-vcpkg@${{ github.event.inputs.action-tag }}
+          with: >
+            {
+              "vcpkgDirectory": "${{ github.workspace }}/testdata/run-vcpkg/vcpkg",
+              "runVcpkgInstall": "false",
+              "vcpkgGitCommitId": "8eb57355a4ffb410a2e94c07b4dca2dffbee8e50"
+            }
+
+      - name: Build and test C++ project
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          cmake --build .
+          ctest --output-on-failure
+
+  run-vcpkg-test-main:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: testdata/run-vcpkg
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup vcpkg (with @main)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: step-security/run-vcpkg@main
+        with:
+          vcpkgDirectory: ${{ github.workspace }}/testdata/run-vcpkg/vcpkg
+          runVcpkgInstall: false
+          vcpkgGitCommitId: "8eb57355a4ffb410a2e94c07b4dca2dffbee8e50"
+
+      - name: Build and test C++ project
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          cmake --build .
+          ctest --output-on-failure
