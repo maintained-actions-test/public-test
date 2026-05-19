@@ -3,21 +3,71 @@ on:
   workflow_dispatch:
 
 jobs:
-    setup-gradle:
-        runs-on: ubuntu-latest
-        steps:  
-            - name: setup-gradle
-              uses: step-security/gradle-actions/setup-gradle@main
+  setup-gradle-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
 
-    wrapper-validation:
-        runs-on: ubuntu-latest
-        steps:  
-            - name: wrapper-validation
-              uses: step-security/gradle-actions/wrapper-validation@main
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    dependency-submission:
-        runs-on: ubuntu-latest
-        steps:  
-            - name: dependency-submission
-              uses: step-security/gradle-actions/dependency-submission@main
+      - uses: actions/setup-java@v5
+        with:
+            distribution: temurin
+            java-version: 17
+
+      - name: setup-gradle
+        uses: step-security/gradle-actions/setup-gradle@main
+
+      - run: |
+          gradle --version
+  wrapper-validation-main:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gradle-project
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - uses: actions/setup-java@v5
+        with:
+            distribution: temurin
+            java-version: 17
+
+      - name: wrapper-validation
+        uses: step-security/gradle-actions/wrapper-validation@main
+    
+  dependency-submission-main:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gradle-project
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - uses: actions/setup-java@v5
+        with:
+            distribution: temurin
+            java-version: 17
+
+      - name: dependency-submission
+        uses: step-security/gradle-actions/dependency-submission@main
+        with:
+          dependency-graph: generate-and-upload
+          build-root-directory: gradle-project
                 
