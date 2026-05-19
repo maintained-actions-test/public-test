@@ -1,0 +1,13 @@
+name: actions-oidc-debugger
+on: 
+  workflow_dispatch:
+
+jobs:
+    oidc:
+        runs-on: ubuntu-latest
+        steps:
+            - name: oidc-check
+              uses: step-security/actions-oidc-debugger@main
+              with:
+                audience: https://github.com/step-security
+                
