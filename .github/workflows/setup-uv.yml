@@ -1,0 +1,17 @@
+name: setup-uv
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-uv-tests-main:
+    name: setup-uv
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup uv with dynamic uses
+        id: setup-uv
+        uses: step-security/setup-uv@main
