@@ -20,9 +20,9 @@ jobs:
         uses: step-security/docs-as-code-confluence@main
         with:
           folder: docs
-          username: 
-          password: 
-          confluence-base-url: 
-          space-key: 
-          parent-page-id: 
+          username: defwr
+          password: efwarg
+          confluence-base-url: wdeqf
+          space-key: def
+          parent-page-id: efrget
           
