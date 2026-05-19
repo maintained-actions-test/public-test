@@ -20,9 +20,9 @@ jobs:
         uses: step-security/docs-as-code-confluence@main
         with:
           folder: docs
-          username: ${{ secrets.CONFLUENCE_USERNAME }}
-          password: ${{ secrets.CONFLUENCE_API_TOKEN }}
-          confluence-base-url: ${{ secrets.CONFLUENCE_BASE_URL }}
-          space-key: ${{ secrets.CONFLUENCE_SPACE_KEY }}
-          parent-page-id: ${{ secrets.CONFLUENCE_PARENT_PAGE_ID }}
+          username: 
+          password: 
+          confluence-base-url: 
+          space-key: 
+          parent-page-id: 
           
