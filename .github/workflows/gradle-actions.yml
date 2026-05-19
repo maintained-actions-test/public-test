@@ -1,0 +1,23 @@
+name: gradle-actions
+on: 
+  workflow_dispatch:
+
+jobs:
+    setup-gradle:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: setup-gradle
+              uses: step-security/gradle-actions/setup-gradle@main
+
+    wrapper-validation:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: wrapper-validation
+              uses: step-security/gradle-actions/wrapper-validation@main
+
+    dependency-submission:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: dependency-submission
+              uses: step-security/gradle-actions/dependency-submission@main
+                
