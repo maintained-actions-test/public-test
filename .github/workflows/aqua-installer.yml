@@ -1,0 +1,23 @@
+name: aqua-installer
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install-aqua:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install Aqua
+        uses: step-security/aqua-installer@main
+        with:
+          aqua_version: v2.43.1
+
+      - run: aqua -v
