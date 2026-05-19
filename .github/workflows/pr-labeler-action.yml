@@ -1,0 +1,27 @@
+name: pr labeler action
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+
+permissions:
+  contents: read
+
+jobs:
+  pr-labeler:
+    permissions:
+      contents: read 
+      pull-requests: write 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      
+      - uses: step-security/pr-labeler-action@main
+        with:
+          repo-token: ${{ github.token }}
