@@ -5,8 +5,8 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
   issues: write
+  pull-requests: write
 
 jobs:
   remove-label:
@@ -17,7 +17,27 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: remove-label
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Get Pull Request Number
+        id: get-pr-number
+        run: |
+          PR_NUMBER=$(gh pr list --limit 1 --json number --jq '.[0].number' || echo "")
+          echo "pr-number=$PR_NUMBER" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Add-label
+        uses: step-security/action-add-labels@main
+        with:
+          labels: chore
+          github_token: ${{ github.token }}
+          number: ${{ steps.get-pr-number.outputs.pr-number }}
+
+      - name: Remove-label
         uses: step-security/action-remove-labels@main
         with:
           labels: chore
+          github_token: ${{ github.token }}
+          number: ${{ steps.get-pr-number.outputs.pr-number }}
