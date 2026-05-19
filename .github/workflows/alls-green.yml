@@ -1,0 +1,13 @@
+name: alls-green
+on: 
+  workflow_dispatch:
+
+jobs:
+    all-green:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: all-green
+              uses: step-security/alls-green@main
+              with:
+                jobs: ${{ toJson(needs) }}
+                
