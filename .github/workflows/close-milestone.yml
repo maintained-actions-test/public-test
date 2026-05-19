@@ -1,0 +1,70 @@
+name: "close-milestone"
+
+on:
+  workflow_dispatch:
+
+permissions:
+      issues: write
+jobs:
+  close-milestone-workflow-main:
+    runs-on: ubuntu-latest
+
+    env:
+      REPO: step-security/workflow-playground
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Random Milestone
+        run: |
+          MILESTONE_NAME="test-milestone-$RANDOM"
+          echo "MILESTONE_NAME=$MILESTONE_NAME" >> $GITHUB_ENV
+          gh milestone create "$MILESTONE_NAME" --repo "$REPO"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run close-milestone Action (with @main)
+        id: close-milestone
+        uses: step-security/close-milestone@main
+        with:
+          milestone_name: ${{ env.MILESTONE_NAME }}
+          crash_on_missing: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify Milestone Closure
+        id: verify
+        run: |
+          echo "⏳ Waiting for milestone closure to propagate..."
+          sleep 5
+
+          echo "🔍 Checking if milestone '${MILESTONE_NAME}' is closed..."
+
+          milestone_state=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${REPO}/milestones?state=all" | \
+            jq -r --arg name "$MILESTONE_NAME" '.[] | select(.title == $name) | .state')
+
+          echo "📌 State of milestone '$MILESTONE_NAME': ${milestone_state:-not found}"
+
+          if [[ -z "$milestone_state" ]]; then
+            echo "❌ Milestone '$MILESTONE_NAME' not found." >&2
+            exit 1
+          elif [[ "$milestone_state" != "closed" ]]; then
+            echo "❌ Milestone '$MILESTONE_NAME' is not closed. State: $milestone_state" >&2
+            exit 1
+          else
+            echo "✅ Milestone '$MILESTONE_NAME' is closed."
+          fi
+
+      - name: Summary
+        run: |
+          echo "Milestone Name: ${{ env.MILESTONE_NAME }}"
+          echo "Using @main branch directly"
