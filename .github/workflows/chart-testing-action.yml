@@ -21,7 +21,7 @@ jobs:
           python-version: "3.x"
           check-latest: true
       - name: Set up chart-testing
-        uses: step-security/chart-testing-action@release
+        uses: step-security/chart-testing-action@main
         with:
           version: "3.14.0"
       - name: Verify ct installation
