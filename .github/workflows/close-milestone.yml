@@ -8,6 +8,8 @@ permissions:
 jobs:
   close-milestone-workflow-main:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
 
     env:
       REPO: step-security/workflow-playground
@@ -25,7 +27,7 @@ jobs:
         run: |
           MILESTONE_NAME="test-milestone-$RANDOM"
           echo "MILESTONE_NAME=$MILESTONE_NAME" >> $GITHUB_ENV
-          gh milestone create "$MILESTONE_NAME" --repo "$REPO"
+          gh api repos/$REPO/milestones -f title="$MILESTONE_NAME"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
