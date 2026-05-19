@@ -20,6 +20,61 @@ jobs:
         with:
           ref: main
 
+  test-bazel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Test bazel action
+        uses: step-security/protobuf-ci/bazel@main
+        with:
+          credentials: ${{ secrets.GCP_CREDENTIALS }}
+          bazel-cache: test
+          bash: echo test
+
+  test-bash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Create minimal Bazel workspace structure
+        run: |
+          cat > WORKSPACE << 'EOF'
+          workspace(name = "test_workspace")
+          EOF
+
+          cat > BUILD << 'EOF'
+          # Minimal BUILD file for testing
+          EOF
+
+          mkdir -p csharp java/core upb/reflection cmake src/google/protobuf objectivec php ruby/ext/google/protobuf_c upb_generator
+          touch csharp/BUILD java/core/BUILD upb/reflection/BUILD cmake/BUILD src/BUILD
+          touch src/google/protobuf/BUILD objectivec/BUILD php/BUILD ruby/ext/google/protobuf_c/BUILD upb_generator/BUILD
+
+          cat > regenerate_stale_files.sh << 'EOF'
+          #!/bin/bash
+          echo "Skipping staleness tests for test environment"
+          exit 0
+          EOF
+          chmod +x regenerate_stale_files.sh
+
+      - name: Test bash action
+        uses: step-security/protobuf-ci/bash@main
+        with:
+          credentials: ${{ secrets.GCP_CREDENTIALS }}
+          command: echo "Test bash action - workflow passed"
+          bazel-version: "8.0.1"
+
   test-ccache:
     runs-on: ubuntu-latest
     steps:
@@ -52,3 +107,94 @@ jobs:
         with:
           cache-prefix: test
           directory: test
+
+  test-sccache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Test sccache action
+        uses: step-security/protobuf-ci/sccache@main
+        with:
+          credentials: ${{ secrets.GCP_CREDENTIALS }}
+          cache-prefix: test
+
+  test-bazel-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Test bazel-docker action
+        uses: step-security/protobuf-ci/bazel-docker@main
+        with:
+          credentials: ${{ secrets.GCP_CREDENTIALS }}
+          image: ubuntu:latest
+          bazel-cache: test
+          bash: echo test
+
+  test-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Test docker action
+        uses: step-security/protobuf-ci/docker@main
+        with:
+          credentials: ${{ secrets.GCP_CREDENTIALS }}
+          command: echo test
+          image: ubuntu:latest
+          skip-staleness-check: true
+
+  test-cross-compile-protoc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Create minimal Bazel workspace with protoc_static target
+        run: |
+          cat > MODULE.bazel << 'EOF'
+          module(name = "protobuf_test")
+          EOF
+
+          cat > WORKSPACE << 'EOF'
+          workspace(name = "protobuf_test")
+          EOF
+
+          cat > BUILD.bazel << 'EOF'
+          genrule(
+              name = "protoc_static",
+              outs = ["protoc"],
+              cmd = "echo '#!/bin/bash' > $@ && echo 'echo Mock protoc' >> $@ && chmod +x $@",
+          )
+          EOF
+
+          cat > .bazelrc << 'EOF'
+          build:linux-x86_64 --cpu=k8
+          EOF
+
+      - name: Test cross-compile-protoc action
+        uses: step-security/protobuf-ci/cross-compile-protoc@main
+        with:
+          credentials: ${{ secrets.GCP_CREDENTIALS }}
+          architecture: linux-x86_64
+          image: gcr.io/bazel-public/bazel:latest
