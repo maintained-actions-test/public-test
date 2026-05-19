@@ -1,0 +1,27 @@
+name: actions-find-and-replace-string
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Find and replace string
+        id: findandreplace
+        uses: step-security/actions-find-and-replace-string@main
+        with:
+          source: "I will"
+          find: "I"
+          replace: "they"
+
+      - name: Show output
+        run: echo "Result: ${{ steps.findandreplace.outputs.value }}"
