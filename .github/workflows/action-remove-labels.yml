@@ -1,0 +1,23 @@
+name: action-remove-labels
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  remove-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: remove-label
+        uses: step-security/action-remove-labels@main
+        with:
+          labels: chore
