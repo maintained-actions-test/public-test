@@ -27,7 +27,7 @@ jobs:
         run: |
           MILESTONE_NAME="test-milestone-$RANDOM"
           echo "MILESTONE_NAME=$MILESTONE_NAME" >> $GITHUB_ENV
-          gh api repos/$REPO/milestones -f title="$MILESTONE_NAME"
+          gh api -X POST repos/$GITHUB_REPOSITORY/milestones -f title="$MILESTONE_NAME"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
