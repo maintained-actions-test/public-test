@@ -1,0 +1,28 @@
+name: docs-as-code-confluence
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-docs-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Create sample docs
+        run: |
+          mkdir -p docs
+          echo "# Hello Confluence" > docs/README.md
+          echo "This page was published by GitHub Actions 🎉" >> docs/README.md
+
+      - name: Publish to Confluence using @main
+        uses: step-security/docs-as-code-confluence@main
+        with:
+          folder: docs
+          username: ${{ secrets.CONFLUENCE_USERNAME }}
+          password: ${{ secrets.CONFLUENCE_API_TOKEN }}
+          confluence-base-url: ${{ secrets.CONFLUENCE_BASE_URL }}
+          space-key: ${{ secrets.CONFLUENCE_SPACE_KEY }}
+          parent-page-id: ${{ secrets.CONFLUENCE_PARENT_PAGE_ID }}
+          
