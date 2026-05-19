@@ -1,0 +1,128 @@
+name: r-lib-actions
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  install-pandoc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install and print pandoc version
+        uses: step-security/r-lib-actions/setup-pandoc@main
+        with:
+          pandoc-version: latest
+
+      - run: pandoc --version
+
+  setup-tinytex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install tinytex and print tlmgr version
+        uses: step-security/r-lib-actions/setup-tinytex@main
+
+      - run: tlmgr --version
+      - run: tlmgr update --self
+      - run: tlmgr --version
+      - run: tlmgr install colortbl grfext ae
+
+  setup-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup R and Install packages using setup-manifest
+        uses: step-security/r-lib-actions/setup-manifest@main
+
+  setup-renv:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install from renv.lock
+        uses: step-security/r-lib-actions/setup-renv@main
+        with:
+          working-directory: .
+
+  install-R:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install and print R version
+        uses: step-security/r-lib-actions/setup-r@main
+        with:
+          r-version: latest
+
+  install-R-dependecies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install R dependencies
+        uses: step-security/r-lib-actions/setup-r-dependencies@main
+        with:
+          extra-packages: any::rcmdcheck
+          working-directory: .
+
+  Check-R-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Check R package
+        uses: step-security/r-lib-actions/check-r-package@main
+        with:
+          working-directory: .
+
+  PR-fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: step-security/r-lib-actions/pr-fetch@main
+        with:
+          repo-token: ${{ github.token }}
+
+  PR-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: step-security/r-lib-actions/pr-push@main
+        with:
+          repo-token: ${{ github.token }}
