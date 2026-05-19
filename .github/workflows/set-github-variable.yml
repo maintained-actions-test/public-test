@@ -21,4 +21,4 @@ jobs:
           name: TEST_VARIABLE_UPDATE
           value: "1"
           repository: maintained-actions-test/public-test
-          token: ${{ secrets.FINE_GRAINED_VARS_TOKEN }}
+          token: ${{ secrets.SET_GH_VARIABLE_TOKEN }}
