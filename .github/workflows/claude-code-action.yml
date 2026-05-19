@@ -1,0 +1,31 @@
+name: claude-code-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-claude-code:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code
+        id: claude
+        uses: step-security/claude-code-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
