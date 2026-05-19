@@ -3,14 +3,14 @@ on:
   workflow_dispatch:
 
 jobs:
-    oidc:
+    oidc-main:
         permissions:
             contents: read
             id-token: write
         runs-on: ubuntu-latest
         steps:
-            - name: oidc-check
+
+            - name: oidc-print
               uses: step-security/actions-oidc-debugger@main
-              with:
-                audience: https://github.com/step-security
-                
+              with: 
+                audience: "https://github.com/step-security"
