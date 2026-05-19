@@ -24,4 +24,5 @@ jobs:
           replace: "they"
 
       - name: Show output
-        run: echo "Result: ${{ steps.findandreplace.outputs.value }}"
+        run: |
+          echo "Result: ${{ steps.findandreplace.outputs.value }}"
