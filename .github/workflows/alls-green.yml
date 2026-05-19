@@ -1,13 +1,30 @@
+
 name: alls-green
-on: 
-  workflow_dispatch:
+
+on:
+    workflow_dispatch:
 
 jobs:
-    all-green:
+    succeeding:
         runs-on: ubuntu-latest
-        steps:  
-            - name: all-green
-              uses: step-security/alls-green@main
-              with:
-                jobs: ${{ toJson(needs) }}
-                
+        timeout-minutes: 2
+        steps:
+          - run: exit 0
+          
+    all-green-main:
+      needs:
+      - succeeding
+      if: always()
+      runs-on: ubuntu-latest
+      timeout-minutes: 2
+
+      steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit  
+
+      - name: all-green
+        uses: step-security/alls-green@main
+        with: 
+            jobs: ${{ toJson(needs) }}
