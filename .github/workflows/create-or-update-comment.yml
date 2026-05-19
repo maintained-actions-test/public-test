@@ -1,0 +1,33 @@
+name: create-or-update-comment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  create-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Get Pull Request Number
+        id: get-pr-number
+        run: |
+          PR_NUMBER=$(curl -sS -H "Authorization: token ${{ github.token }}" \
+            "${{ github.api_url }}/repos/${{ github.repository }}/pulls?state=open&per_page=1" \
+            | jq -r '.[0].number // empty')
+          echo "pr-number=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+      - name: comment
+        uses: step-security/create-or-update-comment@main
+        with:
+          issue-number: ${{ steps.get-pr-number.outputs.pr-number }}
+          body: "Comment created by create-or-update-comment workflow (run ${{ github.run_id }})"
+          reactions: "+1"
