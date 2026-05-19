@@ -51,7 +51,7 @@ jobs:
           milestone_state=$(curl -s \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${REPO}/milestones?state=all" | \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/milestones?state=all" | \
             jq -r --arg name "$MILESTONE_NAME" '.[] | select(.title == $name) | .state')
 
           echo "📌 State of milestone '$MILESTONE_NAME': ${milestone_state:-not found}"
