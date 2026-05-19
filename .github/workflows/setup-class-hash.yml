@@ -1,0 +1,21 @@
+name: setup-class-hash
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install-class-hash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup class hash
+        uses: step-security/setup-class-hash@main
+        with:
+          version: "v0.1.0"
