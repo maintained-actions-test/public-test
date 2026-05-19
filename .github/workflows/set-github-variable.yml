@@ -1,0 +1,24 @@
+name: set-github-variable
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update-gh-variable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Update GitHub variable
+        uses: step-security/set-github-variable@main
+        with:
+          name: TEST_VARIABLE_UPDATE
+          value: "1"
+          repository: maintained-actions-test/public-test
+          token: ${{ secrets.FINE_GRAINED_VARS_TOKEN }}
