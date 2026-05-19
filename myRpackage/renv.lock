@@ -13,22 +13,19 @@
       "Package": "stringr",
       "Version": "1.5.1",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "dummy-hash-stringr"
+      "Repository": "CRAN"
     },
     "glue": {
       "Package": "glue",
       "Version": "1.6.2",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "dummy-hash-glue"
+      "Repository": "CRAN"
     },
     "magrittr": {
       "Package": "magrittr",
       "Version": "2.0.3",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "dummy-hash-magrittr"
+      "Repository": "CRAN"
     }
   },
   "Metadata": {

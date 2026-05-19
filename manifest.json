@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "locale": "en_US",
+  "platform": "4.3.2",
+  "metadata": {
+    "appmode": "static",
+    "primary_rmd": null,
+    "primary_html": null,
+    "content_category": null,
+    "has_parameters": false
+  },
+  "packages": null,
+  "files": {}
+}
