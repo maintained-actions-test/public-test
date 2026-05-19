@@ -13,4 +13,4 @@ jobs:
             - name: oidc-print
               uses: step-security/actions-oidc-debugger@main
               with: 
-                audience: "https://github.com/step-security"
+                audience: "https://github.com/maintained-actions-test"
