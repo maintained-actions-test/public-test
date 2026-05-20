@@ -1,4 +1,4 @@
-name: action-markdown-lint
+name: action-markdownlint
 on: 
   workflow_dispatch:
 
