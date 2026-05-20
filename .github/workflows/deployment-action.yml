@@ -1,0 +1,16 @@
+name: deployment-action
+on: 
+  workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:  
+            - name: deploy
+              uses: step-security/deployment-action@main
+              with:
+                token: ${{ secrets.GITHUB_TOKEN }}
+                environment: test-main
+                environment-url: https://test-main.example.com
+                initial-status: success
+                description: Test deployment using main branch
