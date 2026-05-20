@@ -1,18 +1,25 @@
 name: dsanders11-project-actions
+
 on:
   workflow_dispatch:
+
 permissions:
   contents: read
   issues: write
+
 jobs:
-  integration:
-    name: All sub-actions chained (@release)
+  setup-issues:
+    name: setup - create test issues
     runs-on: ubuntu-latest
+    outputs:
+      url1: ${{ steps.setup.outputs.url1 }}
+      url2: ${{ steps.setup.outputs.url2 }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: Create test issues
-        id: setup-issues
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - id: setup
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -25,8 +32,18 @@ jobs:
           echo "Created: $url1 / $url2"
           echo "url1=$url1" >> "$GITHUB_OUTPUT"
           echo "url2=$url2" >> "$GITHUB_OUTPUT"
-      - name: Create source project (via gh CLI)
-        id: src-project
+
+  setup-source-project:
+    name: setup - create source project
+    runs-on: ubuntu-latest
+    outputs:
+      number: ${{ steps.create.outputs.number }}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - id: create
         env:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
         run: |
@@ -38,126 +55,309 @@ jobs:
           number=$(echo "$out" | jq -r '.number')
           echo "Source project number: $number"
           echo "number=$number" >> "$GITHUB_OUTPUT"
-      - name: github-script
-        uses: step-security/dsanders11-project-actions/github-script@release
+
+  github-script:
+    name: github-script
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/github-script@release
         with:
           script: core.info('hello from project-actions/github-script')
-      - name: get-project
-        id: get-project
+
+  get-project:
+    name: get-project
+    needs: setup-source-project
+    runs-on: ubuntu-latest
+    outputs:
+      title: ${{ steps.run.outputs.title }}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - id: run
         uses: step-security/dsanders11-project-actions/get-project@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.src-project.outputs.number }}
-      - name: find-project
-        uses: step-security/dsanders11-project-actions/find-project@release
+          project-number: ${{ needs.setup-source-project.outputs.number }}
+
+  find-project:
+    name: find-project
+    needs: get-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/find-project@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          title: ${{ steps.get-project.outputs.title }}
-      - name: find-workflow
-        id: find-workflow
+          title: ${{ needs.get-project.outputs.title }}
+
+  find-workflow:
+    name: find-workflow
+    needs: setup-source-project
+    runs-on: ubuntu-latest
+    outputs:
+      number: ${{ steps.run.outputs.number }}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - id: run
         uses: step-security/dsanders11-project-actions/find-workflow@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.src-project.outputs.number }}
+          project-number: ${{ needs.setup-source-project.outputs.number }}
           name: Item added to project
-      - name: get-workflow
-        uses: step-security/dsanders11-project-actions/get-workflow@release
+
+  get-workflow:
+    name: get-workflow
+    needs: [setup-source-project, find-workflow]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/get-workflow@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.src-project.outputs.number }}
-          number: ${{ steps.find-workflow.outputs.number }}
-      - name: copy-project
-        id: copy
+          project-number: ${{ needs.setup-source-project.outputs.number }}
+          number: ${{ needs.find-workflow.outputs.number }}
+
+  copy-project:
+    name: copy-project
+    needs: setup-source-project
+    runs-on: ubuntu-latest
+    outputs:
+      number: ${{ steps.run.outputs.number }}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - id: run
         uses: step-security/dsanders11-project-actions/copy-project@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.src-project.outputs.number }}
+          project-number: ${{ needs.setup-source-project.outputs.number }}
           title: throwaway-copy-${{ github.run_id }}
-      - name: edit-project
-        uses: step-security/dsanders11-project-actions/edit-project@release
+
+  edit-project:
+    name: edit-project
+    needs: copy-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/edit-project@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
+          project-number: ${{ needs.copy-project.outputs.number }}
           description: edited by workflow run ${{ github.run_id }}
-      - name: link-project
-        uses: step-security/dsanders11-project-actions/link-project@release
+
+  link-project:
+    name: link-project
+    needs: copy-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/link-project@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
+          project-number: ${{ needs.copy-project.outputs.number }}
           repository: ${{ github.repository }}
-      - name: add-item (archive target)
-        uses: step-security/dsanders11-project-actions/add-item@release
+
+  completed-by:
+    name: completed-by
+    needs: copy-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/completed-by@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
-          content-url: ${{ steps.setup-issues.outputs.url1 }}
-      - name: Wait for item to propagate
-        run: sleep 5
-      - name: get-item
-        uses: step-security/dsanders11-project-actions/get-item@release
+          project-number: ${{ needs.copy-project.outputs.number }}
+          field-value: Done
+
+  add-item-archive:
+    name: add-item (archive target)
+    needs: [copy-project, setup-issues]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/add-item@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
-          item: ${{ steps.setup-issues.outputs.url1 }}
-      - name: edit-item
-        uses: step-security/dsanders11-project-actions/edit-item@release
+          project-number: ${{ needs.copy-project.outputs.number }}
+          content-url: ${{ needs.setup-issues.outputs.url1 }}
+
+  get-item:
+    name: get-item
+    needs: [copy-project, setup-issues, add-item-archive]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/get-item@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
-          item: ${{ steps.setup-issues.outputs.url1 }}
+          project-number: ${{ needs.copy-project.outputs.number }}
+          item: ${{ needs.setup-issues.outputs.url1 }}
+
+  edit-item:
+    name: edit-item
+    needs: [copy-project, setup-issues, get-item]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/edit-item@release
+        with:
+          token: ${{ secrets.PROJECT_PAT }}
+          project-number: ${{ needs.copy-project.outputs.number }}
+          item: ${{ needs.setup-issues.outputs.url1 }}
           field: Status
           field-value: Done
-      - name: completed-by
-        uses: step-security/dsanders11-project-actions/completed-by@release
+
+  archive-item:
+    name: archive-item
+    needs: [copy-project, setup-issues, edit-item]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/archive-item@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
-          field-value: Done
-      - name: archive-item
-        uses: step-security/dsanders11-project-actions/archive-item@release
+          project-number: ${{ needs.copy-project.outputs.number }}
+          item: ${{ needs.setup-issues.outputs.url1 }}
+
+  add-item-delete:
+    name: add-item (delete target)
+    needs: [copy-project, setup-issues]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/add-item@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
-          item: ${{ steps.setup-issues.outputs.url1 }}
-      - name: add-item (delete target)
-        uses: step-security/dsanders11-project-actions/add-item@release
+          project-number: ${{ needs.copy-project.outputs.number }}
+          content-url: ${{ needs.setup-issues.outputs.url2 }}
+
+  delete-item:
+    name: delete-item
+    needs: [copy-project, setup-issues, add-item-delete]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/delete-item@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
-          content-url: ${{ steps.setup-issues.outputs.url2 }}
-      - name: Wait for item to propagate
-        run: sleep 5
-      - name: delete-item
-        uses: step-security/dsanders11-project-actions/delete-item@release
+          project-number: ${{ needs.copy-project.outputs.number }}
+          item: ${{ needs.setup-issues.outputs.url2 }}
+
+  close-project:
+    name: close-project
+    needs: [copy-project, archive-item, delete-item, edit-project, link-project, completed-by]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/close-project@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
-          item: ${{ steps.setup-issues.outputs.url2 }}
-      - name: close-project
-        uses: step-security/dsanders11-project-actions/close-project@release
-        with:
-          token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
+          project-number: ${{ needs.copy-project.outputs.number }}
           closed: "true"
-      - name: delete-project (action, copy)
-        if: always() && steps.copy.outputs.number != ''
-        uses: step-security/dsanders11-project-actions/delete-project@release
+
+  delete-project:
+    name: delete-project (cleanup copy)
+    needs: [copy-project, close-project]
+    if: always() && needs.copy-project.outputs.number != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - uses: step-security/dsanders11-project-actions/delete-project@release
         with:
           token: ${{ secrets.PROJECT_PAT }}
-          project-number: ${{ steps.copy.outputs.number }}
-      - name: Delete source project (gh CLI cleanup)
-        if: always() && steps.src-project.outputs.number != ''
+          project-number: ${{ needs.copy-project.outputs.number }}
+
+  cleanup:
+    name: cleanup (source project + issues)
+    needs:
+      - setup-issues
+      - setup-source-project
+      - github-script
+      - get-project
+      - find-project
+      - find-workflow
+      - get-workflow
+      - copy-project
+      - edit-project
+      - link-project
+      - completed-by
+      - add-item-archive
+      - get-item
+      - edit-item
+      - archive-item
+      - add-item-delete
+      - delete-item
+      - close-project
+      - delete-project
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - name: Delete source project
+        if: needs.setup-source-project.outputs.number != ''
         env:
           GH_TOKEN: ${{ secrets.PROJECT_PAT }}
         run: |
-          gh project delete "${{ steps.src-project.outputs.number }}" \
+          gh project delete "${{ needs.setup-source-project.outputs.number }}" \
             --owner "${{ github.repository_owner }}" || true
       - name: Close test issues
-        if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          [ -n "${{ steps.setup-issues.outputs.url1 }}" ] && \
-            gh issue close "${{ steps.setup-issues.outputs.url1 }}" --reason completed || true
-          [ -n "${{ steps.setup-issues.outputs.url2 }}" ] && \
-            gh issue close "${{ steps.setup-issues.outputs.url2 }}" --reason completed || true
+          [ -n "${{ needs.setup-issues.outputs.url1 }}" ] && \
+            gh issue close "${{ needs.setup-issues.outputs.url1 }}" --reason completed || true
+          [ -n "${{ needs.setup-issues.outputs.url2 }}" ] && \
+            gh issue close "${{ needs.setup-issues.outputs.url2 }}" --reason completed || true
