@@ -1,0 +1,32 @@
+name: create-or-update-pull-request-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-PR:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - run: date > datetime.txt
+
+      - name: create-PR
+        uses: step-security/create-or-update-pull-request-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          title: "Debug"
+          branch: "debug-issue-245"
+          commit-message: "debug"
+          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
