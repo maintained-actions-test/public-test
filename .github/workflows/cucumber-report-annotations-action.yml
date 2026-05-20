@@ -1,0 +1,65 @@
+name: cucumber-report-annotations-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  verify-cucumber:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Init project & install Cucumber
+        run: |
+          npm init -y
+          npm install --save-dev @cucumber/cucumber
+
+      - name: Create Cucumber files
+        run: |
+          mkdir -p features/step_definitions
+          echo '
+          Feature: Sample test
+            Scenario: Failing example
+              Given this step fails
+            Scenario: Passing example
+              Given this step passes
+          ' > features/test.feature
+          echo '
+          const { Given } = require("@cucumber/cucumber");
+          const assert = require("assert");
+          Given("this step fails", function () {
+            assert.fail("Intentional failure");
+          });
+          Given("this step passes", function () {
+            // no-op
+          });
+          ' > features/step_definitions/steps.js
+
+      - name: Run Cucumber and generate NDJSON report (allow failures)
+        run: |
+          npx cucumber-js --format message:cucumber-report.ndjson || true
+
+      - name: Annotate report
+        uses: step-security/cucumber-report-annotations-action@main
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          path: "cucumber-report.ndjson"
+          show-number-of-error-on-check-title: true
+          check-status-on-error: failure
+          annotation-status-on-error: failure
+          show-global-summary-report: true
