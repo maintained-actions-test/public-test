@@ -1,12 +1,36 @@
 name: action-add-labels
-on: 
+
+on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
-    add-label:
-        runs-on: ubuntu-latest
-        steps:  
-            - name: add-label
-              uses: step-security/action-add-labels@main
-              with:
-                labels: chore
+  add-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Get Pull Request Number
+        id: get-pr-number
+        run: |
+          PR_NUMBER=$(gh pr list --limit 1 --json number --jq '.[0].number' || echo "")
+          echo "pr-number=$PR_NUMBER" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Add-label
+        uses: step-security/action-add-labels@main
+        with:
+          labels: chore
+          github_token: ${{ github.token }}
+          number: ${{ steps.get-pr-number.outputs.pr-number }}
