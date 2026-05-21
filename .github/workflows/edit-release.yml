@@ -5,32 +5,68 @@ on:
 
 permissions:
   contents: write
+
 jobs:
-  edit-existing-release:
+  edit-existing-release-main:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Create markdown files to append
+        run: |
+          cat > changelog.md << 'EOF'
+          ## Changelog (main test)
+          - Example: Updated by workflow run ${{ github.run_id }}
+          EOF
+
+          cat > testcoverage.md << 'EOF'
+          ## Test Coverage (main test)
+          - Example: Coverage summary placeholder
+          EOF
+
+      - name: Get latest draft release
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          RELEASE="$(gh api "repos/${{ github.repository }}/releases" --jq '[.[] | select(.draft == true)] | first')"
+
+          if [ -z "$RELEASE" ] || [ "$RELEASE" = "null" ]; then
+            echo "❌ No draft release found"
+            exit 1
+          fi
+
+          RELEASE_ID="$(echo "$RELEASE" | jq -r '.id')"
+          TAG="$(echo "$RELEASE" | jq -r '.tag_name')"
+
+          echo "RELEASE_ID=$RELEASE_ID" >> "$GITHUB_OUTPUT"
+          echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
+
+          echo "Release tag: $TAG"
+          echo "Release ID:  $RELEASE_ID"
 
       - name: Edit release (keep as draft; do not publish)
         uses: step-security/edit-release@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
-          id: 123
-
-          # Keep it a draft so it never gets published by this workflow
-          draft: true
-
-          # Example edits (tweak as you like)
-          name: "Edited by workflow run ${{ github.run_id }}"
-          replacename: true
-
-          body: |
-            ✅ EditRelease workflow test run: ${{ github.run_id }}
-            - Repo: ${{ github.repository }}
-            - Actor: ${{ github.actor }}
-          replacebody: false
-
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: ${{ steps.get_release.outputs.RELEASE_ID }}
+          draft: "true"
+          name: "Edited by main test run ${{ github.run_id }}"
+          replacename: "true"
+          body: "✅ EditRelease @main test run: ${{ github.run_id }}\n- Repo: ${{ github.repository }}\n- Actor: ${{ github.actor }}"
+          replacebody: "false"
           files: "changelog.md,testcoverage.md"
-          spacing: 1
+          spacing: "1"
+
+      - name: Verify updated release fields
+        run: |
+          echo "Release URL: https://github.com/${{ github.repository }}/releases"
