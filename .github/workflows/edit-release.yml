@@ -1,0 +1,36 @@
+name: edit-release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+jobs:
+  edit-existing-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Edit release (keep as draft; do not publish)
+        uses: step-security/edit-release@main
+        with:
+          token: ${{ secrets.PROJECT_PAT }}
+          id: 123
+
+          # Keep it a draft so it never gets published by this workflow
+          draft: true
+
+          # Example edits (tweak as you like)
+          name: "Edited by workflow run ${{ github.run_id }}"
+          replacename: true
+
+          body: |
+            ✅ EditRelease workflow test run: ${{ github.run_id }}
+            - Repo: ${{ github.repository }}
+            - Actor: ${{ github.actor }}
+          replacebody: false
+
+          files: "changelog.md,testcoverage.md"
+          spacing: 1
