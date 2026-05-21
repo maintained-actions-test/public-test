@@ -1,0 +1,30 @@
+name: r-lib-actions-pr
+on:
+  [pull_request]
+  
+jobs:
+    pr-fetch_pr-push:
+        name: foo
+        runs-on: ubuntu-latest
+        permissions:
+          contents: write
+          pull-requests: write
+        steps:
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@rc
+              with:
+                egress-policy: audit
+
+            - uses: actions/checkout@v4
+            - uses: step-security/r-lib-actions/pr-fetch@main
+              with:
+                repo-token: ${{ secrets.GITHUB_TOKEN }}
+            - run: |
+                echo "hello" >> foo
+                git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                git config --global user.name "github-actions[bot]"
+                git add .
+                git commit -m 'foo added' --author 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
+            - uses: step-security/r-lib-actions/pr-push@main
+              with:
+               repo-token: ${{ secrets.GITHUB_TOKEN }}
