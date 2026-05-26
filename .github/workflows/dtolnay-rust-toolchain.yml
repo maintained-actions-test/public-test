@@ -1,0 +1,21 @@
+name: dtolnay-rust-toolchain
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install-rust-toolchain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install Rust Toolchain
+        uses: step-security/dtolnay-rust-toolchain@release
+        with:
+          toolchain: stable
