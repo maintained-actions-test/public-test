@@ -1,0 +1,19 @@
+name: setup-nuget
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-nuget-main:
+    name: Setup NuGet (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup NuGet.exe
+        uses: step-security/setup-nuget@release
+        with:
+          nuget-version: "latest"
+      - name: Verify nuget is on PATH
+        run: nuget help | head -n 5
