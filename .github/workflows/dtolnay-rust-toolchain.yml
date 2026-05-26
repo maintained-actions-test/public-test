@@ -16,6 +16,6 @@ jobs:
           egress-policy: audit
 
       - name: Install Rust Toolchain
-        uses: step-security/dtolnay-rust-toolchain@release
+        uses: step-security/dtolnay-rust-toolchain@main
         with:
           toolchain: stable
