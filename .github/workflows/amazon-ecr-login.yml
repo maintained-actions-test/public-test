@@ -18,6 +18,6 @@ jobs:
 
       - name: Login to Amazon ECR Public
         id: login-ecr
-        uses: step-security/amazon-ecr-login@release
+        uses: step-security/amazon-ecr-login@main
         with:
           registry-type: public
