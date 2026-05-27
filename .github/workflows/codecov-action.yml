@@ -1,0 +1,38 @@
+name: codecov-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codecov:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install test deps
+        run: pip install pytest pytest-cov
+
+      - name: Run tests with coverage
+        working-directory: testdata/codecov-action
+        run: python -m pytest --cov=. --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: step-security/codecov-action@release
+        with:
+          dry_run: true
+          files: ./testdata/codecov-action/coverage.xml
+          token: any
