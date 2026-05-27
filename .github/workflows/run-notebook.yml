@@ -1,0 +1,24 @@
+name: run-notebook
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run notebook
+        uses: step-security/run-notebook@main
+        with:
+          databricks-host: https://example.cloud.databricks.com
+          databricks-token: any
+          workspace-notebook-path: /Users/test@example.com/test-notebook
+          existing-cluster-id: any
