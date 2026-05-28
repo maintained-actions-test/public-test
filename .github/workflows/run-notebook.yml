@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Run notebook
-        uses: step-security/run-notebook@release
+        uses: step-security/run-notebook@main
         with:
           databricks-host: https://example.cloud.databricks.com
           databricks-token: any
