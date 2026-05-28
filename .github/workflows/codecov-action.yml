@@ -31,7 +31,7 @@ jobs:
         run: python -m pytest --cov=. --cov-report=xml
 
       - name: Upload coverage to Codecov
-        uses: step-security/codecov-action@release
+        uses: step-security/codecov-action@main
         with:
           dry_run: true
           files: ./testdata/codecov-action/coverage.xml
