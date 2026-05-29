@@ -1,0 +1,20 @@
+name: action-shellcheck
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  shellcheck-main:
+    name: ShellCheck (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run ShellCheck
+        uses: step-security/action-shellcheck@release
+        with:
+          scandir: "./testdata2"
+          severity: "error"
+          format: "gcc"
+          check_together: "yes"
