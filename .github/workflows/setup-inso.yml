@@ -1,0 +1,24 @@
+name: setup-inso
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-inso:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup inso
+        uses: step-security/setup-inso@release
+        with:
+          inso-version: '10.3.1'
+
+      - name: Check inso version
+        run: inso --version
