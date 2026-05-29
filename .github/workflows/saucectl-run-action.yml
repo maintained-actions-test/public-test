@@ -1,0 +1,20 @@
+name: saucectl-run-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  saucectl-run-main:
+    name: Saucectl Run (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run Saucectl
+        uses: step-security/saucectl-run-action@release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          saucectl-version: "latest"
+          skip-run: "true"
