@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Saucectl
-        uses: step-security/saucectl-run-action@release
+        uses: step-security/saucectl-run-action@main
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
