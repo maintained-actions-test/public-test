@@ -1,0 +1,26 @@
+name: npm-publish
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  npm-publish-main:
+    name: NPM Publish (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+      - name: Publish to NPM
+        uses: step-security/npm-publish@release
+        with:
+          token: "dummy-token-for-dry-run"
+          package: "package.json"
+          dry-run: "true"
+          strategy: "all"
