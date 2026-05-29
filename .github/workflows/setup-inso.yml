@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Setup inso
-        uses: step-security/setup-inso@release
+        uses: step-security/setup-inso@main
         with:
           inso-version: '10.3.1'
 
