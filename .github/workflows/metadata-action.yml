@@ -1,0 +1,29 @@
+name: metadata-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  metadata-action-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker meta
+        id: meta
+        uses: step-security/metadata-action@release
+        with:
+          images: ghcr.io/step-security/action-slack-notify
+          tags: |
+            type=ref,event=branch
+            type=sha
+          github-token: ${{ secrets.GITHUB_TOKEN }}
