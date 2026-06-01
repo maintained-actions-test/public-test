@@ -18,7 +18,7 @@ jobs:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
       - name: Publish to NPM
-        uses: step-security/npm-publish@release
+        uses: step-security/npm-publish@main
         with:
           token: "dummy-token-for-dry-run"
           package: "package.json"
