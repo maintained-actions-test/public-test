@@ -31,4 +31,5 @@ jobs:
           password: rNrKYTX9g7z3RgJRmxWuGHbeu
           local-dir: upload/
           server-dir: /
+          dry-run: true
           log-level: verbose
