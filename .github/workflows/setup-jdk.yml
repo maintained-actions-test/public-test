@@ -1,0 +1,27 @@
+name: setup-jdk
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-jdk-main:
+    name: Setup JDK (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup JDK
+        uses: step-security/setup-jdk@release
+        with:
+          java-version: "11"
+          java-package: "jdk"
+          architecture: "x64"
+          release_type: "ga"
+          openjdk_impl: "hotspot"
+          release: "latest"
+      - name: Verify Java installation
+        run: |
+          java -version
+          javac -version
+          echo "JAVA_HOME=$JAVA_HOME"
