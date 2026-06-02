@@ -27,10 +27,10 @@ jobs:
           env: smoke-test-public-${{ github.run_id }}
           desc: Smoke test from public-test
 
-      - name: Delete deployment environment
+      - name: Deactivate deployment environment
         if: always()
         uses: step-security/bobheadxi-deployments@release
         with:
-          step: delete-env
+          step: deactivate-env
           token: ${{ secrets.GITHUB_TOKEN }}
           env: smoke-test-public-${{ github.run_id }}
