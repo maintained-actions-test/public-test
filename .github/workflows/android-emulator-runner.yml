@@ -1,0 +1,35 @@
+name: android-emulator-runner
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  android-emulator-runner-main:
+    name: Android Emulator Runner (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run emulator
+        uses: step-security/android-emulator-runner@release
+        with:
+          api-level: "29"
+          target: "default"
+          arch: "x86_64"
+          profile: "pixel_7_pro"
+          avd-name: "test-avd"
+          force-avd-creation: "true"
+          emulator-boot-timeout: "600"
+          emulator-port: "5554"
+          emulator-options: "-no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim"
+          disable-animations: "true"
+          disable-spellchecker: "false"
+          enable-hw-keyboard: "false"
+          channel: "stable"
+          script: "echo 'Emulator is running' && adb devices"
