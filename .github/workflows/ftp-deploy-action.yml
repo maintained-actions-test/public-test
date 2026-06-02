@@ -24,7 +24,7 @@ jobs:
           echo "Hello from GitHub Actions" > upload/test.txt
 
       - name: FTP Deploy
-        uses: step-security/ftp-deploy-action@release
+        uses: step-security/ftp-deploy-action@main
         with:
           server: ftp.dlptest.com
           username: dlpuser
