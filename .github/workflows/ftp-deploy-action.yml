@@ -26,9 +26,9 @@ jobs:
       - name: FTP Deploy
         uses: step-security/ftp-deploy-action@release
         with:
-          server: test.rebex.net
-          username: demo
-          password: password
+          server: speedtest.tele2.net
+          username: anonymous
+          password: anonymous
           local-dir: upload/
-          server-dir: upload/
+          server-dir: /
           log-level: verbose
