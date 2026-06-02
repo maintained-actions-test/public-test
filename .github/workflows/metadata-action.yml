@@ -20,7 +20,7 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: step-security/metadata-action@release
+        uses: step-security/metadata-action@main
         with:
           images: ghcr.io/step-security/action-slack-notify
           tags: |
