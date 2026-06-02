@@ -1,0 +1,28 @@
+name: bobheadxi-deployments
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  start-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Start deployment
+        uses: step-security/bobheadxi-deployments@release
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: smoke-test-public-${{ github.run_id }}
+          desc: Smoke test from public-test
