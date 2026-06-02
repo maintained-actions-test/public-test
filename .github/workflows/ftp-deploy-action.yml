@@ -1,0 +1,34 @@
+name: ftp-deploy-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create file to upload
+        run: |
+          mkdir -p upload/
+          echo "Hello from GitHub Actions" > upload/test.txt
+
+      - name: FTP Deploy
+        uses: step-security/ftp-deploy-action@release
+        with:
+          server: test.rebex.net
+          username: demo
+          password: password
+          local-dir: upload/
+          server-dir: /
+          log-level: verbose
