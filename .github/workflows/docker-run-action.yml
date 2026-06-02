@@ -1,0 +1,22 @@
+name: docker-run-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-in-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run command in container
+        uses: step-security/docker-run-action@release
+        with:
+          image: alpine:3.21
+          run: echo "Hello from docker-run-action (public-test)"
