@@ -26,3 +26,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           env: smoke-test-public-${{ github.run_id }}
           desc: Smoke test from public-test
+
+      - name: Delete deployment environment
+        if: always()
+        uses: step-security/bobheadxi-deployments@release
+        with:
+          step: delete-env
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: smoke-test-public-${{ github.run_id }}
