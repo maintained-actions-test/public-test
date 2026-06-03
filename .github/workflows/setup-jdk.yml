@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup JDK
-        uses: step-security/setup-jdk@release
+        uses: step-security/setup-jdk@main
         with:
           java-version: "11"
           java-package: "jdk"
