@@ -1,0 +1,49 @@
+name: xcresulttool
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  checks: write
+jobs:
+  xcresulttool-main:
+    name: xcresulttool (main)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Create Swift package with tests
+        run: |
+          mkdir -p XCResultSample && cd XCResultSample
+          swift package init --type library --name XCResultSample
+          cat > Tests/XCResultSampleTests/XCResultSampleTests.swift <<'EOF'
+          import XCTest
+          @testable import XCResultSample
+
+          final class XCResultSampleTests: XCTestCase {
+              func testExample() throws {
+                  XCTAssertEqual(1 + 1, 2)
+              }
+
+              func testAnother() throws {
+                  XCTAssertTrue(true)
+              }
+          }
+          EOF
+      - name: Generate xcresult bundle
+        working-directory: XCResultSample
+        run: |
+          xcodebuild test \
+            -scheme XCResultSample \
+            -destination 'platform=macOS' \
+            -resultBundlePath TestResults
+        continue-on-error: true
+      - name: Publish xcresult report
+        uses: step-security/xcresulttool@release
+        if: success() || failure()
+        with:
+          path: "XCResultSample/TestResults.xcresult"
+          title: "Xcode test results (main)"
+          show-passed-tests: "true"
+          show-code-coverage: "true"
+          upload-bundles: "always"
