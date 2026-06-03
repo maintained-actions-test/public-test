@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Create OpsGenie alert
-        uses: step-security/create-opsgenie-alert-action@release
+        uses: step-security/create-opsgenie-alert-action@main
         with:
           api_key: 00000000-0000-0000-0000-000000000000
           message: "Smoke test alert from public-test"
