@@ -1,0 +1,22 @@
+name: databricks-setup-cli
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install Databricks CLI
+        uses: step-security/databricks-setup-cli@release
+
+      - name: Confirm CLI is callable
+        run: databricks version
