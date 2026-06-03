@@ -17,7 +17,7 @@ jobs:
 
       - name: Create GitHub App Token
         id: create_token
-        uses: step-security/github-app-token@release
+        uses: step-security/github-app-token@main
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
