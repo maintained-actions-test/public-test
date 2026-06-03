@@ -1,0 +1,34 @@
+name: github-app-token
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  create-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Create GitHub App Token
+        id: create_token
+        uses: step-security/github-app-token@release
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Verify token is masked
+        run: |
+          if [ -n "$TOKEN" ]; then
+            echo "Token was created successfully (length: ${#TOKEN})"
+          else
+            echo "Token is empty!"
+            exit 1
+          fi
+        env:
+          TOKEN: ${{ steps.create_token.outputs.token }}
