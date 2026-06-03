@@ -83,7 +83,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Merge per-platform images into multi-arch manifest
-        uses: step-security/devcontainers-ci/merge@main
+        uses: step-security/devcontainers-ci/merge@release
         with:
           imageName: ${{ env.IMAGE_NAME }}
           imageTag: ${{ env.IMAGE_TAG_MAIN }}
