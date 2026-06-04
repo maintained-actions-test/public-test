@@ -33,7 +33,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push devcontainer (linux/amd64)
-        uses: step-security/devcontainers-ci@release
+        uses: step-security/devcontainers-ci@main
         with:
           imageName: ${{ env.IMAGE_NAME }}
           imageTag: ${{ env.IMAGE_TAG_MAIN }}
@@ -64,7 +64,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push devcontainer (linux/arm64)
-        uses: step-security/devcontainers-ci@release
+        uses: step-security/devcontainers-ci@main
         with:
           imageName: ${{ env.IMAGE_NAME }}
           imageTag: ${{ env.IMAGE_TAG_MAIN }}
@@ -83,7 +83,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Merge per-platform images into multi-arch manifest
-        uses: step-security/devcontainers-ci/merge@release
+        uses: step-security/devcontainers-ci/merge@main
         with:
           imageName: ${{ env.IMAGE_NAME }}
           imageTag: ${{ env.IMAGE_TAG_MAIN }}
