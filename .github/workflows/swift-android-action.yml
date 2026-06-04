@@ -19,7 +19,7 @@ jobs:
           repository: apple/swift-algorithms
           path: apple/swift-algorithms
       - name: Test apple/swift-algorithms
-        uses: step-security/swift-android-action@release
+        uses: step-security/swift-android-action@main
         with:
           package-path: apple/swift-algorithms
           swift-version: ${{ matrix.swift-version }}
