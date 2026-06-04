@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Run command in container
-        uses: step-security/docker-run-action@release
+        uses: step-security/docker-run-action@main
         with:
           image: alpine:3.21
           run: echo "Hello from docker-run-action (public-test)"
