@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Install Databricks CLI
-        uses: step-security/databricks-setup-cli@release
+        uses: step-security/databricks-setup-cli@main
 
       - name: Confirm CLI is callable
         run: databricks version
