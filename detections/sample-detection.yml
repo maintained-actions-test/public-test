@@ -1,7 +1,3 @@
 name: Sample Detection Rule
 description: A sample detection rule for testing the detection sync action
-query: |
-  SELECT *
-  FROM logs
-  WHERE severity = 'high'
-  LIMIT 100
+query_file: sample-detection.sql
