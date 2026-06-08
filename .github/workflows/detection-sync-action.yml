@@ -1,0 +1,26 @@
+name: detection-sync-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  detection-sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync detections (dry-run)
+        uses: step-security/detection-sync-action@release
+        with:
+          token: ${{ secrets.RUNREVEAL_TOKEN }}
+          workspace: ${{ vars.RUNREVEAL_WORKSPACE }}
+          directory: ./detections
+          dry-run: "true"
