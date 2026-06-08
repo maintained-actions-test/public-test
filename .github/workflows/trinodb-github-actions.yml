@@ -9,8 +9,8 @@ permissions:
   pull-requests: write
 jobs:
   # action-surefire-report
-  surefire-report-release:
-    name: Surefire Report (release)
+  surefire-report-main:
+    name: Surefire Report (main)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,15 +30,15 @@ jobs:
             go test -v 2>&1 ./... |
             go-junit-report -out report.xml
       - name: Surefire Report
-        uses: step-security/trinodb-github-actions/action-surefire-report@release
+        uses: step-security/trinodb-github-actions/action-surefire-report@main
         with:
-          check_name: "Trino Surefire Report (release)"
+          check_name: "Trino Surefire Report (main)"
           report_paths: "integration-tests/go/report.xml"
           fail_on_test_failures: "false"
           fail_if_no_tests: "false"
   # block-commits (only runs on pull_request — action requires PR context)
-  block-commits-release:
-    name: Block Commits (release)
+  block-commits-main:
+    name: Block Commits (main)
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
@@ -48,37 +48,37 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Block Commits
-        uses: step-security/trinodb-github-actions/block-commits@release
+        uses: step-security/trinodb-github-actions/block-commits@main
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           action-merge: none
           action-fixup: none
   # checkout-and-setup
-  checkout-and-setup-release:
-    name: Checkout and Setup (release)
+  checkout-and-setup-main:
+    name: Checkout and Setup (main)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout and Setup
-        uses: step-security/trinodb-github-actions/checkout-and-setup@release
+        uses: step-security/trinodb-github-actions/checkout-and-setup@main
         with:
           java-version: 17
           cache: ""
   # github-app-token
-  github-app-token-release:
-    name: GitHub App Token (release)
+  github-app-token-main:
+    name: GitHub App Token (main)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Generate App Token
         continue-on-error: true
-        uses: step-security/trinodb-github-actions/github-app-token@release
+        uses: step-security/trinodb-github-actions/github-app-token@main
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
   # slash-command-dispatch (only runs on issue_comment — action requires that context)
-  slash-command-dispatch-release:
-    name: Slash Command Dispatch (release)
+  slash-command-dispatch-main:
+    name: Slash Command Dispatch (main)
     if: github.event_name == 'issue_comment'
     runs-on: ubuntu-latest
     steps:
@@ -86,7 +86,7 @@ jobs:
         uses: actions/checkout@v6
       - name: Slash Command Dispatch
         continue-on-error: true
-        uses: step-security/trinodb-github-actions/slash-command-dispatch@release
+        uses: step-security/trinodb-github-actions/slash-command-dispatch@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commands: test
