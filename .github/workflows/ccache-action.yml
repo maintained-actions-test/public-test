@@ -1,0 +1,49 @@
+name: ccache-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ccache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Set up ccache
+        uses: step-security/ccache-action@release
+
+      - name: Create C source fixture
+        run: |
+          cat > smoke.c <<'EOF'
+          #include <stdio.h>
+          int main(void) { printf("ccache smoke test\n"); return 0; }
+          EOF
+
+      - name: Compile twice through ccache (verify install + cache hit)
+        run: |
+          ccache --version
+          ccache --zero-stats >/dev/null
+
+          ccache gcc smoke.c -o smoke_a
+          ./smoke_a
+
+          ccache gcc smoke.c -o smoke_b
+          ./smoke_b
+
+          echo "--- ccache stats ---"
+          ccache -s
+
+          # Sum direct + preprocessed cache hits; must be >= 1 after second compile.
+          hits=$(ccache --print-stats \
+            | awk -F'\t' '$1 == "direct_cache_hit" || $1 == "preprocessed_cache_hit" {s+=$2} END {print s+0}')
+          if [ "$hits" -lt 1 ]; then
+            echo "Expected at least one cache hit, got $hits"
+            exit 1
+          fi
+          echo "✓ ccache registered $hits cache hit(s)"
