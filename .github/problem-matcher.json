@@ -4,12 +4,8 @@
       "owner": "trinodb-stub",
       "pattern": [
         {
-          "regexp": "^$",
-          "file": 1,
-          "line": 2,
-          "column": 3,
-          "severity": 4,
-          "message": 5
+          "regexp": "^STUB_PROBLEM_MATCHER_NEVER_MATCH_(.+)$",
+          "message": 1
         }
       ]
     }
