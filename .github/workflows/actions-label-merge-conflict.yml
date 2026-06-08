@@ -1,0 +1,109 @@
+name: actions-label-merge-conflict
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  label-conflict:
+    runs-on: ubuntu-latest
+    env:
+      DIRTY_LABEL: smoke-test-merge-conflict
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Create conflicting PR
+        id: setup
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          SUFFIX=$(date +%s)
+          BASE="conflict-base-$SUFFIX"
+          HEAD="conflict-head-$SUFFIX"
+
+          git checkout -b "$BASE"
+          echo "shared content v0" > merge-conflict-fixture.txt
+          git add merge-conflict-fixture.txt
+          git commit -m "smoke: setup fixture"
+          git push origin "$BASE"
+
+          git checkout -b "$HEAD" "$BASE"
+          echo "HEAD branch change" > merge-conflict-fixture.txt
+          git commit -am "smoke: head branch change"
+          git push origin "$HEAD"
+
+          git checkout "$BASE"
+          echo "BASE branch divergent change" > merge-conflict-fixture.txt
+          git commit -am "smoke: base branch change (creates conflict)"
+          git push origin "$BASE"
+
+          PR_URL=$(gh pr create \
+            --base "$BASE" --head "$HEAD" \
+            --title "smoke test: label-merge-conflict ($SUFFIX)" \
+            --body "Auto-generated test PR — should be labeled '$DIRTY_LABEL'")
+          PR_NUM=$(basename "$PR_URL")
+
+          # Wait for GitHub to compute mergeable status
+          for i in 1 2 3 4 5 6; do
+            STATUS=$(gh pr view "$PR_NUM" --json mergeable -q .mergeable)
+            echo "  attempt $i: mergeable=$STATUS"
+            [ "$STATUS" = "CONFLICTING" ] && break
+            sleep 5
+          done
+
+          echo "pr_num=$PR_NUM"  >> "$GITHUB_OUTPUT"
+          echo "base=$BASE"      >> "$GITHUB_OUTPUT"
+          echo "head=$HEAD"      >> "$GITHUB_OUTPUT"
+
+      - name: Run actions-label-merge-conflict (@release)
+        uses: step-security/actions-label-merge-conflict@release
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          dirtyLabel: ${{ env.DIRTY_LABEL }}
+
+      - name: Verify label applied
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUM: ${{ steps.setup.outputs.pr_num }}
+        run: |
+          set -e
+          LABELS=$(gh pr view "$PR_NUM" --json labels -q '.labels[].name')
+          echo "Labels on PR #$PR_NUM:"
+          echo "$LABELS"
+          if ! echo "$LABELS" | grep -qx "$DIRTY_LABEL"; then
+            echo "✗ Expected label '$DIRTY_LABEL' not found"
+            exit 1
+          fi
+          echo "✓ Label '$DIRTY_LABEL' applied to PR #$PR_NUM"
+
+      - name: Cleanup
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUM: ${{ steps.setup.outputs.pr_num }}
+          BASE: ${{ steps.setup.outputs.base }}
+          HEAD: ${{ steps.setup.outputs.head }}
+        run: |
+          [ -n "$PR_NUM" ] && gh pr close "$PR_NUM" --delete-branch 2>/dev/null || true
+          [ -n "$BASE" ] && git push origin --delete "$BASE" 2>/dev/null || true
+          [ -n "$HEAD" ] && git push origin --delete "$HEAD" 2>/dev/null || true
+          gh label delete "$DIRTY_LABEL" --yes 2>/dev/null || true
+          echo "cleanup done"
