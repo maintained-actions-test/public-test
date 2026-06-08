@@ -1,0 +1,62 @@
+name: sonarqube-quality-gate-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Start mock SonarQube server
+        run: |
+          python3 -u <<'PYEOF' >/tmp/mock.log 2>&1 &
+          import json
+          from http.server import HTTPServer, BaseHTTPRequestHandler
+          class H(BaseHTTPRequestHandler):
+              def do_GET(self):
+                  self.send_response(200)
+                  self.send_header('Content-Type', 'application/json')
+                  self.end_headers()
+                  if '/api/ce/task' in self.path:
+                      payload = {'task': {'status': 'SUCCESS', 'analysisId': 'smoke'}}
+                  elif '/api/qualitygates/project_status' in self.path:
+                      payload = {'projectStatus': {'status': 'OK'}}
+                  else:
+                      payload = {}
+                  self.wfile.write(json.dumps(payload).encode())
+              def log_message(self, *a): pass
+          HTTPServer(('127.0.0.1', 9000), H).serve_forever()
+          PYEOF
+          for _ in $(seq 1 10); do
+            curl -sf http://127.0.0.1:9000/ -o /dev/null && break
+            sleep 1
+          done
+
+      - name: Create scannerwork metadata
+        run: |
+          mkdir -p .scannerwork
+          cat > .scannerwork/report-task.txt <<'EOF'
+          serverUrl=http://127.0.0.1:9000
+          ceTaskUrl=http://127.0.0.1:9000/api/ce/task?id=smoke
+          dashboardUrl=http://127.0.0.1:9000/dashboard?id=smoke
+          EOF
+
+      - name: Run SonarQube Quality Gate
+        id: qg
+        uses: step-security/sonarqube-quality-gate-action@release
+        env:
+          SONAR_TOKEN: any
+
+      - name: Verify PASSED output
+        run: |
+          actual='${{ steps.qg.outputs.quality-gate-status }}'
+          [ "$actual" = "PASSED" ] || { echo "expected PASSED, got '$actual'"; exit 1; }
+          echo "✓ quality-gate-status = PASSED"
