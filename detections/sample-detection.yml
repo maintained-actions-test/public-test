@@ -1,3 +1,4 @@
-name: Sample Detection Rule
+name: Sample-Detection-Rule
 description: A sample detection rule for testing the detection sync action
 file: sample-detection.sql
+schedule: "*/15 * * * *"
