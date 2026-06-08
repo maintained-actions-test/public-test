@@ -1,133 +1,98 @@
-name: runs-on-cache
-
+name: trinodb-github-actions
 on:
-  workflow_dispatch:
-    inputs:
-      action-tag:
-        required: true
-        default: main
-
+  pull_request:
+  issue_comment:
+    types: [created]
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
 jobs:
-  save-cache:
-    name: Save Test Cache
+  # action-surefire-report
+  surefire-report-release:
+    name: Surefire Report (release)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: 1.21.x
+      - name: Generate test report
+        run: |
+          cd integration-tests/go &&
+            go install github.com/jstemmer/go-junit-report/v2@latest &&
+            go test -v 2>&1 ./... |
+            go-junit-report -out report.xml
+      - name: Surefire Report
+        uses: step-security/trinodb-github-actions/action-surefire-report@release
+        with:
+          check_name: "Trino Surefire Report (release)"
+          report_paths: "integration-tests/go/report.xml"
+          fail_on_test_failures: "false"
+          fail_if_no_tests: "false"
+  # block-commits (only runs on pull_request — action requires PR context)
+  block-commits-release:
+    name: Block Commits (release)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Block Commits
+        uses: step-security/trinodb-github-actions/block-commits@release
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          action-merge: none
+          action-fixup: none
+  # checkout-and-setup
+  checkout-and-setup-release:
+    name: Checkout and Setup (release)
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Harden Runner
-        uses: step-security/harden-runner@rc
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Ensure git-fetch-base-ref.sh is executable
+        run: chmod +x .github/bin/git-fetch-base-ref.sh
+      - name: Checkout and Setup
+        uses: step-security/trinodb-github-actions/checkout-and-setup@release
         with:
-          egress-policy: audit
-
-      - name: Create test files in repo folder
-        run: |
-          mkdir -p test-cache
-          echo "Hello from workspace" > test-cache/hello.txt
-          curl -o test-cache/ubuntu.iso https://releases.ubuntu.com/jammy/ubuntu-22.04.3-live-server-amd64.iso
-
-      - name: Create test files outside workspace
-        run: |
-          mkdir -p ~/test-cache
-          echo "Hello from home dir" > ~/test-cache/home.txt
-
-      - name: Save cache
-        uses: step-security/dynamic-uses@v1
-        with:
-          uses: step-security/runs-on-cache@${{ github.event.inputs.action-tag }}
-          with: >
-            {
-              "key": "playground-test-${{ github.run_id }}",
-              "path": "test-cache\n~/test-cache"
-            }
-
-  restore-cache:
-    name: Restore and Verify
-    needs: save-cache
+          java-version: 17
+          cache: ""
+  # github-app-token
+  github-app-token-release:
+    name: GitHub App Token (release)
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Harden Runner
-        uses: step-security/harden-runner@rc
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Generate App Token
+        continue-on-error: true
+        uses: step-security/trinodb-github-actions/github-app-token@release
         with:
-          egress-policy: audit
-
-      - name: Restore cache
-        uses: step-security/dynamic-uses@v1
-        with:
-          uses: step-security/runs-on-cache@${{ github.event.inputs.action-tag }}
-          with: >
-            {
-              "key": "playground-test-${{ github.run_id }}",
-              "restore-keys": "playground-test-",
-              "path": "test-cache\n~/test-cache"
-            }
-
-      - name: Verify restored files
-        run: |
-          echo "📦 Checking test-cache"
-          ls -lh test-cache
-          echo "📦 Checking ~/test-cache"
-          ls -lh ~/test-cache
-
-  save-cache-main:
-    name: Save Test Cache with @main
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+  # slash-command-dispatch (only runs on issue_comment — action requires that context)
+  slash-command-dispatch-release:
+    name: Slash Command Dispatch (release)
+    if: github.event_name == 'issue_comment'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Harden Runner
-        uses: step-security/harden-runner@rc
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Slash Command Dispatch
+        continue-on-error: true
+        uses: step-security/trinodb-github-actions/slash-command-dispatch@release
         with:
-          egress-policy: audit
-
-      - name: Create test files in repo folder
-        run: |
-          mkdir -p test-cache
-          echo "Hello from workspace" > test-cache/hello.txt
-          curl -o test-cache/ubuntu.iso https://releases.ubuntu.com/jammy/ubuntu-22.04.3-live-server-amd64.iso
-
-      - name: Create test files outside workspace
-        run: |
-          mkdir -p ~/test-cache
-          echo "Hello from home dir" > ~/test-cache/home.txt
-
-      - name: Save cache
-        uses: step-security/runs-on-cache@main
-        with:
-          key: playground-test-${{ github.run_id }}
-          path: |
-            test-cache
-            ~/test-cache
-
-  restore-cache-main:
-    name: Restore and Verify with @main
-    needs: save-cache-main
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Harden Runner
-        uses: step-security/harden-runner@rc
-        with:
-          egress-policy: audit
-
-      - name: Restore cache
-        uses: step-security/runs-on-cache@main
-        with:
-          key: playground-test-${{ github.run_id }}
-          restore-keys: playground-test-
-          path: |
-            test-cache
-            ~/test-cache
-
-      - name: Verify restored files
-        run: |
-          echo "📦 Checking test-cache"
-          ls -lh test-cache
-          echo "📦 Checking ~/test-cache"
-          ls -lh ~/test-cache
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commands: test
+          permission: write
+          issue-type: both
