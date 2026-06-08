@@ -30,10 +30,12 @@ jobs:
           ccache --version
           ccache --zero-stats >/dev/null
 
-          ccache gcc smoke.c -o smoke_a
+          ccache gcc -c smoke.c -o smoke.o
+          gcc smoke.o -o smoke_a
           ./smoke_a
 
-          ccache gcc smoke.c -o smoke_b
+          ccache gcc -c smoke.c -o smoke.o
+          gcc smoke.o -o smoke_b
           ./smoke_b
 
           echo "--- ccache stats ---"
