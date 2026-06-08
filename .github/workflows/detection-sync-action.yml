@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Sync detections (dry-run)
-        uses: step-security/detection-sync-action@release
+        uses: step-security/detection-sync-action@main
         with:
           token: ${{ secrets.RUNREVEAL_TOKEN }}
           workspace: ${{ vars.RUNREVEAL_WORKSPACE }}
