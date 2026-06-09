@@ -12,8 +12,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Slack Notification
-        uses: step-security/action-slack-incoming-webhook@release
+        uses: step-security/action-slack-incoming-webhook@main
         with:
           text: "Hello from StepSecurity! \U0001F680"
         env:
-          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
