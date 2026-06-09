@@ -1,0 +1,37 @@
+name: actions-rs-cargo
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cargo-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Create Rust fixture
+        run: cargo new --name smoke smoke
+
+      - name: cargo build via action (@release)
+        uses: step-security/actions-rs-cargo@release
+        with:
+          command: build
+          args: --release --manifest-path smoke/Cargo.toml
+
+      - name: Verify the binary was built
+        run: |
+          set -e
+          BIN=smoke/target/release/smoke
+          [ -x "$BIN" ] || { echo "✗ $BIN missing or not executable"; exit 1; }
+          OUT=$("$BIN")
+          echo "Binary output: $OUT"
+          [ "$OUT" = "Hello, world!" ] || { echo "✗ unexpected output: $OUT"; exit 1; }
+          echo "✓ cargo build via the action produced a working binary"
