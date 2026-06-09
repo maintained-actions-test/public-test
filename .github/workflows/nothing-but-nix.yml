@@ -1,0 +1,33 @@
+name: nothing-but-nix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nix-volume:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Run nothing-but-nix (@release, default cleave)
+        uses: step-security/nothing-but-nix@release
+        with:
+          witness-carnage: 'true'
+
+      - name: Verify /nix volume was created
+        run: |
+          set -e
+          [ -d /nix ] || { echo "✗ /nix directory not found"; exit 1; }
+          echo "--- /nix mount info ---"
+          mount | grep " /nix " || echo "(no /nix mount line; may be using bind/overlay)"
+          echo "--- /nix size ---"
+          df -h /nix
+          echo "✓ /nix volume present"
