@@ -1,0 +1,21 @@
+name: wei-git-sync
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  wei-git-sync-main:
+    name: Git Sync Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Git Sync
+        uses: step-security/wei-git-sync@release
+        with:
+          source_repo: "git@github.com:amanstep/close-milestone.git"
+          source_branch: "main"
+          destination_repo: "git@github.com:amanstep/close-milestone.git"
+          destination_branch: "sync-test"
+          ssh_private_key: ${{ secrets.SSH_CLONE_KEY }}
