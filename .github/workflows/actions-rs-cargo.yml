@@ -20,7 +20,7 @@ jobs:
       - name: Create Rust fixture
         run: cargo new --name smoke smoke
 
-      - name: cargo build via action (@release)
+      - name: cargo build via action
         uses: step-security/actions-rs-cargo@main
         with:
           command: build
