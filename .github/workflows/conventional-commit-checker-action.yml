@@ -17,4 +17,4 @@ jobs:
           egress-policy: audit
 
       - name: Validate PR title and body
-        uses: step-security/conventional-commit-checker-action@release
+        uses: step-security/conventional-commit-checker-action@main
