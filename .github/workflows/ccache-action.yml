@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Set up ccache
-        uses: step-security/ccache-action@release
+        uses: step-security/ccache-action@main
 
       - name: Create C source fixture
         run: |
