@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Notify Slack
-        uses: step-security/action-slack@release
+        uses: step-security/action-slack@main
         with:
           status: success
           fields: repo,message,commit,author
