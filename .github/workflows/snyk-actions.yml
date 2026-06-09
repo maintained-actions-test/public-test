@@ -29,66 +29,66 @@ jobs:
       # `uses:` does not allow matrix expressions, so each variant is gated by `if:`.
       - name: Run Snyk cocoapods action
         if: matrix.variant == 'cocoapods'
-        uses: step-security/snyk-actions/cocoapods@release
+        uses: step-security/snyk-actions/cocoapods@main
         with:
           command: help
       - name: Run Snyk docker action
         if: matrix.variant == 'docker'
-        uses: step-security/snyk-actions/docker@release
+        uses: step-security/snyk-actions/docker@main
         with:
           command: help
       - name: Run Snyk dotnet action
         if: matrix.variant == 'dotnet'
-        uses: step-security/snyk-actions/dotnet@release
+        uses: step-security/snyk-actions/dotnet@main
         with:
           command: help
       - name: Run Snyk golang action
         if: matrix.variant == 'golang'
-        uses: step-security/snyk-actions/golang@release
+        uses: step-security/snyk-actions/golang@main
         with:
           command: help
       - name: Run Snyk gradle action
         if: matrix.variant == 'gradle'
-        uses: step-security/snyk-actions/gradle@release
+        uses: step-security/snyk-actions/gradle@main
         with:
           command: help
       - name: Run Snyk iac action
         if: matrix.variant == 'iac'
-        uses: step-security/snyk-actions/iac@release
+        uses: step-security/snyk-actions/iac@main
         with:
           command: help
       - name: Run Snyk maven action
         if: matrix.variant == 'maven'
-        uses: step-security/snyk-actions/maven@release
+        uses: step-security/snyk-actions/maven@main
         with:
           command: help
       - name: Run Snyk node action
         if: matrix.variant == 'node'
-        uses: step-security/snyk-actions/node@release
+        uses: step-security/snyk-actions/node@main
         with:
           command: help
       - name: Run Snyk php action
         if: matrix.variant == 'php'
-        uses: step-security/snyk-actions/php@release
+        uses: step-security/snyk-actions/php@main
         with:
           command: help
       - name: Run Snyk python action
         if: matrix.variant == 'python'
-        uses: step-security/snyk-actions/python@release
+        uses: step-security/snyk-actions/python@main
         with:
           command: help
       - name: Run Snyk ruby action
         if: matrix.variant == 'ruby'
-        uses: step-security/snyk-actions/ruby@release
+        uses: step-security/snyk-actions/ruby@main
         with:
           command: help
       - name: Run Snyk scala action
         if: matrix.variant == 'scala'
-        uses: step-security/snyk-actions/scala@release
+        uses: step-security/snyk-actions/scala@main
         with:
           command: help
       - name: Run Snyk setup action
         if: matrix.variant == 'setup'
-        uses: step-security/snyk-actions/setup@release
+        uses: step-security/snyk-actions/setup@main
         with:
           command: help
