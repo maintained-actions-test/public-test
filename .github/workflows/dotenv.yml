@@ -1,0 +1,43 @@
+name: dotenv
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dotenv:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v6
+
+      - name: Write .env fixture
+        run: |
+          cat > .env <<'EOF'
+          SMOKE_TEST_VAR=hello-from-dotenv
+          SMOKE_TEST_EXPANDED=${SMOKE_TEST_VAR}-expanded
+          EOF
+          echo "--- .env contents ---"
+          cat .env
+
+      - name: Load .env (@release)
+        uses: step-security/dotenv@release
+
+      - name: Verify env vars were exported
+        run: |
+          set -e
+          echo "SMOKE_TEST_VAR=$SMOKE_TEST_VAR"
+          echo "SMOKE_TEST_EXPANDED=$SMOKE_TEST_EXPANDED"
+          [ "$SMOKE_TEST_VAR" = "hello-from-dotenv" ] || { echo "✗ SMOKE_TEST_VAR not set or wrong value"; exit 1; }
+          [ "$SMOKE_TEST_EXPANDED" = "hello-from-dotenv-expanded" ] || { echo "✗ SMOKE_TEST_EXPANDED not expanded correctly"; exit 1; }
+          echo "✓ both env vars exported and expanded correctly"
+
+      - name: Cleanup
+        if: always()
+        run: rm -f .env
