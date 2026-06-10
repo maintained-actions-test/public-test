@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Git Sync
-        uses: step-security/wei-git-sync@release
+        uses: step-security/wei-git-sync@main
         with:
           source_repo: "git@github.com:amanstep/close-milestone.git"
           source_branch: "main"
