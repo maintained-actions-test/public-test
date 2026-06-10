@@ -18,3 +18,4 @@ jobs:
                   assignees: amanstep,Raj-StepSecurity
                   numOfAssignee: 1
                   allowSelfAssign: true
+                  repo-token: ${{ secrets.PROJECT_PAT }}
