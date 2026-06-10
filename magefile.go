@@ -6,7 +6,6 @@ package main
 import (
   "fmt"
 )
-
 func Build() {
-  fmt.Println("Build ran")
+  fmt.Println("Build ran again and again")
 }
