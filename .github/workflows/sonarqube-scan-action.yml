@@ -1,0 +1,34 @@
+name: sonarqube-scan-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sonarqube-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SonarQube Scan
+        uses: step-security/sonarqube-scan-action@release
+        env:
+          SONAR_HOST_URL: http://not_actually_used
+          SONAR_SCANNER_JSON_PARAMS: '{"sonar.scanner.internal.dumpToFile": "./output.properties"}'
+        with:
+          args: >
+            -Dsonar.projectKey=sonarqube-scan-action-test
+            -Dsonar.sources=.
+
+      - name: Assert
+        run: cat ./output.properties
