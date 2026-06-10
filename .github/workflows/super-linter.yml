@@ -40,7 +40,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Super-Linter Slim
-        uses: step-security/super-linter/slim@main
+        uses: step-security/super-linter/slim@release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: "true"
