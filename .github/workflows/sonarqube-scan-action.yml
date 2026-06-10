@@ -32,3 +32,49 @@ jobs:
 
       - name: Assert
         run: cat ./output.properties
+
+  install-build-wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Build Wrapper
+        uses: step-security/sonarqube-scan-action/install-build-wrapper@release
+        env:
+          SONAR_HOST_URL: https://sonarcloud.io
+
+      - name: Assert build-wrapper is in PATH
+        run: |
+          which build-wrapper-linux-x86-64
+          build-wrapper-linux-x86-64 || true
+
+  deprecated-c-cpp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run SonarQube C/C++ action
+        uses: step-security/sonarqube-scan-action/deprecated-c-cpp@release
+        env:
+          SONAR_HOST_URL: https://sonarcloud.io
+
+      - name: Assert sonar-scanner and build-wrapper are in PATH
+        run: |
+          which sonar-scanner
+          which build-wrapper-linux-x86-64
