@@ -74,7 +74,7 @@ jobs:
           echo "head=$HEAD"      >> "$GITHUB_OUTPUT"
 
       - name: Run actions-label-merge-conflict (@release)
-        uses: step-security/actions-label-merge-conflict@release
+        uses: step-security/actions-label-merge-conflict@main
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           dirtyLabel: ${{ env.DIRTY_LABEL }}
