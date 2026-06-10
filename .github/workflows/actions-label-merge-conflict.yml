@@ -73,7 +73,7 @@ jobs:
           echo "base=$BASE"      >> "$GITHUB_OUTPUT"
           echo "head=$HEAD"      >> "$GITHUB_OUTPUT"
 
-      - name: Run actions-label-merge-conflict (@release)
+      - name: Run actions-label-merge-conflict
         uses: step-security/actions-label-merge-conflict@main
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
