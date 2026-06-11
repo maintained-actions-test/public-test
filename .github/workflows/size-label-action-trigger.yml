@@ -1,0 +1,57 @@
+name: size-label-action-trigger
+
+on:
+  workflow_dispatch:
+    inputs:
+      added_lines:
+        description: "Number of lines to add (controls the expected size label)"
+        required: true
+        type: choice
+        default: "50"
+        options:
+          - "5"
+          - "20"
+          - "50"
+          - "200"
+          - "800"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.FOR_SUBSCRIPTION_TESTS }}
+
+      - name: Create test branch with controlled diff and open PR
+        env:
+          GH_TOKEN: ${{ secrets.FOR_SUBSCRIPTION_TESTS }}
+          ADDED: ${{ inputs.added_lines }}
+        run: |
+          BRANCH="test/size-label-action-${{ github.run_id }}"
+          git checkout -b "$BRANCH"
+          mkdir -p testdata/size-label-action
+          : > testdata/size-label-action/test-change.txt
+          for i in $(seq 1 "$ADDED"); do
+            echo "// throwaway line $i" >> testdata/size-label-action/test-change.txt
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add testdata/size-label-action/test-change.txt
+          git commit -m "test: size-label-action $ADDED lines"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "Test size-label-action ${{ github.run_id }} ($ADDED lines)" \
+            --body "Automated smoke test for size-label-action. Added $ADDED lines. Will be auto-closed by the test workflow." \
+            --head "$BRANCH" \
+            --base main
