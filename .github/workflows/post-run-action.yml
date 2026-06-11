@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Register post-run script
-        uses: step-security/post-run-action@release
+        uses: step-security/post-run-action@main
         with:
           post-run: |
             echo "hello from step-security/post-run-action"
