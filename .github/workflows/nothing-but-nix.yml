@@ -17,8 +17,8 @@ jobs:
 
       - uses: actions/checkout@v6
 
-      - name: Run nothing-but-nix (@release, default cleave)
-        uses: step-security/nothing-but-nix@release
+      - name: Run nothing-but-nix
+        uses: step-security/nothing-but-nix@main
         with:
           witness-carnage: 'true'
 
