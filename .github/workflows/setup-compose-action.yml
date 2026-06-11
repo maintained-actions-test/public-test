@@ -1,0 +1,21 @@
+name: setup-compose-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-compose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Set up Docker Compose
+        uses: step-security/setup-compose-action@release
+        with:
+          version: latest
