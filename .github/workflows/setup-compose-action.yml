@@ -16,6 +16,6 @@ jobs:
           egress-policy: audit
 
       - name: Set up Docker Compose
-        uses: step-security/setup-compose-action@release
+        uses: step-security/setup-compose-action@main
         with:
           version: latest
