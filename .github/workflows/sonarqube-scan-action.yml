@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: SonarQube Scan
-        uses: step-security/sonarqube-scan-action@release
+        uses: step-security/sonarqube-scan-action@main
         env:
           SONAR_HOST_URL: http://not_actually_used
           SONAR_SCANNER_JSON_PARAMS: '{"sonar.scanner.internal.dumpToFile": "./output.properties"}'
