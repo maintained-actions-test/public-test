@@ -1,0 +1,28 @@
+name: post-run-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  post-run-action-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Register post-run script
+        uses: step-security/post-run-action@release
+        with:
+          post-run: |
+            echo "hello from step-security/post-run-action"
+
+      - name: Sentinel step
+        run: echo "main workflow body — post-run should fire after this job ends"
