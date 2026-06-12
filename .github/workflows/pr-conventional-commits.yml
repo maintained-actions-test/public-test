@@ -18,7 +18,7 @@ jobs:
           egress-policy: audit
 
       - name: PR Conventional Commit Validation
-        uses: step-security/pr-conventional-commits@release
+        uses: step-security/pr-conventional-commits@main
         with:
           task_types: '["feat","fix","docs","test","ci","refactor","perf","chore","revert","trigger"]'
           add_label: 'true'
