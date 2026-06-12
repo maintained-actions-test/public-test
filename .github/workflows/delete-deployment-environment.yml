@@ -13,13 +13,6 @@ jobs:
     name: 🧼 Full Cleanup - Delete Deployments & Environment
     runs-on: ubuntu-latest
     steps:
-      - name: Create deployment
-        uses: chrnorm/deployment-action@v2
-        with:
-          token: ${{ env.REPO_ACCESS_TOKEN }}
-          environment: ${{ env.ENVIRONMENT }}
-          ref: main
-          initial-status: success
 
       - name: Delete deployments & environment
         uses: step-security/delete-deployment-environment@main
