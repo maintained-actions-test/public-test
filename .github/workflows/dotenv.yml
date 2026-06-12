@@ -26,8 +26,8 @@ jobs:
           echo "--- .env contents ---"
           cat .env
 
-      - name: Load .env (@release)
-        uses: step-security/dotenv@release
+      - name: Load .env
+        uses: step-security/dotenv@main
 
       - name: Verify env vars were exported
         run: |
