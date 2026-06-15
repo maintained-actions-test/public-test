@@ -58,3 +58,39 @@ jobs:
       - name: Verify bnd runs
         shell: bash
         run: bnd version
+
+  install-ampel-bootstrap-main:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Bootstrap ampel
+        id: bootstrap
+        uses: step-security/carabiner-dev-actions/install/ampel-bootstrap@main
+
+      - name: Verify bootstrap ampel runs
+        shell: bash
+        env:
+          AMPEL_PATH: ${{ steps.bootstrap.outputs.ampel-path }}
+        run: |
+          "$AMPEL_PATH" version
+
+  install-download-and-verify-main:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Download and verify snappy
+        uses: step-security/carabiner-dev-actions/install/download-and-verify@main
+        with:
+          tool: snappy
+          version: v0.2.4
+          attestation-file: snappy-v0.2.4.provenance.json
+
+      - name: Verify snappy is on PATH
+        shell: bash
+        run: snappy version
