@@ -27,4 +27,5 @@ jobs:
           fallback: 1.0.0
 
       - name: Print tag
-        run: echo "Previous tag: ${{ steps.previoustag.outputs.tag }}"
+        run: |
+          echo "Previous tag: ${{ steps.previoustag.outputs.tag }}"
