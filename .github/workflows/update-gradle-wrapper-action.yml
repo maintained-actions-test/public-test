@@ -1,0 +1,24 @@
+name: update-gradle-wrapper-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-gradle-wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4
+
+      - name: Update Gradle Wrapper
+        uses: step-security/update-gradle-wrapper-action@release
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
