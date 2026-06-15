@@ -1,0 +1,21 @@
+name: read-file-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  read-file-main:
+    name: Read File Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Read File
+        id: read-file
+        uses: step-security/read-file-action@release
+        with:
+          path: README.md
+          trim: true
+      - name: Show File Contents
+        run: echo "${{ steps.read-file.outputs.content }}"
