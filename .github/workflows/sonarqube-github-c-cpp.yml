@@ -20,7 +20,7 @@ jobs:
 
       - name: Run sonarqube-github-c-cpp
         id: run-action
-        uses: step-security/sonarqube-github-c-cpp@release
+        uses: step-security/sonarqube-github-c-cpp@main
 
       - name: Verify sonar-scanner is in PATH
         shell: bash
