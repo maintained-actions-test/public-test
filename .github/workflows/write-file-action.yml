@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Write File
-        uses: step-security/write-file-action@release
+        uses: step-security/write-file-action@main
         with:
           path: test-output.txt
           contents: "Hello from write-file-action!"
