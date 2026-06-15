@@ -1,0 +1,30 @@
+name: github-action-get-previous-tag
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  get-previous-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get Previous Tag
+        id: previoustag
+        uses: step-security/github-action-get-previous-tag@release
+        with:
+          fallback: 1.0.0
+
+      - name: Print tag
+        run: echo "Previous tag: ${{ steps.previoustag.outputs.tag }}"
