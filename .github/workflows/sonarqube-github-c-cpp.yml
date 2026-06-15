@@ -1,0 +1,42 @@
+name: sonarqube-github-c-cpp
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sonarqube-github-c-cpp:
+    name: sonarqube-github-c-cpp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run sonarqube-github-c-cpp
+        id: run-action
+        uses: step-security/sonarqube-github-c-cpp@release
+
+      - name: Verify sonar-scanner is in PATH
+        run: sonar-scanner --help | grep "usage: sonar-scanner "
+
+      - name: Verify sonar-scanner-binary output
+        shell: bash
+        env:
+          BINARY: ${{ steps.run-action.outputs.sonar-scanner-binary }}
+        run: "$BINARY" --help | grep "usage: sonar-scanner "
+
+      - name: Verify build-wrapper is in PATH
+        shell: bash
+        run: (build-wrapper-linux-x86-64 || true) | grep "build-wrapper, version "
+
+      - name: Verify build-wrapper-binary output
+        shell: bash
+        env:
+          BINARY: ${{ steps.run-action.outputs.build-wrapper-binary }}
+        run: ("$BINARY" || true) | grep "build-wrapper, version "
