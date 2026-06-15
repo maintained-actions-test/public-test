@@ -1,0 +1,31 @@
+name: action-regex-match
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  action-regex-match:
+    name: action-regex-match
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run action-regex-match
+        id: regex
+        uses: step-security/action-regex-match@release
+        with:
+          text: 'hello world'
+          regex: 'hello (\w+)'
+
+      - name: Print result
+        run: |
+          echo "match: ${{ steps.regex.outputs.match }}"
+          echo "group1: ${{ steps.regex.outputs.group1 }}"
