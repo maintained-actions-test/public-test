@@ -19,6 +19,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Update Gradle Wrapper
-        uses: step-security/update-gradle-wrapper-action@release
+        uses: step-security/update-gradle-wrapper-action@main
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
