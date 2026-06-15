@@ -22,7 +22,7 @@ jobs:
 
       - name: Get Previous Tag
         id: previoustag
-        uses: step-security/github-action-get-previous-tag@release
+        uses: step-security/github-action-get-previous-tag@main
         with:
           fallback: 1.0.0
 
