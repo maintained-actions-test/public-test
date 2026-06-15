@@ -20,7 +20,7 @@ jobs:
 
       - name: Run action-regex-match
         id: regex
-        uses: step-security/action-regex-match@release
+        uses: step-security/action-regex-match@main
         with:
           text: 'hello world'
           regex: 'hello (\w+)'
