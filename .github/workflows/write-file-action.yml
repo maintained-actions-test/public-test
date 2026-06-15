@@ -1,0 +1,21 @@
+name: write-file-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  write-file-main:
+    name: Write File Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Write File
+        uses: step-security/write-file-action@release
+        with:
+          path: test-output.txt
+          contents: "Hello from write-file-action!"
+          write-mode: overwrite
+      - name: Verify File Written
+        run: cat test-output.txt
