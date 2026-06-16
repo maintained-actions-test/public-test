@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup wasm-tools
-        uses: step-security/wasm-tools-setup@release
+        uses: step-security/wasm-tools-setup@main
         with:
           version: latest
           github_token: ${{ github.token }}
