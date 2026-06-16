@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run vitest-coverage-report-action
-        uses: step-security/vitest-coverage-report-action@release
+        uses: step-security/vitest-coverage-report-action@main
         with:
           working-directory: "./test/mockReports"
           json-summary-path: "coverage/coverage-summary.json"
