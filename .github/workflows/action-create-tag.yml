@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Create tag
-        uses: step-security/action-create-tag@release
+        uses: step-security/action-create-tag@main
         with:
           tag: test-workflow-tag
           message: Test tag
