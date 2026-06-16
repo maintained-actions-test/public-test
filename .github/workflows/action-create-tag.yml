@@ -1,0 +1,30 @@
+name: action-create-tag
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create tag
+        uses: step-security/action-create-tag@release
+        with:
+          tag: test-workflow-tag
+          message: Test tag
+          tag_exists_error: "false"
+          force_push_tag: "true"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
