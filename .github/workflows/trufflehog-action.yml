@@ -21,6 +21,6 @@ jobs:
           fetch-depth: 0
 
       - name: TruffleHog OSS
-        uses: step-security/trufflehog-action@release
+        uses: step-security/trufflehog-action@main
         with:
           extra_args: --results=verified,unknown
