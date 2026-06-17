@@ -1,0 +1,29 @@
+name: commit-message-checker
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+
+jobs:
+  check-commit-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check Commit Messages
+        uses: step-security/commit-message-checker@main
+        with:
+          pattern: '^(feat|fix|chore|ci|docs|build|refactor|test|perf|style|revert)(\(.+\))?(!)?: .+'
+          error: 'Commit message must follow Conventional Commits format: <type>(<optional scope>): <description>. Allowed types: feat, fix, chore, ci, docs, build, refactor, test, perf, style, revert.'
+          checkAllCommitMessages: 'true'
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
