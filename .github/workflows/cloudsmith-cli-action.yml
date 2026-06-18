@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run cloudsmith-cli-action
-        uses: step-security/cloudsmith-cli-action@release
+        uses: step-security/cloudsmith-cli-action@main
         with:
           api-key: dummy
 
