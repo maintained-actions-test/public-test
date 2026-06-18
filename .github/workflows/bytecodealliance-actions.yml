@@ -1,0 +1,20 @@
+name: bytecodealliance-actions
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  wasm-tools-setup-main:
+    name: Setup wasm-tools (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup wasm-tools
+        uses: step-security/bytecodealliance-actions/wasm-tools/setup@main
+        with:
+          version: latest
+          github_token: ${{ github.token }}
+      - name: Verify wasm-tools installed
+        run: wasm-tools --version
