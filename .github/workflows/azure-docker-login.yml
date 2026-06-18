@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Login to container registry
-        uses: step-security/azure-docker-login@release
+        uses: step-security/azure-docker-login@main
         with:
           login-server: https://index.docker.io/v1/
           username: ${{ secrets.REGISTRY_USERNAME }}
