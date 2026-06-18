@@ -1,0 +1,27 @@
+name: delete-artifact
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  actions: write
+jobs:
+  delete-artifact-main:
+    name: Delete Artifact (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Create test artifact
+        run: |
+          mkdir -p test-artifacts
+          echo "test content" > test-artifacts/test-file.txt
+      - name: Upload test artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: test-artifact-main
+          path: test-artifacts/test-file.txt
+      - name: Delete artifact
+        uses: step-security/delete-artifact@release
+        with:
+          name: test-artifact-main
