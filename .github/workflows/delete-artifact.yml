@@ -22,6 +22,6 @@ jobs:
           name: test-artifact-main
           path: test-artifacts/test-file.txt
       - name: Delete artifact
-        uses: step-security/delete-artifact@release
+        uses: step-security/delete-artifact@main
         with:
           name: test-artifact-main
