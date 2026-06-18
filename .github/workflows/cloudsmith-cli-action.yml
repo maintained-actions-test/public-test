@@ -1,0 +1,27 @@
+name: cloudsmith-cli-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cloudsmith-cli-action:
+    name: cloudsmith-cli-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run cloudsmith-cli-action
+        uses: step-security/cloudsmith-cli-action@release
+        with:
+          api-key: dummy
+
+      - name: Verify CLI installed
+        run: cloudsmith --version
