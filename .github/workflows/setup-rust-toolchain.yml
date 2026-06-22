@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run setup-rust-toolchain
-        uses: step-security/setup-rust-toolchain@release
+        uses: step-security/setup-rust-toolchain@main
 
       - name: Verify Rust installed
         run: rustc --version && cargo --version
