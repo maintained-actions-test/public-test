@@ -1,0 +1,41 @@
+name: action-ansible-playbook
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  # Job 2: @main test case (uses the action directly pinned to @main)
+  run-playbook-main:
+    name: Run Ansible Playbook (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Create sample playbook
+        run: |
+          mkdir -p ./playbooks
+          cat > ./playbooks/test.yml << 'EOF'
+          ---
+          - name: Test playbook
+            hosts: localhost
+            gather_facts: false
+            tasks:
+              - name: Print message
+                debug:
+                  msg: "Hello from Ansible playbook"
+          EOF
+      - name: Create sample inventory
+        run: |
+          cat > ./inventory.yml << 'EOF'
+          [all]
+          localhost ansible_connection=local
+          EOF
+      - name: Run Ansible Playbook
+        uses: step-security/action-ansible-playbook@release
+        with:
+          playbook: playbooks/test.yml
+          inventory: |
+            [all]
+            localhost ansible_connection=local
+          options: "--verbose"
