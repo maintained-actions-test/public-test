@@ -1,0 +1,21 @@
+name: discord-webhook-notify
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  # Job 2: @main test case (uses the action directly pinned to @main)
+  notify-discord-main:
+    name: Send Discord Notification (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Send Discord Notification
+        uses: step-security/discord-webhook-notify@release
+        with:
+          webhookUrl: ${{ secrets.WEBHOOK_URL }}
+          severity: info
+          details: Test notification from main
+          username: GitHub Actions
