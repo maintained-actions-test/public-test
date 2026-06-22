@@ -1,0 +1,25 @@
+name: setup-rust-toolchain
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-rust-toolchain:
+    name: setup-rust-toolchain
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run setup-rust-toolchain
+        uses: step-security/setup-rust-toolchain@release
+
+      - name: Verify Rust installed
+        run: rustc --version && cargo --version
