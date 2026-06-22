@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup Android NDK (main)
-        uses: step-security/setup-ndk@release
+        uses: step-security/setup-ndk@main
         with:
           ndk-version: "r21e"
           add-to-path: true
