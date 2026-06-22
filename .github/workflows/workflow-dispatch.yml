@@ -2,7 +2,10 @@ name: workflow-dispatch
 
 on:
   workflow_dispatch:
-  
+
+permissions:
+  actions: write
+
 jobs:
   testAction:
     runs-on: ubuntu-latest
