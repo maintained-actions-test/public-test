@@ -1,0 +1,22 @@
+name: ticket-link-appender
+
+on: pull_request
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  append-ticket-link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Append ticket link
+        uses: step-security/ticket-link-appender@release
+        with:
+          jira-project-url: https://jira.atlassian.net/browse
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
