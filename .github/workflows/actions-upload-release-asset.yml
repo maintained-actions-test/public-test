@@ -1,0 +1,33 @@
+name: actions-upload-release-asset
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+jobs:
+  upload-release-asset-main:
+    name: Upload Release Asset (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Create Release
+        id: create_release
+        uses: shogo82148/actions-create-release@v1
+        with:
+          tag_name: test-main-${{ github.run_id }}
+          release_name: Test Main for ${{ github.run_id }}
+          prerelease: true
+          body: |
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Upload Release Asset
+        uses: step-security/actions-upload-release-asset@release
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: README.md
+      - name: Upload Release Asset (Overwrite)
+        uses: step-security/actions-upload-release-asset@release
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: README.md
+          overwrite: true
