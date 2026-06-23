@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run actions-tagger
-        uses: step-security/actions-tagger@release
+        uses: step-security/actions-tagger@main
         with:
           token: ${{ github.token }}
