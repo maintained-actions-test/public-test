@@ -1,0 +1,24 @@
+name: action-branch-name
+
+on:
+  pull_request:
+
+permissions:
+  pull-requests: read
+
+jobs:
+  branch-naming-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Enforce branch naming convention
+        uses: step-security/action-branch-name@release
+        with:
+          allowed_prefixes: 'feature,fix,hotfix,chore,release,test'
+          ignore: 'master,main,develop'
+          min_length: 3
+          max_length: 50
