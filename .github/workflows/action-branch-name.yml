@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Enforce branch naming convention
-        uses: step-security/action-branch-name@release
+        uses: step-security/action-branch-name@main
         with:
           allowed_prefixes: 'feature,fix,hotfix,chore,release,test,trigger'
           ignore: 'master,main,develop'
