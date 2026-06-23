@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Append ticket link
-        uses: step-security/ticket-link-appender@release
+        uses: step-security/ticket-link-appender@main
         with:
           jira-project-url: https://jira.atlassian.net/browse
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
