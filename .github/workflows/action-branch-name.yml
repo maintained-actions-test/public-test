@@ -1,7 +1,7 @@
 name: action-branch-name
 
 on:
-  pull_request:
+  workflow_dispatch:
 
 permissions:
   pull-requests: read
@@ -18,7 +18,7 @@ jobs:
       - name: Enforce branch naming convention
         uses: step-security/action-branch-name@release
         with:
-          allowed_prefixes: 'feature,fix,hotfix,chore,release,test'
+          allowed_prefixes: 'feature,fix,hotfix,chore,release,test,trigger'
           ignore: 'master,main,develop'
           min_length: 3
           max_length: 50
