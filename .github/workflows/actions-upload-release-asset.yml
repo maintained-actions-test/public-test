@@ -21,12 +21,12 @@ jobs:
           body: |
             https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Upload Release Asset
-        uses: step-security/actions-upload-release-asset@release
+        uses: step-security/actions-upload-release-asset@main
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: README.md
       - name: Upload Release Asset (Overwrite)
-        uses: step-security/actions-upload-release-asset@release
+        uses: step-security/actions-upload-release-asset@main
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: README.md
