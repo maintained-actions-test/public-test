@@ -1,0 +1,25 @@
+name: arduino-setup-task
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  arduino-setup-task:
+    name: arduino-setup-task
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run arduino-setup-task
+        uses: step-security/arduino-setup-task@release
+
+      - name: Verify task installed
+        run: task --version
