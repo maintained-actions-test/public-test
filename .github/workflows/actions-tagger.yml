@@ -1,0 +1,24 @@
+name: actions-tagger
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  actions-tagger:
+    name: actions-tagger
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run actions-tagger
+        uses: step-security/actions-tagger@release
+        with:
+          token: ${{ github.token }}
