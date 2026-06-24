@@ -1,0 +1,24 @@
+name: jira-link-commenter
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  comment-jira-link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Comment Jira Link
+        uses: step-security/jira-link-commenter@release
+        with:
+          jira-project-url: "https://jira.atlassian.net/browse"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          custom-comment: "Thank you for your contribution! :confetti_ball:"
