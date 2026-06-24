@@ -1,0 +1,27 @@
+name: eval-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  eval-action:
+    name: eval-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run eval-action
+        uses: step-security/eval-action@release
+        continue-on-error: true
+        with:
+          api_key: dummy
+          runtime: node
+          use_proxy: 'false'
