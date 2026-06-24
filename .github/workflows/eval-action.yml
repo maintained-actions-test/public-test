@@ -18,6 +18,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Install eval dependencies
+        run: npm install
+        working-directory: test-eval
+
       - name: Run eval-action
         uses: step-security/eval-action@release
         continue-on-error: true
@@ -25,3 +29,5 @@ jobs:
           api_key: dummy
           runtime: node
           use_proxy: 'false'
+          root: test-eval
+          paths: trivial.eval.ts
