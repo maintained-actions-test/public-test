@@ -15,4 +15,4 @@ jobs:
           repository: mgr0dzicki/cargo-semver-action-ref-slice
           ref: patch_change
       - name: Cargo Semver Checks
-        uses: step-security/cargo-semver-checks-action@release
+        uses: step-security/cargo-semver-checks-action@main
