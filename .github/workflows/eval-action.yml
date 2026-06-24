@@ -24,7 +24,6 @@ jobs:
 
       - name: Run eval-action
         uses: step-security/eval-action@release
-        continue-on-error: true
         with:
           api_key: dummy
           runtime: node
