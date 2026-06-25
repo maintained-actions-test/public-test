@@ -1,0 +1,26 @@
+name: cross-platform-actions-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cross-platform-actions-action:
+    name: cross-platform-actions-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run cross-platform-actions-action
+        uses: step-security/cross-platform-actions-action@release
+        with:
+          operating_system: freebsd
+          version: '14.2'
+          run: uname -a
