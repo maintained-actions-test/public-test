@@ -18,7 +18,7 @@ jobs:
           egress-policy: audit
 
       - name: Release Please
-        uses: step-security/release-please-action-oss@release
+        uses: step-security/release-please-action-oss@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: simple
