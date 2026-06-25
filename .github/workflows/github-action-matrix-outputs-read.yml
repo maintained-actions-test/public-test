@@ -1,0 +1,30 @@
+name: github-action-matrix-outputs-read
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  actions: write
+jobs:
+  matrix-outputs-read-main:
+    name: Matrix Outputs Read (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Write Matrix Outputs
+        uses: step-security/github-action-matrix-outputs-write@release
+        with:
+          matrix-step-name: build
+          matrix-key: ubuntu-latest
+          outputs: |
+            result: success
+            version: "1.0.0"
+      - name: Read Matrix Outputs
+        id: read-outputs
+        uses: step-security/github-action-matrix-outputs-read@release
+        with:
+          matrix-step-name: build
+      - name: Print outputs
+        run: |
+          echo "Result: ${{ steps.read-outputs.outputs.result }}"
