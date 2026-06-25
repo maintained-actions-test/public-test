@@ -26,7 +26,7 @@ jobs:
       - name: Run eval-action
         uses: step-security/eval-action@release
         with:
-          api_key: dummy
+          api_key: ${{ secrets.BRAINTRUST_API_KEY }}
           runtime: node
           use_proxy: 'false'
           root: test-eval
