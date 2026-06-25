@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run cross-platform-actions-action
-        uses: step-security/cross-platform-actions-action@release
+        uses: step-security/cross-platform-actions-action@main
         with:
           operating_system: freebsd
           version: '14.2'
