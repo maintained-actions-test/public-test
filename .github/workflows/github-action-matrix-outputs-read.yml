@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Write Matrix Outputs
-        uses: step-security/github-action-matrix-outputs-write@release
+        uses: step-security/github-action-matrix-outputs-write@main
         with:
           matrix-step-name: build
           matrix-key: ubuntu-latest
@@ -22,7 +22,7 @@ jobs:
             version: "1.0.0"
       - name: Read Matrix Outputs
         id: read-outputs
-        uses: step-security/github-action-matrix-outputs-read@release
+        uses: step-security/github-action-matrix-outputs-read@main
         with:
           matrix-step-name: build
       - name: Print outputs
