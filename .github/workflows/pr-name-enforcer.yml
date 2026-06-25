@@ -19,7 +19,7 @@ jobs:
           egress-policy: audit
 
       - name: Enforce PR Name
-        uses: step-security/pr-name-enforcer@release
+        uses: step-security/pr-name-enforcer@main
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           regex: '.*'
