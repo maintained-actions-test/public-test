@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Send Discord Notification
-        uses: step-security/discord-webhook-notify@release
+        uses: step-security/discord-webhook-notify@main
         with:
           webhookUrl: ${{ secrets.WEBHOOK_URL }}
           severity: info
