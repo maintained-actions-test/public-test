@@ -32,7 +32,7 @@ jobs:
           localhost ansible_connection=local
           EOF
       - name: Run Ansible Playbook
-        uses: step-security/action-ansible-playbook@release
+        uses: step-security/action-ansible-playbook@main
         with:
           playbook: playbooks/test.yml
           inventory: |
