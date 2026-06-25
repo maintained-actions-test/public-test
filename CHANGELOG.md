@@ -1,3 +1,17 @@
+# Changelog
+
+## [1.2.0](https://github.com/maintained-actions-test/public-test/compare/v1.1.1...v1.2.0) (2026-06-25)
+
+
+### Features
+
+* Onboard nothing-but-nixut-nix action ([e92e065](https://github.com/maintained-actions-test/public-test/commit/e92e0658a7e89bb79ffbc26009b9ad2dba22c6f7))
+
+
+### Bug Fixes
+
+* add actions:write permission to workflow-dispatch workflow ([749fa70](https://github.com/maintained-actions-test/public-test/commit/749fa70cf3f5d52cde301969cd66fb427734b25a))
+
 ## [1.1.1](https://github.com/maintained-actions-test/public-test/compare/v92.12.0...v1.1.1) (2026-06-03)
 
 
@@ -9,7 +23,7 @@
 
 
 
-# [92.12.0](https://github.com/maintained-actions-test/public-test/compare/v0.2.0...v92.12.0) (2026-05-14)
+## [92.12.0](https://github.com/maintained-actions-test/public-test/compare/v0.2.0...v92.12.0) (2026-05-14)
 
 
 ### Bug Fixes
@@ -28,7 +42,7 @@
 
 
 
-# [0.2.0](https://github.com/maintained-actions-test/public-test/compare/6ca812703ee11fb61121a7acce12026ae5ba47c9...v0.2.0) (2026-03-10)
+## [0.2.0](https://github.com/maintained-actions-test/public-test/compare/6ca812703ee11fb61121a7acce12026ae5ba47c9...v0.2.0) (2026-03-10)
 
 
 ### Bug Fixes
@@ -40,6 +54,3 @@
 
 * create list-files-action ([6ca8127](https://github.com/maintained-actions-test/public-test/commit/6ca812703ee11fb61121a7acce12026ae5ba47c9))
 * update list-files-action.yml ([65b2220](https://github.com/maintained-actions-test/public-test/commit/65b22200e39e85bf0c636fe1a93cd2c4a21d0736))
-
-
-
