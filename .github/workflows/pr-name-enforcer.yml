@@ -1,0 +1,25 @@
+name: pr-name-enforcer
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+  enforce-pr-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Enforce PR Name
+        uses: step-security/pr-name-enforcer@release
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          regex: '.*'
