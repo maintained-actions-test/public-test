@@ -1,0 +1,23 @@
+name: replace-string-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  replace-string-main:
+    name: Replace String (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Replace String
+        id: replace
+        uses: step-security/replace-string-action@release
+        with:
+          pattern: 'Hello, (\w+)!'
+          string: 'Hello, world!'
+          replace-with: 'I greet you, $1!'
+      - name: Print outputs
+        run: |
+          echo "Replaced: ${{ steps.replace.outputs.replaced }}"
