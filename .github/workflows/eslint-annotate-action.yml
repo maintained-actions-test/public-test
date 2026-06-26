@@ -1,0 +1,29 @@
+name: eslint-annotate-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  checks: write
+  pull-requests: read
+  contents: read
+
+jobs:
+  annotate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create ESLint report
+        run: echo '[]' > eslint_report.json
+
+      - name: Annotate ESLint results
+        uses: step-security/eslint-annotate-action@release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
