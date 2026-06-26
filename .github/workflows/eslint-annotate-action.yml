@@ -21,7 +21,76 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create ESLint report
-        run: echo '[]' > eslint_report.json
+        run: |
+          cat > eslint_report.json << 'EOF'
+          [
+            {
+              "filePath": "src/utils/api.ts",
+              "messages": [
+                {
+                  "ruleId": "no-unused-vars",
+                  "severity": 2,
+                  "message": "'apiKey' is defined but never used.",
+                  "line": 3,
+                  "column": 7,
+                  "nodeType": "Identifier",
+                  "endLine": 3,
+                  "endColumn": 13
+                },
+                {
+                  "ruleId": "eqeqeq",
+                  "severity": 2,
+                  "message": "Expected '===' and instead saw '=='.",
+                  "line": 12,
+                  "column": 14,
+                  "nodeType": "BinaryExpression",
+                  "endLine": 12,
+                  "endColumn": 16
+                }
+              ],
+              "suppressedMessages": [],
+              "errorCount": 2,
+              "fatalErrorCount": 0,
+              "warningCount": 0,
+              "fixableErrorCount": 0,
+              "fixableWarningCount": 0,
+              "usedDeprecatedRules": []
+            },
+            {
+              "filePath": "src/components/App.tsx",
+              "messages": [
+                {
+                  "ruleId": "no-console",
+                  "severity": 1,
+                  "message": "Unexpected console statement.",
+                  "line": 8,
+                  "column": 3,
+                  "nodeType": "MemberExpression",
+                  "endLine": 8,
+                  "endColumn": 14
+                }
+              ],
+              "suppressedMessages": [],
+              "errorCount": 0,
+              "fatalErrorCount": 0,
+              "warningCount": 1,
+              "fixableErrorCount": 0,
+              "fixableWarningCount": 0,
+              "usedDeprecatedRules": []
+            },
+            {
+              "filePath": "src/index.ts",
+              "messages": [],
+              "suppressedMessages": [],
+              "errorCount": 0,
+              "fatalErrorCount": 0,
+              "warningCount": 0,
+              "fixableErrorCount": 0,
+              "fixableWarningCount": 0,
+              "usedDeprecatedRules": []
+            }
+          ]
+          EOF
 
       - name: Annotate ESLint results
         uses: step-security/eslint-annotate-action@release
