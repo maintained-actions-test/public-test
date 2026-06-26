@@ -93,6 +93,6 @@ jobs:
           EOF
 
       - name: Annotate ESLint results
-        uses: step-security/eslint-annotate-action@release
+        uses: step-security/eslint-annotate-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
