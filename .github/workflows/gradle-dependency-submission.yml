@@ -1,0 +1,26 @@
+name: gradle-dependency-submission
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+jobs:
+  gradle-dependency-submission-main:
+    name: Gradle Dependency Submission (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - name: Gradle Dependency Submission
+        uses: step-security/gradle-dependency-submission@release
+        with:
+          token: ${{ github.token }}
+          use-gradlew: true
+          gradle-project-path: "."
+          gradle-build-module: ":"
+          gradle-build-configuration: "compileClasspath"
