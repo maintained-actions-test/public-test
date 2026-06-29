@@ -1,0 +1,26 @@
+name: branch-names
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  branch-names-main:
+    name: Branch Names (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Get Branch Names
+        id: branch-names-main
+        uses: step-security/branch-names@release
+        with:
+          strip_tag_prefix: "v"
+          replace_slashes_with_hyphens: true
+      - name: Print Branch Information
+        run: |
+          echo "Current Branch: ${{ steps.branch-names-main.outputs.current_branch }}"
+          echo "Default Branch: ${{ steps.branch-names-main.outputs.default_branch }}"
+          echo "Is Default: ${{ steps.branch-names-main.outputs.is_default }}"
+          echo "Is Tag: ${{ steps.branch-names-main.outputs.is_tag }}"
+          echo "Tag: ${{ steps.branch-names-main.outputs.tag }}"
