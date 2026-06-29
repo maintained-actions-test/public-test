@@ -1,0 +1,27 @@
+name: release-plz-git-config
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-plz-git-config:
+    name: release-plz-git-config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run release-plz-git-config
+        id: git-config
+        uses: step-security/release-plz-git-config@release
+
+      - name: Verify outputs
+        run: |
+          echo "name: ${{ steps.git-config.outputs.name }}"
+          echo "email: ${{ steps.git-config.outputs.email }}"
+          git config --global user.name
+          git config --global user.email
