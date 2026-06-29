@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: JSON to variables
-        uses: step-security/json-to-variables@release
+        uses: step-security/json-to-variables@main
         with:
           filename: test.json
           prefix: test
