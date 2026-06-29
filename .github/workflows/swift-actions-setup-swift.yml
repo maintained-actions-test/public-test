@@ -1,0 +1,23 @@
+name: swift-actions-setup-swift
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  swift-actions-setup-swift-main:
+    name: Swift Actions Setup Swift (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Swift
+        id: swift-actions-setup-swift-main
+        uses: step-security/swift-actions-setup-swift@release
+        with:
+          swift-version: "latest"
+          skip-verify-signature: true
+      - name: Print Swift Version Output
+        run: |
+          echo "Swift Version: ${{ steps.swift-actions-setup-swift-main.outputs.version }}"
+          echo "Swift setup successful!"
