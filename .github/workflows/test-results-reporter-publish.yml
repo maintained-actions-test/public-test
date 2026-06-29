@@ -1,0 +1,35 @@
+name: test-results-reporter-publish
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish-test-results:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Create test results file
+        run: |
+          cat > ./test-results.xml << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <testsuites>
+            <testsuite name="Sample Tests" tests="3" failures="0" errors="0" time="1.5">
+              <testcase name="test one" classname="SampleTest" time="0.5"/>
+              <testcase name="test two" classname="SampleTest" time="0.5"/>
+              <testcase name="test three" classname="SampleTest" time="0.5"/>
+            </testsuite>
+          </testsuites>
+          EOF
+
+      - name: TestBeats Publish
+        uses: step-security/test-results-reporter-publish@release
+        with:
+          slack: ${{ secrets.SLACK_WEBHOOK_URL }}
+          junit: ./test-results.xml
