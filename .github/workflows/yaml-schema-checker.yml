@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run yaml-schema-checker
-        uses: step-security/yaml-schema-checker@release
+        uses: step-security/yaml-schema-checker@main
         with:
           jsonSchemaFile: testdata/yaml-schema-checker/schema.json
           yamlFiles: testdata/yaml-schema-checker/sample.yaml
