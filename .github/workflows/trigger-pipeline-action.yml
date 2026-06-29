@@ -1,0 +1,25 @@
+name: trigger-pipeline-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trigger-pipeline-action:
+    name: trigger-pipeline-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run trigger-pipeline-action
+        uses: step-security/trigger-pipeline-action@release
+        with:
+          buildkite_api_access_token: dummy
+          pipeline: my-org/my-pipeline
