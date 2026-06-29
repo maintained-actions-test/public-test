@@ -14,7 +14,5 @@ jobs:
       - name: Setup Bazel
         id: setup-bazel-main
         uses: step-security/setup-bazel@release
-        with:
-          version: "latest"
       - name: Verify Bazel Version
         run: bazel version
