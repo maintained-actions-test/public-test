@@ -1,0 +1,28 @@
+name: json-to-variables
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  json-to-variables:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: JSON to variables
+        uses: step-security/json-to-variables@release
+        with:
+          filename: test.json
+          prefix: test
+
+      - name: Show output
+        run: echo "value=$test_value, obj_value1=$test_obj_value1"
