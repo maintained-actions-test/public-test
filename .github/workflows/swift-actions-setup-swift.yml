@@ -15,8 +15,7 @@ jobs:
         id: swift-actions-setup-swift-main
         uses: step-security/swift-actions-setup-swift@main
         with:
-          swift-version: "latest"
-          skip-verify-signature: true
+          swift-version: "5.6.3"
       - name: Print Swift Version Output
         run: |
           echo "Swift Version: ${{ steps.swift-actions-setup-swift-main.outputs.version }}"
