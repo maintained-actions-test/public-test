@@ -1,0 +1,27 @@
+name: softprops-turnstyle
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  softprops-turnstyle-main:
+    name: Softprops Turnstyle (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Wait for Previous Runs
+        id: turnstyle-main
+        uses: step-security/softprops-turnstyle@release
+        with:
+          token: ${{ github.token }}
+          poll-interval-seconds: 60
+          continue-after-seconds: 300
+          same-branch-only: true
+      - name: Print Turnstyle Output
+        run: |
+          echo "Force Continued: ${{ steps.turnstyle-main.outputs.force_continued }}"
+          echo "Previous Run ID: ${{ steps.turnstyle-main.outputs.previous_run_id }}"
+          echo "Serialization check complete!"
