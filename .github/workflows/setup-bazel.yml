@@ -1,0 +1,20 @@
+name: setup-bazel
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-bazel-main:
+    name: Setup Bazel (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Bazel
+        id: setup-bazel-main
+        uses: step-security/setup-bazel@release
+        with:
+          version: "latest"
+      - name: Verify Bazel Version
+        run: bazel version
