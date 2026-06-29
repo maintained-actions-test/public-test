@@ -1,0 +1,25 @@
+name: yaml-schema-checker
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  yaml-schema-checker:
+    name: yaml-schema-checker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run yaml-schema-checker
+        uses: step-security/yaml-schema-checker@release
+        with:
+          jsonSchemaFile: testdata/yaml-schema-checker/schema.json
+          yamlFiles: testdata/yaml-schema-checker/sample.yaml
