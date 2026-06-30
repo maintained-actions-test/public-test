@@ -1,0 +1,42 @@
+name: tauri-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+jobs:
+  tauri-action-main:
+    name: Tauri Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Setup Rust
+        uses: step-security/dtolnay-rust-toolchain@release
+        with:
+          toolchain: stable
+      - name: Install Linux Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev
+      - name: Generate Icons
+        run: |
+          mkdir -p src-tauri/icons
+          BASE_URL="https://raw.githubusercontent.com/tauri-apps/tauri-action/dev/.github/fixtures/example-with-tauri-v2/src-tauri/icons"
+          curl -sL "$BASE_URL/32x32.png" -o src-tauri/icons/32x32.png
+          curl -sL "$BASE_URL/128x128.png" -o src-tauri/icons/128x128.png
+          curl -sL "$BASE_URL/128x128@2x.png" -o "src-tauri/icons/128x128@2x.png"
+          curl -sL "$BASE_URL/icon.icns" -o src-tauri/icons/icon.icns
+          curl -sL "$BASE_URL/icon.ico" -o src-tauri/icons/icon.ico
+      - name: Build Tauri App
+        uses: step-security/tauri-action@release
+        with:
+          projectPath: "."
+          args: "--debug"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: dW50cnVzdGVkIGNvbW1lbnQ6IHJzaWduIGVuY3J5cHRlZCBzZWNyZXQga2V5ClJXUlRZMEl5YTBGV3JiTy9lRDZVd3NkL0RoQ1htZmExNDd3RmJaNmRMT1ZGVjczWTBKZ0FBQkFBQUFBQUFBQUFBQUlBQUFBQWdMekUzVkE4K0tWQ1hjeGt1Vkx2QnRUR3pzQjVuV0ZpM2czWXNkRm9hVUxrVnB6TUN3K1NheHJMREhQbUVWVFZRK3NIL1VsMDBHNW5ET1EzQno0UStSb21nRW4vZlpTaXIwZFh5ZmRlL1lSN0dKcHdyOUVPclVvdzFhVkxDVnZrbHM2T1o4Tk1NWEU9Cg==
