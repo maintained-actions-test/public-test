@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run handlebars-action
-        uses: step-security/handlebars-action@release
+        uses: step-security/handlebars-action@main
         with:
           files: testdata/handlebars-action/*.template
 
