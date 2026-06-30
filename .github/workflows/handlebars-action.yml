@@ -22,3 +22,6 @@ jobs:
         uses: step-security/handlebars-action@release
         with:
           files: testdata/handlebars-action/*.template
+
+      - name: Verify output
+        run: cat testdata/handlebars-action/test.txt
