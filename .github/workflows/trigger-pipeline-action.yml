@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run trigger-pipeline-action
-        uses: step-security/trigger-pipeline-action@release
+        uses: step-security/trigger-pipeline-action@main
         with:
           buildkite_api_access_token: dummy
           pipeline: my-org/my-pipeline
