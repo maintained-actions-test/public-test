@@ -1,0 +1,25 @@
+name: get-xml-info
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  get-xml-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get XML Info
+        uses: step-security/get-xml-info@release
+        with:
+          xml-file: test.xml
+          xpath: //version
