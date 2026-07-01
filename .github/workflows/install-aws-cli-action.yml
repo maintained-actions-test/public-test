@@ -1,0 +1,26 @@
+name: install-aws-cli-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install-aws-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install AWS CLI
+        uses: step-security/install-aws-cli-action@release
+        with:
+          version: "2"
+          verbose: "true"
+          arch: amd64
+
+      - name: Verify AWS CLI installation
+        run: aws --version
