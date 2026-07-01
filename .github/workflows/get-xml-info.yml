@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Get XML Info
-        uses: step-security/get-xml-info@release
+        uses: step-security/get-xml-info@main
         with:
           xml-file: test.xml
           xpath: //version
