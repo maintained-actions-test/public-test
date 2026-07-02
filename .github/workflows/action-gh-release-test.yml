@@ -1,0 +1,127 @@
+name: action-gh-release-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-tag:
+        description: "Base tag for test draft releases (will be suffixed per job)"
+        required: true
+        default: "test-token-regression"
+
+permissions:
+  contents: read
+
+jobs:
+  # Demonstrates the BUG on main.
+  # Customer sets env: GITHUB_TOKEN: ${{ secrets.GITOPS_TOKEN }} with no with: token:.
+  # On main, INPUT_TOKEN defaults to github.token and env.GITHUB_TOKEN is ignored,
+  # so the release is created by github-actions[bot] — this job will FAIL the assertion.
+  test-env-token-main:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PAT user login
+        id: pat-user
+        run: echo "login=$(gh api user --jq .login)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+
+      - name: Create release using env.GITHUB_TOKEN only (no with:token)
+        id: release
+        uses: step-security/action-gh-release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+        with:
+          tag_name: "${{ github.event.inputs.release-tag }}-main"
+          name: "Token Regression Test (main)"
+          body: "Testing whether env.GITHUB_TOKEN is respected."
+          draft: true
+          prerelease: true
+          fail_on_unmatched_files: false
+
+      - name: Assert release was created by PAT user not github-actions[bot]
+        run: |
+          CREATOR=$(gh api repos/${{ github.repository }}/releases/${{ steps.release.outputs.id }} --jq .author.login)
+          echo "Release created by : $CREATOR"
+          echo "Expected           : ${{ steps.pat-user.outputs.login }}"
+          if [ "$CREATOR" = "github-actions[bot]" ]; then
+            echo "❌ FAIL — env.GITHUB_TOKEN was ignored; release used the built-in github.token default"
+            echo "   Downstream release: [released] triggers will be suppressed by GitHub's recursion guard."
+            exit 1
+          fi
+          echo "✅ PASS — release was created by the PAT user"
+        env:
+          GH_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+
+      - name: Cleanup draft release
+        if: always()
+        run: |
+          gh release delete "${{ github.event.inputs.release-tag }}-main" --yes --cleanup-tag 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+
+  # Shows correct behavior on v2.5.0 — the last release before the regression.
+  # The same customer pattern works here because env.GITHUB_TOKEN is checked first.
+  # This job will PASS the assertion.
+  test-env-token-v2-5-0:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PAT user login
+        id: pat-user
+        run: echo "login=$(gh api user --jq .login)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+
+      - name: Create release using env.GITHUB_TOKEN only (no with:token)
+        id: release
+        uses: step-security/action-gh-release@v2.5.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+        with:
+          tag_name: "${{ github.event.inputs.release-tag }}-v250"
+          name: "Token Regression Test (v2.5.0)"
+          body: "Testing whether env.GITHUB_TOKEN is respected."
+          draft: true
+          prerelease: true
+          fail_on_unmatched_files: false
+
+      - name: Assert release was created by PAT user not github-actions[bot]
+        run: |
+          CREATOR=$(gh api repos/${{ github.repository }}/releases/${{ steps.release.outputs.id }} --jq .author.login)
+          echo "Release created by : $CREATOR"
+          echo "Expected           : ${{ steps.pat-user.outputs.login }}"
+          if [ "$CREATOR" = "github-actions[bot]" ]; then
+            echo "❌ FAIL — env.GITHUB_TOKEN was ignored; release used the built-in github.token default"
+            exit 1
+          fi
+          echo "✅ PASS — release was created by the PAT user"
+        env:
+          GH_TOKEN: ${{ secrets.GITOPS_TOKEN }}
+
+      - name: Cleanup draft release
+        if: always()
+        run: |
+          gh release delete "${{ github.event.inputs.release-tag }}-v250" --yes --cleanup-tag 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITOPS_TOKEN }}
