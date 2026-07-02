@@ -4,5 +4,5 @@ projects:
   demo: 'demo'
 
 vcs:
-  manager: 'git'
+  client: 'git'
   defaultBranch: 'main'
