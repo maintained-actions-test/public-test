@@ -33,7 +33,7 @@ jobs:
           curl -sL "$BASE_URL/icon.icns" -o src-tauri/icons/icon.icns
           curl -sL "$BASE_URL/icon.ico" -o src-tauri/icons/icon.ico
       - name: Build Tauri App
-        uses: step-security/tauri-action@release
+        uses: step-security/tauri-action@main
         with:
           projectPath: "."
           args: "--debug"
