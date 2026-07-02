@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v6
       - name: Get Branch Names
         id: branch-names-main
-        uses: step-security/branch-names@release
+        uses: step-security/branch-names@main
         with:
           strip_tag_prefix: "v"
           replace_slashes_with_hyphens: true
