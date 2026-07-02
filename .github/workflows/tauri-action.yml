@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: lts/*
       - name: Setup Rust
-        uses: step-security/dtolnay-rust-toolchain@release
+        uses: step-security/dtolnay-rust-toolchain@main
         with:
           toolchain: stable
       - name: Install Linux Dependencies
