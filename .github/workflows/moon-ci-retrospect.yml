@@ -27,5 +27,5 @@ jobs:
         run: moon run :echo
 
       - name: Collect and display moon CI results
-        uses: step-security/moon-ci-retrospect@release
+        uses: step-security/moon-ci-retrospect@main
         if: success() || failure()
