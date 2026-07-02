@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run xcodebuild
-        uses: step-security/xcodebuild@release
+        uses: step-security/xcodebuild@main
         with:
           platform: macOS
