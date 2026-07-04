@@ -1,0 +1,13 @@
+{
+  "graphName" : "maven-wrapper-test",
+  "artifacts" : [ {
+    "id" : "com.github.octodemo:maven-wrapper-test:pom",
+    "numericId" : 1,
+    "groupId" : "com.github.octodemo",
+    "artifactId" : "maven-wrapper-test",
+    "version" : "1.0.0-SNAPSHOT",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "pom" ]
+  } ]
+}

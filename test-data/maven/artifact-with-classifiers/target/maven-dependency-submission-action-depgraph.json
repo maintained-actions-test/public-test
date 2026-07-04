@@ -1,0 +1,124 @@
+{
+  "graphName" : "artifact-with-classifiers",
+  "artifacts" : [ {
+    "id" : "io.netty:netty-tcnative-boringssl-static:jar",
+    "numericId" : 1,
+    "groupId" : "io.netty",
+    "artifactId" : "netty-tcnative-boringssl-static",
+    "version" : "2.0.54.Final",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "io.netty:netty-tcnative-classes:jar",
+    "numericId" : 2,
+    "groupId" : "io.netty",
+    "artifactId" : "netty-tcnative-classes",
+    "version" : "2.0.54.Final",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "io.netty:netty-tcnative-boringssl-static:jar:linux-x86_64",
+    "numericId" : 3,
+    "groupId" : "io.netty",
+    "artifactId" : "netty-tcnative-boringssl-static",
+    "version" : "2.0.54.Final",
+    "optional" : false,
+    "classifiers" : [ "linux-x86_64" ],
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "io.netty:netty-tcnative-boringssl-static:jar:linux-aarch_64",
+    "numericId" : 4,
+    "groupId" : "io.netty",
+    "artifactId" : "netty-tcnative-boringssl-static",
+    "version" : "2.0.54.Final",
+    "optional" : false,
+    "classifiers" : [ "linux-aarch_64" ],
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "io.netty:netty-tcnative-boringssl-static:jar:osx-x86_64",
+    "numericId" : 5,
+    "groupId" : "io.netty",
+    "artifactId" : "netty-tcnative-boringssl-static",
+    "version" : "2.0.54.Final",
+    "optional" : false,
+    "classifiers" : [ "osx-x86_64" ],
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "io.netty:netty-tcnative-boringssl-static:jar:osx-aarch_64",
+    "numericId" : 6,
+    "groupId" : "io.netty",
+    "artifactId" : "netty-tcnative-boringssl-static",
+    "version" : "2.0.54.Final",
+    "optional" : false,
+    "classifiers" : [ "osx-aarch_64" ],
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "io.netty:netty-tcnative-boringssl-static:jar:windows-x86_64",
+    "numericId" : 7,
+    "groupId" : "io.netty",
+    "artifactId" : "netty-tcnative-boringssl-static",
+    "version" : "2.0.54.Final",
+    "optional" : false,
+    "classifiers" : [ "windows-x86_64" ],
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "com.github.octodemo:artifact-with-classifiers:jar",
+    "numericId" : 8,
+    "groupId" : "com.github.octodemo",
+    "artifactId" : "artifact-with-classifiers",
+    "version" : "1.0.0-SNAPSHOT",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  } ],
+  "dependencies" : [ {
+    "from" : "io.netty:netty-tcnative-boringssl-static:jar",
+    "to" : "io.netty:netty-tcnative-classes:jar",
+    "numericFrom" : 0,
+    "numericTo" : 1,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "io.netty:netty-tcnative-boringssl-static:jar",
+    "to" : "io.netty:netty-tcnative-boringssl-static:jar:linux-x86_64",
+    "numericFrom" : 0,
+    "numericTo" : 2,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "io.netty:netty-tcnative-boringssl-static:jar",
+    "to" : "io.netty:netty-tcnative-boringssl-static:jar:linux-aarch_64",
+    "numericFrom" : 0,
+    "numericTo" : 3,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "io.netty:netty-tcnative-boringssl-static:jar",
+    "to" : "io.netty:netty-tcnative-boringssl-static:jar:osx-x86_64",
+    "numericFrom" : 0,
+    "numericTo" : 4,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "io.netty:netty-tcnative-boringssl-static:jar",
+    "to" : "io.netty:netty-tcnative-boringssl-static:jar:osx-aarch_64",
+    "numericFrom" : 0,
+    "numericTo" : 5,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "io.netty:netty-tcnative-boringssl-static:jar",
+    "to" : "io.netty:netty-tcnative-boringssl-static:jar:windows-x86_64",
+    "numericFrom" : 0,
+    "numericTo" : 6,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "com.github.octodemo:artifact-with-classifiers:jar",
+    "to" : "io.netty:netty-tcnative-boringssl-static:jar",
+    "numericFrom" : 7,
+    "numericTo" : 0,
+    "resolution" : "INCLUDED"
+  } ]
+}

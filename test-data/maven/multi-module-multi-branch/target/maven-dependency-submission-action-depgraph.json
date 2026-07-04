@@ -1,0 +1,44 @@
+{
+  "graphName" : "bs-parent",
+  "artifacts" : [ {
+    "id" : "junit:junit:jar",
+    "numericId" : 1,
+    "groupId" : "junit",
+    "artifactId" : "junit",
+    "version" : "4.13",
+    "optional" : false,
+    "scopes" : [ "test" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.hamcrest:hamcrest-core:jar",
+    "numericId" : 2,
+    "groupId" : "org.hamcrest",
+    "artifactId" : "hamcrest-core",
+    "version" : "1.3",
+    "optional" : false,
+    "scopes" : [ "test" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "com.github.octodemo:bs-parent:pom",
+    "numericId" : 3,
+    "groupId" : "com.github.octodemo",
+    "artifactId" : "bs-parent",
+    "version" : "1.0.0-SNAPSHOT",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "pom" ]
+  } ],
+  "dependencies" : [ {
+    "from" : "junit:junit:jar",
+    "to" : "org.hamcrest:hamcrest-core:jar",
+    "numericFrom" : 0,
+    "numericTo" : 1,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "com.github.octodemo:bs-parent:pom",
+    "to" : "junit:junit:jar",
+    "numericFrom" : 2,
+    "numericTo" : 0,
+    "resolution" : "INCLUDED"
+  } ]
+}
