@@ -1,0 +1,19 @@
+name: conditional-build-matrix
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  conditional-build-matrix-main:
+    name: Conditional Build Matrix (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Conditional Build Matrix
+        uses: step-security/conditional-build-matrix@release
+        with:
+          inputFile: .github/workflows/matrix_includes.json
+          filter: "[?status == 'active']"
+          addInclude: true
