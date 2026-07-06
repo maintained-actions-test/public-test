@@ -26,7 +26,7 @@ jobs:
       - name: Upload dSYMs to Datadog
         uses: step-security/upload-dsyms-github-action@release
         with:
-          api_key: ${{ secrets.DATADOG_API_KEY }}
+          api_key: xyz
           site: datadoghq.com
           dsym_paths: test-dsyms
           dry_run: "true"
