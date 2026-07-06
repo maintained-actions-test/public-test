@@ -1,0 +1,32 @@
+name: upload-dsyms-github-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  upload-dsyms:
+    runs-on: macos-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create test dSYM files
+        run: |
+          mkdir -p test-dsyms/TestApp.dSYM/Contents/Resources/DWARF
+          echo "test" > test-dsyms/TestApp.dSYM/Contents/Resources/DWARF/TestApp
+
+      - name: Upload dSYMs to Datadog
+        uses: step-security/upload-dsyms-github-action@release
+        with:
+          api_key: ${{ secrets.DATADOG_API_KEY }}
+          site: datadoghq.com
+          dsym_paths: test-dsyms
+          dry_run: "true"
