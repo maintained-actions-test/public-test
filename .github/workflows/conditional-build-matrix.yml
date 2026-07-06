@@ -12,8 +12,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Conditional Build Matrix
-        uses: step-security/conditional-build-matrix@release
+        id: conditional-build-matrix-main
+        uses: step-security/conditional-build-matrix@main
         with:
           inputFile: .github/workflows/matrix_includes.json
-          filter: "[?status == 'active']"
+          filter: "[?runOn == 'always']"
           addInclude: true
+      - name: Print Conditional Build Matrix Output
+        run: |
+          echo "Matrix Output: ${{ steps.conditional-build-matrix-main.outputs.matrix }}"
+          echo "Raw outputs: ${{ steps.conditional-build-matrix-main.outputs }}"
