@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Wrangler dry run
-        uses: step-security/wrangler-action@release
+        uses: step-security/wrangler-action@main
         with:
           workingDirectory: wrangler-action-test
           command: deploy --dry-run
