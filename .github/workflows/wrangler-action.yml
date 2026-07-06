@@ -1,0 +1,25 @@
+name: wrangler-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wrangler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Wrangler dry run
+        uses: step-security/wrangler-action@release
+        with:
+          workingDirectory: wrangler-action-test
+          command: deploy --dry-run
