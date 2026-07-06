@@ -17,8 +17,24 @@ jobs:
           java-version: "11"
           distribution: "temurin"
       - name: Run Main Action
-        uses: step-security/maven-dependency-submission-action@release
+        uses: step-security/maven-dependency-submission-action@main
         with:
           directory: test-data/maven/simple
           token: ${{ github.token }}
-
+  test-main-with-arguments:
+    name: Test Main - With Arguments
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: "11"
+          distribution: "temurin"
+      - name: Run Main Action
+        uses: step-security/maven-dependency-submission-action@main
+        with:
+          directory: test-data/maven/simple
+          maven-args: ' -X -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
+          token: ${{ github.token }}
