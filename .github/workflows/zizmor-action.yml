@@ -1,0 +1,24 @@
+name: zizmor-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+jobs:
+  zizmor-action-main:
+    name: Zizmor Security Audit (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run Zizmor Audit (@main)
+        uses: step-security/zizmor-action@release
+        with:
+          inputs: "."
+          online-audits: true
+          persona: "regular"
+          version: "latest"
+          advanced-security: true
+          color: true
