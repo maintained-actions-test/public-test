@@ -41,7 +41,7 @@ jobs:
           LINTEOF
 
       - name: Run Android Lint
-        uses: step-security/action-android-lint@release
+        uses: step-security/action-android-lint@main
         with:
           report-path: build/reports/lint-results.xml
           ignore-warnings: 'false'
