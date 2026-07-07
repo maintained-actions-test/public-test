@@ -44,4 +44,4 @@ jobs:
         uses: step-security/action-android-lint@release
         with:
           report-path: build/reports/lint-results.xml
-          ignore-warnings: 'true'
+          ignore-warnings: 'false'
