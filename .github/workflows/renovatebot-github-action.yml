@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Renovate (@main)
-        uses: step-security/renovatebot-github-action@release
+        uses: step-security/renovatebot-github-action@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           renovate-version: "43"
