@@ -14,9 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Zizmor Audit (@main)
-        uses: step-security/zizmor-action@release
+        uses: step-security/zizmor-action@main
         with:
-          inputs: ".github/workflows/add-pr-comment.yml"
+          inputs: "."
           online-audits: true
           persona: "regular"
           version: "latest"
