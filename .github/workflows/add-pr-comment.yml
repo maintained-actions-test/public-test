@@ -26,8 +26,9 @@ jobs:
         uses: step-security/add-pr-comment@main
         with:
           issue: ${{ inputs.pr_number }}
-          message: "✅ **Test Comment with @main**
-This is a test comment using @main tag on PR #${{ inputs.pr_number }}."
+          message: |-
+            ✅ **Test Comment with @main**
+            This is a test comment using @main tag on PR #${{ inputs.pr_number }}.
           message-id: "test-main-job-id"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
