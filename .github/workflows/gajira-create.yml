@@ -1,0 +1,25 @@
+name: gajira-create
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  gajira-create-main:
+    name: Create Jira Issue (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Jira Login
+        uses: atlassian/gajira-login@v3
+        env:
+          JIRA_BASE_URL: https://stepsecurity-team.atlassian.net
+          JIRA_USER_EMAIL: rajkumar@stepsecurity.io
+          JIRA_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
+      - name: Create Jira Issue (@main)
+        uses: step-security/gajira-create@release
+        with:
+          project: "KAN"
+          issuetype: "Task"
+          summary: "Test Issue from GitHub Actions"
