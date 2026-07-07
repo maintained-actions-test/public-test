@@ -16,7 +16,7 @@ jobs:
       - name: Run Zizmor Audit (@main)
         uses: step-security/zizmor-action@main
         with:
-          inputs: "."
+          inputs: ".github/workflows/add-pr-comment.yml"
           online-audits: true
           persona: "regular"
           version: "latest"
