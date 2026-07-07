@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Upload dSYMs to Datadog
-        uses: step-security/upload-dsyms-github-action@release
+        uses: step-security/upload-dsyms-github-action@main
         with:
           api_key: xyz
           site: datadoghq.com
