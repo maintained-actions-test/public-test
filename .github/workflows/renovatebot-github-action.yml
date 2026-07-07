@@ -1,0 +1,20 @@
+name: renovatebot-github-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  github-action-main:
+    name: Renovate (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run Renovate (@main)
+        uses: step-security/renovatebot-github-action@release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          renovate-version: "43"
+          mount-docker-socket: false
