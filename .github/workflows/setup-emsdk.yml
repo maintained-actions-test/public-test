@@ -1,0 +1,27 @@
+name: setup-emsdk
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-emsdk:
+    name: setup-emsdk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run setup-emsdk
+        uses: step-security/setup-emsdk@release
+        with:
+          version: latest
+
+      - name: Verify emcc is installed
+        run: emcc --version
