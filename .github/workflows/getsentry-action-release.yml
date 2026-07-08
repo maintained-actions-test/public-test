@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run getsentry-action-release
-        uses: step-security/getsentry-action-release@release
+        uses: step-security/getsentry-action-release@main
         env:
           MOCK: true
         with:
