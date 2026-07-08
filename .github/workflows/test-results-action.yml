@@ -30,7 +30,7 @@ jobs:
           JUNITEOF
 
       - name: Upload test results
-        uses: step-security/test-results-action@release
+        uses: step-security/test-results-action@main
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./junit.xml
