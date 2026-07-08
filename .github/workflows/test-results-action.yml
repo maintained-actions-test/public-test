@@ -1,0 +1,38 @@
+name: test-results-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-results-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate sample JUnit test result
+        run: |
+          cat > ./junit.xml << 'JUNITEOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <testsuites>
+            <testsuite name="sample" tests="1" failures="0" errors="0">
+              <testcase classname="sample.TestSuite" name="test_example" time="0.001"/>
+            </testsuite>
+          </testsuites>
+          JUNITEOF
+
+      - name: Upload test results
+        uses: step-security/test-results-action@release
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./junit.xml
+          dry_run: 'true'
+          verbose: 'true'
