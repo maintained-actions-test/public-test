@@ -19,7 +19,13 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run http-request-action
+        id: http
         uses: step-security/http-request-action@release
         with:
           url: https://api.github.com/zen
           method: GET
+
+      - name: Verify output
+        run: |
+          echo "Status: ${{ steps.http.outputs.status }}"
+          echo "Response: ${{ steps.http.outputs.response }}"
