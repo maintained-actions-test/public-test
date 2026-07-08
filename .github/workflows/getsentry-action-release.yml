@@ -21,9 +21,6 @@ jobs:
       - name: Run getsentry-action-release
         uses: step-security/getsentry-action-release@release
         env:
-          SENTRY_AUTH_TOKEN: dummy
-          SENTRY_ORG: my-org
-          SENTRY_PROJECT: my-project
+          MOCK: true
         with:
-          ignore_missing: true
-          ignore_empty: true
+          environment: production
