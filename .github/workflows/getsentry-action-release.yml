@@ -1,0 +1,29 @@
+name: getsentry-action-release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  getsentry-action-release:
+    name: getsentry-action-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run getsentry-action-release
+        uses: step-security/getsentry-action-release@release
+        env:
+          SENTRY_AUTH_TOKEN: dummy
+          SENTRY_ORG: my-org
+          SENTRY_PROJECT: my-project
+        with:
+          ignore_missing: true
+          ignore_empty: true
