@@ -1,0 +1,24 @@
+name: set-commit-status-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  statuses: write
+
+jobs:
+  set-commit-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Set commit status
+        uses: step-security/set-commit-status-action@release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: success
+          context: Test Status
+          description: Test commit status
