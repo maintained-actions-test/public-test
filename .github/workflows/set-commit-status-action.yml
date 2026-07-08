@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Set commit status
-        uses: step-security/set-commit-status-action@release
+        uses: step-security/set-commit-status-action@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           status: success
