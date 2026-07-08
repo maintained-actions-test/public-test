@@ -1,6 +1,6 @@
 name: workflow-dispatch-test
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       message:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   echo:
-    runs-on: self-hosted
+    runs-on: [self-hosted, pending-test-label]
     steps:
       - name: Echo message
         run: echo '${{ inputs.message }}'
