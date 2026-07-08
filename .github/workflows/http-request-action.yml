@@ -20,7 +20,7 @@ jobs:
 
       - name: Run http-request-action
         id: http
-        uses: step-security/http-request-action@release
+        uses: step-security/http-request-action@main
         with:
           url: https://api.github.com/zen
           method: GET
