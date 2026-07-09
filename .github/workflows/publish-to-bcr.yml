@@ -42,7 +42,6 @@ jobs:
 
   test-publish-workflow:
     uses: step-security/publish-to-bcr/.github/workflows/publish.yaml@release
-    continue-on-error: true
     with:
       tag_name: release
       registry_fork: step-security/bazel-central-registry
