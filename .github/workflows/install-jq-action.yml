@@ -1,13 +1,17 @@
 name: install-jq-action
-
-
+permissions: {}
 on:
   workflow_dispatch:
-
+    inputs: {}
 jobs:
-  example:
+  test-main:
     runs-on: ubuntu-latest
     steps:
       - name: 'Setup jq'
-        uses: step-security/install-jq-action@temp/subscription-2
-
+        uses: step-security/install-jq-action@main
+        with:
+          force: true
+      - name: 'Check jq'
+        run: |
+          which jq
+          jq --version
