@@ -1,0 +1,11 @@
+bcr_test_module:
+  module_path: "."
+  matrix:
+    bazel: [7.x]
+  tasks:
+    run_tests:
+      name: "Run tests"
+      platform: "ubuntu2004"
+      bazel: ${{ bazel }}
+      test_targets:
+        - "//..."
