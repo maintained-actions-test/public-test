@@ -4,20 +4,48 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish-to-bcr-main:
+  test-action:
     runs-on: ubuntu-latest
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@rc
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
         with:
           egress-policy: audit
 
-      - name: Checkout
-        uses: actions/checkout@v6
+      - name: Checkout publish-to-bcr
+        uses: actions/checkout@v7
+        with:
+          repository: step-security/publish-to-bcr
+          ref: release
+          path: publish-to-bcr
+
+      - name: Setup test fixture
+        run: publish-to-bcr/e2e/action/setup-test-fixture.sh versioned versioned-1.0.0
+
+      - name: Create registry
+        run: |
+          mkdir -p bazel-central-registry/modules
+          cd bazel-central-registry
+          git init
 
       - name: Publish to BCR
         uses: step-security/publish-to-bcr@release
         with:
-          local-registry: "."
-          module-version: "0.0.0-test"
-          templates-dir: ".bcr"
+          tag: v1.0.0
+          module-version: 1.0.0
+          github-repository: foobar/versioned
+          templates-dir: publish-to-bcr/e2e/fixtures/versioned/.bcr
+          local-registry: bazel-central-registry
+
+  test-publish-workflow:
+    continue-on-error: true
+    uses: step-security/publish-to-bcr/.github/workflows/publish.yaml@release
+    with:
+      tag_name: release
+      registry_fork: step-security/bazel-central-registry
+      attest: false
+      open_pull_request: false
+      download_default_release_artifacts: false
+      repository: step-security/publish-to-bcr
+    secrets:
+      publish_token: ${{ secrets.GITHUB_TOKEN }}
