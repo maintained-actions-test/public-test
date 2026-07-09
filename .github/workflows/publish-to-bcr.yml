@@ -3,6 +3,9 @@ name: publish-to-bcr
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   test-action:
     runs-on: ubuntu-latest
@@ -13,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout publish-to-bcr
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           repository: step-security/publish-to-bcr
           ref: release
@@ -38,8 +41,8 @@ jobs:
           local-registry: bazel-central-registry
 
   test-publish-workflow:
-    continue-on-error: true
     uses: step-security/publish-to-bcr/.github/workflows/publish.yaml@release
+    continue-on-error: true
     with:
       tag_name: release
       registry_fork: step-security/bazel-central-registry
