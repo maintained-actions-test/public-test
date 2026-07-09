@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run setup-emsdk
-        uses: step-security/setup-emsdk@release
+        uses: step-security/setup-emsdk@main
         with:
           version: latest
 
