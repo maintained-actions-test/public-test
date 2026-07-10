@@ -25,7 +25,7 @@ jobs:
         with:
           name: ${{ github.event.inputs.variable-name }}
           amount: ${{ github.event.inputs.increment-amount }}
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.FOR_SUBSCRIPTION_TESTS }}
 
       - name: Output incremented value
         run: |
