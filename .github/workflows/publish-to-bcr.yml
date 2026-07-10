@@ -24,7 +24,7 @@ jobs:
           cd bazel-central-registry && git init
 
       - name: Publish to BCR
-        uses: step-security/publish-to-bcr@release
+        uses: step-security/publish-to-bcr@main
         with:
           tag: main
           module-version: 0.0.0
@@ -33,7 +33,7 @@ jobs:
           local-registry: bazel-central-registry
 
   test-publish-workflow:
-    uses: step-security/publish-to-bcr/.github/workflows/publish.yaml@release
+    uses: step-security/publish-to-bcr/.github/workflows/publish.yaml@main
     with:
       tag_name: main
       registry_fork: step-security/bazel-central-registry
