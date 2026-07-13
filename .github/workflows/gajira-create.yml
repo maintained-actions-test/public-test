@@ -1,27 +1,35 @@
-name: gajira-create
+name: Test Jira Create
+
 on:
   workflow_dispatch:
     inputs: {}
+
 permissions:
   contents: read
+
 jobs:
-  gajira-create-main:
-    name: Create Jira Issue (main)
+  create-jira-issue:
+    name: Create Jira Issue
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
-      - name: Create Jira Config                                                                                                                      
-        run: |        
+        uses: actions/checkout@v4
+
+      - name: Create Jira Config
+        run: |
           mkdir -p $HOME/jira
           cat > $HOME/jira/config.yml << 'EOF'
-          baseUrl: ${{ secrets.JIRA_BASE_URL }}                                                                                                       
+          baseUrl: ${{ secrets.JIRA_BASE_URL }}
           email: ${{ secrets.JIRA_USER_EMAIL }}
-          token: ${{ secrets.JIRA_API_TOKEN }}                                                                                                        
-          EOF  
-      - name: Create Jira Issue (@main)
+          token: ${{ secrets.JIRA_API_TOKEN }}
+          EOF
+
+      - name: Create Jira Issue
         uses: step-security/gajira-create@main
         with:
           project: "KAN"
           issuetype: "Task"
           summary: "Test Issue from GitHub Actions"
+
+      - name: Log created issue
+        run: echo "Issue created successfully"
