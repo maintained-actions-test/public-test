@@ -11,6 +11,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Create Jira Config                                                                                                                      
+        run: |        
+          mkdir -p $HOME/jira
+          cat > $HOME/jira/config.yml << 'EOF'
+          baseUrl: ${{ secrets.JIRA_BASE_URL }}                                                                                                       
+          email: ${{ secrets.JIRA_USER_EMAIL }}
+          token: ${{ secrets.JIRA_API_TOKEN }}                                                                                                        
+          EOF  
       - name: Create Jira Issue (@main)
         uses: step-security/gajira-create@main
         with:
