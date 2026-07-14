@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   github-action-benchmark:
@@ -23,7 +23,6 @@ jobs:
         with:
           tool: customBiggerIsBetter
           output-file-path: testdata/github-action-benchmark/output.json
-          skip-fetch-gh-pages: true
-          save-data-file: false
+          external-data-json-path: testdata/github-action-benchmark/data.json
           summary-always: true
           github-token: ${{ github.token }}
