@@ -1,0 +1,28 @@
+name: github-action-benchmark
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  github-action-benchmark:
+    name: github-action-benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run github-action-benchmark
+        uses: step-security/github-action-benchmark@release
+        with:
+          tool: customBiggerIsBetter
+          output-file-path: testdata/github-action-benchmark/output.json
+          skip-fetch-gh-pages: true
+          save-data-file: false
+          summary-always: true
