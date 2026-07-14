@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Trivy vulnerability scanner
-        uses: step-security/trivy-action@release
+        uses: step-security/trivy-action@main
         with:
           scan-type: "fs"
           scan-ref: "."
