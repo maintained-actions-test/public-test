@@ -1,0 +1,26 @@
+name: github-changelog-generator
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate Changelog
+        uses: step-security/github-changelog-generator@release
+        with:
+          milestone: '1'
+          token: ${{ secrets.GITHUB_TOKEN }}
