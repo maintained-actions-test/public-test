@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run github-action-benchmark
-        uses: step-security/github-action-benchmark@release
+        uses: step-security/github-action-benchmark@main
         with:
           tool: customBiggerIsBetter
           output-file-path: testdata/github-action-benchmark/output.json
