@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   github-action-benchmark:
@@ -26,3 +26,4 @@ jobs:
           skip-fetch-gh-pages: true
           save-data-file: false
           summary-always: true
+          github-token: ${{ github.token }}
