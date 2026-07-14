@@ -17,6 +17,7 @@ jobs:
           egress-policy: audit
 
       - name: Get job ID
+        id: get-job-id
         uses: step-security/gha-jobid-action@release
         with:
           job_name: get-job-id
