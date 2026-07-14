@@ -1,0 +1,24 @@
+name: code-coverage-report-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  code-coverage-report-action:
+    name: code-coverage-report-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run code-coverage-report-action
+        uses: step-security/code-coverage-report-action@release
+        with:
+          filename: testdata/code-coverage-report-action/coverage.xml
