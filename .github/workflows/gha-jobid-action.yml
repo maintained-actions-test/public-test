@@ -1,0 +1,22 @@
+name: gha-jobid-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  get-job-id:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Get job ID
+        uses: step-security/gha-jobid-action@release
+        with:
+          job_name: get-job-id
