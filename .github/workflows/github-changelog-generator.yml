@@ -24,3 +24,7 @@ jobs:
         with:
           milestone: '1'
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: view changelog
+        run: | 
+            cat changelog.md
