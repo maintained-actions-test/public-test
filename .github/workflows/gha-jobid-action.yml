@@ -20,3 +20,7 @@ jobs:
         uses: step-security/gha-jobid-action@release
         with:
           job_name: get-job-id
+
+      - name: check outoput
+        run: |
+          echo ${{ steps.get-job-id.outputs.job_id }}
