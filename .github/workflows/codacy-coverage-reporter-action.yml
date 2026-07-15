@@ -1,0 +1,19 @@
+name: codacy-coverage-reporter-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  codacy-coverage-reporter-action-main:
+    name: Codacy Coverage Reporter (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Upload Coverage to Codacy
+        continue-on-error: true
+        uses: step-security/codacy-coverage-reporter-action@release
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: "testdata/code-coverage-report-action/coverage.xml"
