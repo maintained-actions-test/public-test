@@ -14,6 +14,6 @@ jobs:
       - name: Get GitHub App Token
         id: auth
         continue-on-error: true
-        uses: step-security/github-app-auth-action@release
+        uses: step-security/github-app-auth-action@main
         with:
-          creds: ${{ secrets.GITHUB_APP_CREDS }}
+          creds: ${{ secrets.APP_CREDS }}
