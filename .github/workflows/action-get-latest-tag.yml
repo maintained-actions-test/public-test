@@ -1,0 +1,22 @@
+name: action-get-latest-tag
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  action-get-latest-tag-main:
+    name: Get Latest Tag (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Get Latest Tag
+        id: get-latest-tag
+        uses: step-security/action-get-latest-tag@release
+        with:
+          semver_only: "true"
+          with_initial_version: "true"
+          initial_version: "v0.0.0"
