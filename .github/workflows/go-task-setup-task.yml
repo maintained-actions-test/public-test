@@ -1,0 +1,25 @@
+name: go-task-setup-task
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  go-task-setup-task:
+    name: go-task-setup-task
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run go-task-setup-task
+        uses: step-security/go-task-setup-task@release
+
+      - name: Verify task is installed
+        run: task --version
