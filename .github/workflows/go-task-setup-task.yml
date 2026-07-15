@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run go-task-setup-task
-        uses: step-security/go-task-setup-task@release
+        uses: step-security/go-task-setup-task@main
 
       - name: Verify task is installed
         run: task --version
