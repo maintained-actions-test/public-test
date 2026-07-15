@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Buf Action
-        uses: step-security/buf-action@release
+        uses: step-security/buf-action@main
         with:
           setup_only: 'true'
           github_token: ${{ secrets.GITHUB_TOKEN }}
