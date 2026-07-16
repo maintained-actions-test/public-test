@@ -22,4 +22,4 @@ jobs:
       - name: Comment on issue
         run: gh issue comment ${{ github.event.inputs.issue-number }} --body "Triggering needs-attention test" --repo ${{ github.repository }}
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.FOR_SUBSCRIPTION_TESTS }}
