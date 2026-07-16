@@ -32,7 +32,7 @@ jobs:
           python -m build /tmp/testpkg --outdir dist/
 
       - name: Publish to TestPyPI
-        uses: step-security/gh-action-pypi-publish@release
+        uses: step-security/gh-action-pypi-publish@main
         with:
           repository-url: https://test.pypi.org/legacy/
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
