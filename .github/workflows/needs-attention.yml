@@ -30,4 +30,5 @@ jobs:
       - name: Verify output
         env:
           RESULT: ${{ steps.action.outputs.result }}
-        run: echo "Result: $RESULT"
+        run: |
+          echo "Result: $RESULT"
