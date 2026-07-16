@@ -22,7 +22,7 @@ jobs:
 
       - name: Run needs-attention
         id: action
-        uses: step-security/needs-attention@release
+        uses: step-security/needs-attention@main
         with:
           repo-token: ${{ github.token }}
           perform: false
