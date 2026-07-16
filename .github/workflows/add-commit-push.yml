@@ -1,0 +1,39 @@
+name: add-commit-push
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  add-commit-push:
+    name: add-commit-push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Create test file
+        run: echo $RANDOM > test-file.txt
+
+      - name: Add, commit, and push
+        id: action
+        uses: step-security/add-commit-push@release
+        with:
+          commit-message: "test: automated test commit"
+          push-refspec: refs/heads/add-commit-push-test
+          push-force: true
+
+      - name: Verify outputs
+        env:
+          COMMITTED: ${{ steps.action.outputs.committed }}
+          PUSHED: ${{ steps.action.outputs.pushed }}
+        run: |
+          echo "committed: $COMMITTED"
+          echo "pushed: $PUSHED"
+          [ "$COMMITTED" = "true" ] && [ "$PUSHED" = "true" ]
