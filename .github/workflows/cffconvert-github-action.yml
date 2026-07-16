@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run cffconvert
-        uses: step-security/cffconvert-github-action@release
+        uses: step-security/cffconvert-github-action@main
         with:
           args: --infile testdata/cffconvert-github-action/CITATION.cff --validate
