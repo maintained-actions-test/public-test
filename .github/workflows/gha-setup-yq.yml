@@ -1,0 +1,30 @@
+name: gha-setup-yq
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gha-setup-yq:
+    name: gha-setup-yq
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install yq
+        id: action
+        uses: step-security/gha-setup-yq@release
+        with:
+          version: '4.30.6'
+
+      - name: Verify yq
+        run: |
+          yq --version
+          echo 'greeting: "Hello World"' | yq -e ".greeting"
