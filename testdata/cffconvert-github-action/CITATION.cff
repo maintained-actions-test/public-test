@@ -1,0 +1,12 @@
+# YAML 1.2
+---
+authors:
+  -
+    name: "StepSecurity"
+cff-version: "1.2.0"
+date-released: 2026-07-16
+license: "Apache-2.0"
+message: "If you use this software, please cite it using these metadata."
+title: "cffconvert GitHub Action"
+version: 2.0.0
+...
