@@ -1,0 +1,24 @@
+name: cffconvert-github-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cffconvert:
+    name: cffconvert
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run cffconvert
+        uses: step-security/cffconvert-github-action@release
+        with:
+          args: --infile testdata/cffconvert-github-action/CITATION.cff --validate
