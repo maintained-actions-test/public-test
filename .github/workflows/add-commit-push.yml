@@ -18,6 +18,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Set remote HEAD
+        run: git remote set-head origin -a
+
       - name: Create test file
         run: echo $RANDOM > test-file.txt
 
@@ -37,3 +40,7 @@ jobs:
           echo "committed: $COMMITTED"
           echo "pushed: $PUSHED"
           [ "$COMMITTED" = "true" ] && [ "$PUSHED" = "true" ]
+
+      - name: Cleanup test branch
+        if: always()
+        run: git push origin --delete refs/heads/add-commit-push-test || true
