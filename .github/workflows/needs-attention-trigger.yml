@@ -1,0 +1,25 @@
+name: needs-attention-trigger
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue-number:
+        description: 'Issue number with Needs Author Feedback label'
+        required: true
+
+permissions:
+  issues: write
+
+jobs:
+  trigger:
+    name: Comment to trigger needs-attention
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Comment on issue
+        run: gh issue comment ${{ github.event.inputs.issue-number }} --body "Triggering needs-attention test" --repo ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ github.token }}
