@@ -1,0 +1,40 @@
+name: gh-action-pypi-publish
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish-to-testpypi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Create test package distribution
+        run: |
+          pip install build
+          mkdir -p /tmp/testpkg
+          python3 -c "open('/tmp/testpkg/setup.py','w').write('from setuptools import setup\nsetup(name=\"stepsecurity-pypi-publish-test\",version=\"0.1.0\")\n')"
+          python -m build /tmp/testpkg --outdir dist/
+
+      - name: Publish to TestPyPI
+        uses: step-security/gh-action-pypi-publish@release
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          skip-existing: 'true'
+          attestations: 'false'
+          verbose: 'true'
