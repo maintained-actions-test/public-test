@@ -20,7 +20,7 @@ jobs:
 
       - name: Install yq
         id: action
-        uses: step-security/gha-setup-yq@release
+        uses: step-security/gha-setup-yq@main
         with:
           version: '4.30.6'
 
