@@ -26,7 +26,7 @@ jobs:
 
       - name: Add, commit, and push
         id: action
-        uses: step-security/add-commit-push@release
+        uses: step-security/add-commit-push@main
         with:
           commit-message: "test: automated test commit"
           push-refspec: HEAD:refs/heads/add-commit-push-test
