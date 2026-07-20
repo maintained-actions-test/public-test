@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Commit Changes
-        uses: step-security/terraform-composite-actions/commit@main
+        uses: step-security/terraform-composite-actions/commit@release
         with:
           git-branch: "main"
           github-repository: ${{ github.repository }}
@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Find Terraform Directories
-        uses: step-security/terraform-composite-actions/directories@main
+        uses: step-security/terraform-composite-actions/directories@release
   pre-commit-main:
     name: Terraform Pre-Commit (main)
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Pre-Commit
-        uses: step-security/terraform-composite-actions/pre-commit@main
+        uses: step-security/terraform-composite-actions/pre-commit@release
         with:
           terraform-version: "1.5.0"
           terraform-docs-version: "v0.24.0"
