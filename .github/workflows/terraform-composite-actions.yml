@@ -1,0 +1,40 @@
+name: terraform-composite-actions
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  commit-main:
+    name: Terraform Commit (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Commit Changes
+        uses: step-security/terraform-composite-actions/commit@main
+        with:
+          git-branch: "main"
+          github-repository: ${{ github.repository }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+  directories-main:
+    name: Terraform Directories (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Find Terraform Directories
+        uses: step-security/terraform-composite-actions/directories@main
+  pre-commit-main:
+    name: Terraform Pre-Commit (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run Pre-Commit
+        uses: step-security/terraform-composite-actions/pre-commit@main
+        with:
+          terraform-version: "1.5.0"
+          terraform-docs-version: "v0.24.0"
+          tflint-version: "latest"
+          args: "--all-files --color always --show-diff-on-failure"
