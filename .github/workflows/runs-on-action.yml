@@ -1,0 +1,22 @@
+name: runs-on-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runs-on-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run runs-on-action
+        uses: step-security/runs-on-action@release
+        with:
+          show_env: 'true'
+          show_costs: 'summary'
