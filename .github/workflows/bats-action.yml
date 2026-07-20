@@ -1,0 +1,22 @@
+name: bats-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  bats-action-main:
+    name: Bats Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Bats and Bats libs
+        uses: step-security/bats-action@release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Bats tests
+        run: |
+          bats --version
+          printf '#!/usr/bin/env bats\n@test "true is true" {\n  true\n}\n' > /tmp/smoke.bats
+          bats /tmp/smoke.bats
