@@ -1,0 +1,21 @@
+name: terraform-min-max
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  min-max-main:
+    name: Terraform Min/Max (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Get Min/Max Terraform Versions
+        uses: step-security/terraform-min-max@release
+        with:
+          directory: "."
