@@ -19,7 +19,7 @@ jobs:
         id: action
         uses: step-security/swift-package-registry@release
         with:
-          url: https://httpbin.org/post
+          url: https://postman-echo.com/post
 
       - name: Verify output
         env:
