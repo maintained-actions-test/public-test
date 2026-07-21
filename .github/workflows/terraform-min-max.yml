@@ -16,6 +16,6 @@ jobs:
         with:
           node-version: "24"
       - name: Get Min/Max Terraform Versions
-        uses: step-security/terraform-min-max@release
+        uses: step-security/terraform-min-max@main
         with:
           directory: "."
