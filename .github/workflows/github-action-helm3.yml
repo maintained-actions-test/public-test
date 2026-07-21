@@ -1,0 +1,21 @@
+name: github-action-helm3
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  helm-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run Helm command
+        uses: step-security/github-action-helm3@release
+        with:
+          exec: helm version
