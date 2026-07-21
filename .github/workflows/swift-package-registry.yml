@@ -1,0 +1,29 @@
+name: swift-package-registry
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  swift-package-registry:
+    name: swift-package-registry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run swift-package-registry
+        id: action
+        uses: step-security/swift-package-registry@release
+        with:
+          url: https://httpbin.org/post
+
+      - name: Verify output
+        env:
+          OUTPUT: ${{ steps.action.outputs.output }}
+        run: |
+          echo "output: $OUTPUT"
+          [ -n "$OUTPUT" ]
