@@ -17,7 +17,7 @@ jobs:
 
       - name: Run swift-package-registry
         id: action
-        uses: step-security/swift-package-registry@release
+        uses: step-security/swift-package-registry@main
         with:
           url: https://postman-echo.com/post
 
