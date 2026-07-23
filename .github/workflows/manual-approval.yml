@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Wait for approval
-        uses: step-security/manual-approval@release
+        uses: step-security/manual-approval@main
         with:
           secret: ${{ secrets.GITHUB_TOKEN }}
           approvers: amanstep
