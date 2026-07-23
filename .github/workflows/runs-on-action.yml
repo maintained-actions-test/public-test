@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Run runs-on-action
-        uses: step-security/runs-on-action@release
+        uses: step-security/runs-on-action@main
         with:
           show_env: 'true'
           show_costs: 'summary'
