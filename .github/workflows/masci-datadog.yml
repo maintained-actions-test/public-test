@@ -1,0 +1,28 @@
+name: masci-datadog
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  send-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Send Datadog metrics
+        uses: step-security/masci-datadog@release
+        with:
+          api-key: ${{ secrets.DATADOG_API_KEY }}
+          metrics: |
+            - type: "count"
+              name: "test.runs.count"
+              value: 1.0
+              host: "github-actions"
+              tags:
+                - "workflow:test"
