@@ -1,25 +1,16 @@
 name: azure-login
-
 on:
   workflow_dispatch:
-
+    inputs: {}
 permissions:
   contents: read
   id-token: write
-
 jobs:
-  subscription-check:
-    name: Subscription Check
+  azure-login-main:
     runs-on: ubuntu-latest
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v6
-
       - name: Azure Login (dummy creds, expected to fail at az login)
         uses: step-security/azure-login@main
         with:
