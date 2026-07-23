@@ -1,0 +1,20 @@
+name: junit-upload-github-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  junit-upload-main:
+    name: Datadog JUnit Upload (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Upload JUnit Files to Datadog
+        uses: step-security/junit-upload-github-action@release
+        with:
+          api_key: ${{ secrets.DD_API_KEY }}
+          files: "tests.xml"
+          service: "workflow-playground"
+          auto-discovery: "false"
