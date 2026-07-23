@@ -1,0 +1,20 @@
+name: dust-github-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  dust-main:
+    name: Dust GitHub Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Send Data to Dust Workspace
+        uses: step-security/dust-github-action@release
+        with:
+          method: "upsert-skills"
+          workspace-id: ${{ vars.DUST_WORKSPACE_ID }}
+          api-key: ${{ secrets.DUST_API_KEY }}
+          region: "US"
