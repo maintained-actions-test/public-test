@@ -1,0 +1,24 @@
+name: manual-approval
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  manual-approval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Wait for approval
+        uses: step-security/manual-approval@release
+        with:
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          approvers: amanstep
+          minimum-approvals: 1
+          issue-title: Test Approval Required
