@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Send Datadog metrics
-        uses: step-security/masci-datadog@release
+        uses: step-security/masci-datadog@main
         with:
           api-key: ${{ secrets.DATADOG_API_KEY }}
           metrics: |
