@@ -16,6 +16,6 @@ jobs:
           egress-policy: audit
 
       - name: Run Helm command
-        uses: step-security/github-action-helm3@release
+        uses: step-security/github-action-helm3@main
         with:
           exec: helm version
