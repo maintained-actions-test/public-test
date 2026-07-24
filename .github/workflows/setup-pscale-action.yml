@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup pscale
-        uses: step-security/setup-pscale-action@release
+        uses: step-security/setup-pscale-action@main
         with:
           version: "latest"
           github-token: ${{ secrets.GITHUB_TOKEN }}
