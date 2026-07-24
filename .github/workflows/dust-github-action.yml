@@ -12,9 +12,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Send Data to Dust Workspace
-        uses: step-security/dust-github-action@release
+        uses: step-security/dust-github-action@main
         with:
-          method: "upsert-skills"
-          workspace-id: ${{ vars.DUST_WORKSPACE_ID }}
+          method: "upsert-agent-configs"
+          workspace-id: ${{ secrets.DUST_WORKSPACE_ID }}
           api-key: ${{ secrets.DUST_API_KEY }}
           region: "US"
+          agent-configs: "dust-agents/*.yaml"
