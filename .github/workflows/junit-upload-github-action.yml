@@ -12,9 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Upload JUnit Files to Datadog
-        uses: step-security/junit-upload-github-action@release
+        uses: step-security/junit-upload-github-action@main
         with:
-          api_key: ${{ secrets.DD_API_KEY }}
+          api_key: ${{ secrets.DATADOG_API_KEY }}
           files: "tests.xml"
           service: "workflow-playground"
           auto-discovery: "false"
