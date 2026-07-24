@@ -17,7 +17,7 @@ jobs:
           egress-policy: audit
 
       - name: Federate Token
-        uses: step-security/octo-sts-action@release
+        uses: step-security/octo-sts-action@main
         with:
           scope: step-security/octo-sts-action
           identity: test
