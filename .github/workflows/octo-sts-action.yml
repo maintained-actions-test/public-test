@@ -1,0 +1,23 @@
+name: octo-sts-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  federate-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Federate Token
+        uses: step-security/octo-sts-action@release
+        with:
+          scope: step-security/octo-sts-action
+          identity: test
