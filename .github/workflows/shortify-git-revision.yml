@@ -1,0 +1,35 @@
+name: shortify-git-revision
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shortify-git-revision:
+    name: shortify-git-revision
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Shortify git revision
+        id: action
+        uses: step-security/shortify-git-revision@release
+        with:
+          name: GITHUB_SHA
+
+      - name: Verify outputs
+        env:
+          REVISION: ${{ steps.action.outputs.revision }}
+          SHORT: ${{ steps.action.outputs.short }}
+        run: |
+          echo "revision: $REVISION"
+          echo "short: $SHORT"
+          [ -n "$REVISION" ]
+          [ -n "$SHORT" ]
