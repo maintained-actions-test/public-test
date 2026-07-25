@@ -1,0 +1,28 @@
+name: dynamic-matrix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dynamic-matrix:
+    name: dynamic-matrix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Generate matrix
+        id: action
+        uses: step-security/dynamic-matrix@release
+        with:
+          min_python: '3.10'
+          max_python: '3.12'
+
+      - name: Verify output
+        run: |
+          echo "matrix_include: ${{ steps.action.outputs.matrix_include }}"
+          echo '${{ steps.action.outputs.matrix_include }}' | python3 -m json.tool
