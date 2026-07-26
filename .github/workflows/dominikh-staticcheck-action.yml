@@ -1,0 +1,24 @@
+name: dominikh-staticcheck-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dominikh-staticcheck-action:
+    name: dominikh-staticcheck-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run staticcheck
+        uses: step-security/dominikh-staticcheck-action@release
+        with:
+          working-directory: testdata/dominikh-staticcheck-action
