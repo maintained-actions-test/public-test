@@ -1,0 +1,28 @@
+name: vale-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  vale-action:
+    name: vale-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run vale
+        uses: step-security/vale-action@release
+        with:
+          files: testdata/vale-action
+          vale_flags: '--config=testdata/vale-action/.vale.ini'
+          fail_on_error: 'false'
+          reporter: github-check
