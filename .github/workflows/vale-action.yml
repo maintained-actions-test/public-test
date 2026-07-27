@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run vale
-        uses: step-security/vale-action@release
+        uses: step-security/vale-action@main
         with:
           files: testdata/vale-action
           vale_flags: '--config=testdata/vale-action/.vale.ini'
