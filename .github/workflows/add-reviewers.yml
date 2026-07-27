@@ -17,7 +17,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: step-security/add-reviewers@release
+      - uses: step-security/add-reviewers@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           reviewers: anurag-stepsecurity
