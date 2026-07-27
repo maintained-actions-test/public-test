@@ -1,0 +1,27 @@
+name: docker-manifest-create-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker-manifest-create-action:
+    name: docker-manifest-create-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Run docker-manifest-create-action
+        id: action
+        uses: step-security/docker-manifest-create-action@release
+        with:
+          push: 'false'
+          sources: alpine:latest
+
+      - name: Verify
+        run: |
+          echo "digest: ${{ steps.action.outputs.digest }}"
