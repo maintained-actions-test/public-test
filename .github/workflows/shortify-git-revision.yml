@@ -20,7 +20,7 @@ jobs:
 
       - name: Shortify git revision
         id: action
-        uses: step-security/shortify-git-revision@release
+        uses: step-security/shortify-git-revision@main
         with:
           name: GITHUB_SHA
 
