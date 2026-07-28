@@ -1,0 +1,42 @@
+name: action-metadata
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  action-metadata-main:
+    name: Action Metadata (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Get Repository Metadata
+        id: metadata
+        uses: step-security/action-metadata@release
+        with:
+          token: ${{ github.token }}
+      - name: Print Metadata Outputs
+        run: |
+          echo "=== Repository ==="
+          echo "Name:             ${{ steps.metadata.outputs.repository_name }}"
+          echo "Full Name:        ${{ steps.metadata.outputs.repository_full_name }}"
+          echo "Description:      ${{ steps.metadata.outputs.repository_description }}"
+          echo "Visibility:       ${{ steps.metadata.outputs.repository_visibility }}"
+          echo "Default Branch:   ${{ steps.metadata.outputs.repository_default_branch }}"
+          echo "Language:         ${{ steps.metadata.outputs.repository_language }}"
+          echo "Homepage:         ${{ steps.metadata.outputs.repository_homepage }}"
+          echo "Stars:            ${{ steps.metadata.outputs.repository_stargazers_count }}"
+          echo "Forks:            ${{ steps.metadata.outputs.repository_forks_count }}"
+          echo "Open Issues:      ${{ steps.metadata.outputs.repository_open_issues_count }}"
+          echo "Is Template:      ${{ steps.metadata.outputs.repository_is_template }}"
+          echo "Archived:         ${{ steps.metadata.outputs.repository_archived }}"
+          echo ""
+          echo "=== Owner ==="
+          echo "Login:            ${{ steps.metadata.outputs.owner_login }}"
+          echo "Type:             ${{ steps.metadata.outputs.owner_type }}"
+          echo "Profile URL:      ${{ steps.metadata.outputs.owner_html_url }}"
+          echo ""
+          echo "=== License ==="
+          echo "Name:             ${{ steps.metadata.outputs.license_name }}"
+          echo "SPDX ID:          ${{ steps.metadata.outputs.license_spdx_id }}"
