@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Cleanup GHCR
-        uses: step-security/ghcr-cleanup-action@release
+        uses: step-security/ghcr-cleanup-action@main
         with:
           token: ${{ github.token }}
           delete-untagged: "true"
