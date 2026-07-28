@@ -17,7 +17,7 @@ jobs:
 
       - name: Generate matrix
         id: action
-        uses: step-security/dynamic-matrix@release
+        uses: step-security/dynamic-matrix@main
         with:
           min_python: '3.10'
           max_python: '3.12'
