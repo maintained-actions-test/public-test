@@ -1,0 +1,22 @@
+name: setup-allurectl
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  setup-allurectl-main:
+    name: Setup Allurectl (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup allurectl
+        uses: step-security/setup-allurectl@release
+        with:
+          allurectl-version: "latest"
+          allure-endpoint: ${{ secrets.ALLURE_ENDPOINT }}
+          allure-token: ${{ secrets.ALLURE_TOKEN }}
+          allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
+          github-token: ${{ github.token }}
