@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup proto and moon toolchains
-        uses: step-security/moonrepo-setup-toolchain@release
+        uses: step-security/moonrepo-setup-toolchain@main
         with:
           auto-install: 'false'
           cache: 'true'
