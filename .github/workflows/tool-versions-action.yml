@@ -1,0 +1,30 @@
+name: tool-versions-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tool-versions-action:
+    name: tool-versions-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run tool-versions-action
+        id: action
+        uses: step-security/tool-versions-action@release
+        with:
+          path: testdata/tool-versions-action/.tool-versions
+
+      - name: Verify
+        run: |
+          test -n "${{ steps.action.outputs.nodejs }}"
+          test -n "${{ steps.action.outputs.ruby }}"
