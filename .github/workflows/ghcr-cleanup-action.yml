@@ -1,0 +1,20 @@
+name: ghcr-cleanup-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  packages: write
+jobs:
+  ghcr-cleanup-action-main:
+    name: GHCR Cleanup Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Cleanup GHCR
+        uses: step-security/ghcr-cleanup-action@release
+        with:
+          token: ${{ github.token }}
+          delete-untagged: "true"
+          dry-run: "true"
