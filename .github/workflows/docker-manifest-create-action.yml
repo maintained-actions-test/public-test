@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Run docker-manifest-create-action
-        uses: step-security/docker-manifest-create-action@release
+        uses: step-security/docker-manifest-create-action@main
         with:
           push: 'false'
           sources: alpine:latest
