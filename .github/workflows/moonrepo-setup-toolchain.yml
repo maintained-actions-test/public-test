@@ -1,0 +1,25 @@
+name: moonrepo-setup-toolchain
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-toolchain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup proto and moon toolchains
+        uses: step-security/moonrepo-setup-toolchain@release
+        with:
+          auto-install: 'false'
+          cache: 'true'
