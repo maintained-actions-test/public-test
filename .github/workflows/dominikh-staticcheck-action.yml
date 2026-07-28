@@ -19,6 +19,15 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run staticcheck
+<<<<<<< Updated upstream
         uses: step-security/dominikh-staticcheck-action@main
+=======
+        id: action
+        uses: step-security/dominikh-staticcheck-action@release
+>>>>>>> Stashed changes
         with:
           working-directory: testdata/dominikh-staticcheck-action
+        continue-on-error: true
+
+      - name: Verify
+        run: test "${{ steps.action.outcome }}" == "failure"
