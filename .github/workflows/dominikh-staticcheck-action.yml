@@ -20,7 +20,7 @@ jobs:
 
       - name: Run staticcheck
         id: action
-        uses: step-security/dominikh-staticcheck-action@release
+        uses: step-security/dominikh-staticcheck-action@main
         with:
           working-directory: testdata/dominikh-staticcheck-action
         continue-on-error: true
