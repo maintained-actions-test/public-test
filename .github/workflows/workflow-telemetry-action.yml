@@ -1,0 +1,27 @@
+name: workflow-telemetry-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+
+jobs:
+  workflow-telemetry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Collect Workflow Telemetry
+        uses: step-security/workflow-telemetry-action@release
+        with:
+          comment_on_pr: 'false'
+          job_summary: 'true'
+
+      - name: Run some work
+        run: |
+          echo "Running workflow steps for telemetry collection..."
+          sleep 5
