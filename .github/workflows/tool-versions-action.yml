@@ -20,7 +20,7 @@ jobs:
 
       - name: Run tool-versions-action
         id: action
-        uses: step-security/tool-versions-action@release
+        uses: step-security/tool-versions-action@main
         with:
           path: testdata/tool-versions-action/.tool-versions
 
