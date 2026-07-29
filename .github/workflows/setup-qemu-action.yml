@@ -1,11 +1,18 @@
 name: setup-qemu-action
-on: 
+on:
   workflow_dispatch:
-
+    inputs: {}
 jobs:
-    setup-qemu:
-        runs-on: ubuntu-latest
-        steps:  
-            - name: qemu
-              uses: step-security/setup-qemu-action@main
-                
+  setup-qemu-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: qemu
+        uses: step-security/setup-qemu-action@main
+        with:
+          platforms: all
+      - name: test
+        shell: bash
+        run: |-
+          # This should output "aarch64" if QEMU is working on an x86_64 host
+          docker run --rm --platform linux/arm64 alpine uname -m
