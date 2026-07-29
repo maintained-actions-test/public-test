@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Collect Workflow Telemetry
-        uses: step-security/workflow-telemetry-action@release
+        uses: step-security/workflow-telemetry-action@main
         with:
           comment_on_pr: 'false'
           job_summary: 'true'
