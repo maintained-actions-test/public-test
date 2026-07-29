@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup allurectl
-        uses: step-security/setup-allurectl@release
+        uses: step-security/setup-allurectl@main
         with:
           allurectl-version: "latest"
           allure-endpoint: ${{ secrets.ALLURE_ENDPOINT }}
