@@ -30,8 +30,8 @@ jobs:
         run: npm install -g @moonrepo/cli
 
       - name: Run moon ci
-        run: moon ci
-
+        run: moon run :build
+        
       - name: Report moon CI results
         uses: step-security/run-report-action@release
         if: success() || failure()
