@@ -33,7 +33,7 @@ jobs:
         run: moon ci
 
       - name: Report moon CI results
-        uses: step-security/run-report-action@release
+        uses: step-security/run-report-action@main
         if: success() || failure()
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
