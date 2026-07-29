@@ -17,7 +17,7 @@ jobs:
 
       - name: Set up BEAM
         id: action
-        uses: step-security/setup-beam@release
+        uses: step-security/setup-beam@main
         with:
           otp-version: '27.x'
           elixir-version: '1.18.x'
