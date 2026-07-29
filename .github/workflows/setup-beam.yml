@@ -1,0 +1,28 @@
+name: setup-beam
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-beam:
+    name: setup-beam
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Set up BEAM
+        id: action
+        uses: step-security/setup-beam@release
+        with:
+          otp-version: '27.x'
+          elixir-version: '1.18.x'
+
+      - name: Verify
+        run: |
+          test -n "${{ steps.action.outputs.otp-version }}"
+          test -n "${{ steps.action.outputs.elixir-version }}"
