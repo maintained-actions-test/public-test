@@ -21,7 +21,7 @@ jobs:
 
       - name: Run graphql-inspector
         id: action
-        uses: step-security/graphql-inspector@release
+        uses: step-security/graphql-inspector@main
         with:
           schema: 'main:testdata/graphql-inspector/schema.graphql'
           fail-on-breaking: 'false'
