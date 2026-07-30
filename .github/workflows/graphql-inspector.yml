@@ -1,0 +1,30 @@
+name: graphql-inspector
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  graphql-inspector:
+    name: graphql-inspector
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run graphql-inspector
+        id: action
+        uses: step-security/graphql-inspector@release
+        with:
+          schema: 'main:testdata/graphql-inspector/schema.graphql'
+          fail-on-breaking: 'false'
+
+      - name: Verify
+        run: test "${{ steps.action.outputs.changes }}" == "0"
