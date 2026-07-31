@@ -12,6 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup Helm
-        uses: step-security/setup-helm@release
+        uses: step-security/setup-helm@main
         with:
           version: "latest"
