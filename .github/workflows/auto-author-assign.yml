@@ -16,4 +16,4 @@ jobs:
           egress-policy: audit
 
       - name: Auto Author Assign
-        uses: step-security/auto-author-assign@release
+        uses: step-security/auto-author-assign@main
