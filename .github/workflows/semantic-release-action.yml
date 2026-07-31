@@ -17,31 +17,15 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Semantic Release
-        uses: step-security/semantic-release-action@release
         id: semantic
+        uses: step-security/semantic-release-action@main
         with:
           dry_run: true
-          branches: |
-            [
-              '+([0-9])?(.{+([0-9]),x}).x',
-              'master',
-              'main',
-              'next',
-              'next-major',
-              {
-                name: 'beta',
-                prerelease: true
-              },
-              {
-                name: 'alpha',
-                prerelease: true
-              }
-            ]
-          extra_plugins: |
-            @semantic-release/git
-            @semantic-release/changelog
+          working_directory: ".github/actions/retry"
+          branches: '["main"]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Print Release Outputs
         run: |
           echo "new_release_published: ${{ steps.semantic.outputs.new_release_published }}"
