@@ -1,0 +1,18 @@
+name: setup-ruby
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-ruby-main:
+    name: Setup Ruby (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Ruby
+        uses: step-security/setup-ruby@release
+        with:
+          ruby-version: "3.3"
+          bundler-cache: false
