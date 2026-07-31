@@ -5,7 +5,7 @@ on:
       source_pr_number:
         description: "PR number to backport"
         required: true
-        default: "1015"
+        default: "97"
       target_branches:
         description: "Space-delimited target branch(es) to backport to"
         required: true
