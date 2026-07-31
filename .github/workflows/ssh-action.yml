@@ -37,7 +37,7 @@ jobs:
           sleep 2
 
       - name: Execute remote SSH commands
-        uses: step-security/ssh-action@release
+        uses: step-security/ssh-action@main
         with:
           host: ${{ env.REMOTE_HOST }}
           username: linuxserver.io
