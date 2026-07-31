@@ -1,0 +1,28 @@
+name: backport-action
+on:
+  workflow_dispatch:
+    inputs:
+      source_pr_number:
+        description: "PR number to backport"
+        required: true
+        default: "1015"
+      target_branches:
+        description: "Space-delimited target branch(es) to backport to"
+        required: true
+        default: "main"
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  backport-main:
+    name: Backport Pull Request (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Create backport pull requests
+        uses: step-security/backport-action@release
+        with:
+          source_pr_number: ${{ github.event.inputs.source_pr_number }}
+          target_branches: ${{ github.event.inputs.target_branches }}
+          github_token: ${{ github.token }}
