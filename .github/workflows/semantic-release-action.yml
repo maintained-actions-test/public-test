@@ -17,10 +17,29 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Semantic Release
-        id: semantic
         uses: step-security/semantic-release-action@release
+        id: semantic
         with:
           dry_run: true
+          branches: |
+            [
+              '+([0-9])?(.{+([0-9]),x}).x',
+              'master',
+              'main',
+              'next',
+              'next-major',
+              {
+                name: 'beta',
+                prerelease: true
+              },
+              {
+                name: 'alpha',
+                prerelease: true
+              }
+            ]
+          extra_plugins: |
+            @semantic-release/git
+            @semantic-release/changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Print Release Outputs
