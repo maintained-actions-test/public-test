@@ -1,0 +1,17 @@
+name: setup-helm
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-helm-main:
+    name: Setup Helm (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Helm
+        uses: step-security/setup-helm@release
+        with:
+          version: "latest"
