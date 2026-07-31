@@ -1,0 +1,31 @@
+name: swift-codecov-action
+on:
+  workflow_dispatch:
+    inputs:
+      minimum-coverage:
+        description: "Minimum coverage percentage threshold"
+        required: false
+        default: "80"
+      print-stdout:
+        description: "Print coverage table to stdout"
+        required: false
+        default: "true"
+permissions:
+  contents: read
+jobs:
+  swift-codecov-main:
+    name: Swift Code Coverage Analysis (main)
+    runs-on: ubuntu-latest
+    container:
+      image: swift:5.9
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Build and run tests with coverage
+        run: swift test --enable-test-discovery --enable-code-coverage
+      - name: Analyze code coverage
+        uses: step-security/swift-codecov-action@release
+        with:
+          CODECOV_JSON: ".build/debug/codecov/*.json"
+          PRINT_STDOUT: ${{ github.event.inputs.print-stdout || 'true' }}
+          MINIMUM_COVERAGE: ${{ github.event.inputs.minimum-coverage }}
