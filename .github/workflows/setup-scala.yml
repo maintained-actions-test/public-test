@@ -1,0 +1,26 @@
+name: setup-scala
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-scala:
+    name: setup-scala
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Scala
+        uses: step-security/setup-scala@release
+
+      - name: Verify
+        run: cd testdata/setup-scala && sbt run
+        shell: bash
