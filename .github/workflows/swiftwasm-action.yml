@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build with SwiftWasm
-        uses: step-security/swiftwasm-action@release
+        uses: step-security/swiftwasm-action@main
         with:
           shell-action: swift --version
