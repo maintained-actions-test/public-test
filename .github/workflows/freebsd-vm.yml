@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Test FreeBSD VM
-        uses: step-security/freebsd-vm@release
+        uses: step-security/freebsd-vm@main
         with:
           run: |
             uname -a
