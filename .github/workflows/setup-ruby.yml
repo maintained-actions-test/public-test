@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup Ruby
-        uses: step-security/setup-ruby@release
+        uses: step-security/setup-ruby@main
         with:
           ruby-version: "3.3"
           bundler-cache: false
