@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run chrome-extension-upload
-        uses: step-security/chrome-extension-upload@release
+        uses: step-security/chrome-extension-upload@main
         with:
           file-path: testdata/chrome-extension-upload/extension.zip
           extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
