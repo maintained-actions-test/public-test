@@ -1,0 +1,24 @@
+name: workflow-performance-monitor
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  workflow-performance-monitor:
+    name: workflow-performance-monitor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Monitor workflow performance
+        uses: step-security/workflow-performance-monitor@release
+        with:
+          comment_on_pr: 'false'
+
+      - name: Do some work
+        run: sleep 10
