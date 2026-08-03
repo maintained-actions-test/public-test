@@ -1,0 +1,26 @@
+name: freebsd-vm
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freebsd-vm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test FreeBSD VM
+        uses: step-security/freebsd-vm@release
+        with:
+          run: |
+            uname -a
+          usesh: true
