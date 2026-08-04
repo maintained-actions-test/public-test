@@ -24,7 +24,7 @@ jobs:
       - name: Build and run tests with coverage
         run: swift test --enable-test-discovery --enable-code-coverage
       - name: Analyze code coverage
-        uses: step-security/swift-codecov-action@release
+        uses: step-security/swift-codecov-action@main
         with:
           CODECOV_JSON: ".build/debug/codecov/*.json"
           PRINT_STDOUT: ${{ github.event.inputs.print-stdout || 'true' }}
