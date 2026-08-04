@@ -17,7 +17,7 @@ jobs:
           egress-policy: audit
 
       - name: Monitor workflow performance
-        uses: step-security/workflow-performance-monitor@release
+        uses: step-security/workflow-performance-monitor@main
         with:
           comment_on_pr: 'false'
 
