@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Docker
-        uses: step-security/actions-setup-docker@release
+        uses: step-security/actions-setup-docker@main
         with:
           docker_version: "24.0"
           docker_buildx: "true"
