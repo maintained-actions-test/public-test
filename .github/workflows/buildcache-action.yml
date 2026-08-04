@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Set up buildcache
-        uses: step-security/buildcache-action@release
+        uses: step-security/buildcache-action@main
 
       - name: Verify
         run: buildcache --version
