@@ -1,0 +1,22 @@
+name: buildcache-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  buildcache-action:
+    name: buildcache-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Set up buildcache
+        uses: step-security/buildcache-action@release
+
+      - name: Verify
+        run: buildcache --version
