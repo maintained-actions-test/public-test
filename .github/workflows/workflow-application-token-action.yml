@@ -1,0 +1,26 @@
+name: workflow-application-token-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  workflow-application-token-action:
+    name: workflow-application-token-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Get app token
+        id: action
+        uses: step-security/workflow-application-token-action@release
+        with:
+          application_id: ${{ secrets.APP_ID }}
+          application_private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Verify
+        run: test -n "${{ steps.action.outputs.token }}"
