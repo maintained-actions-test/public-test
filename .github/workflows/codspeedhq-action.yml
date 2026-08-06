@@ -1,0 +1,26 @@
+name: codspeedhq-action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-benchmarks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run CodSpeed benchmarks
+        uses: step-security/codspeedhq-action@release
+        with:
+          mode: walltime
+          run: echo no-benchmarks
+          allow-empty: "true"
