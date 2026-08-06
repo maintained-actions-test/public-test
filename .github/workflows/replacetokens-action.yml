@@ -1,0 +1,30 @@
+---
+name: replacetokens-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  replacetokens-main:
+    name: Replace Tokens (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create test file with tokens
+        shell: bash
+        run: >
+          echo '{"greeting": "#{greeting}#", "name": "#{name}#"}' > test-config.json
+
+      - name: Replace Tokens
+        uses: step-security/replacetokens-action@release
+        with:
+          sources: test-config.json
+          variables: '{"greeting":"Hello","name":"World"}'
+      - name: Verify output
+        shell: bash
+        run: |
+          cat test-config.json
+          grep -q '"greeting": "Hello"' test-config.json
+          grep -q '"name": "World"' test-config.json
