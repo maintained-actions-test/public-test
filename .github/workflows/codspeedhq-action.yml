@@ -9,6 +9,8 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    env:
+      CODSPEED_SKIP_UPLOAD: true
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@rc
@@ -22,5 +24,13 @@ jobs:
         uses: step-security/codspeedhq-action@release
         with:
           mode: walltime
-          run: echo no-benchmarks
+          run: |
+            pip install pytest pytest-codspeed -q
+            cat > bench_test.py << 'PYEOF'
+            def test_fibonacci(benchmark):
+                def fib(n):
+                    return n if n <= 1 else fib(n-1) + fib(n-2)
+                benchmark(fib, 10)
+            PYEOF
+            pytest bench_test.py --codspeed
           allow-empty: "true"
