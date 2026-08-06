@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Crowdin Action
-        uses: step-security/crowdin-github-action@release
+        uses: step-security/crowdin-github-action@main
         with:
           dryrun_action: 'true'
           upload_sources: 'false'
