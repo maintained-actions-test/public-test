@@ -1,3 +1,28 @@
+# [1.2.0](https://github.com/maintained-actions-test/public-test/compare/v1.1.1...v1.2.0) (2026-08-06)
+
+
+### Bug Fixes
+
+* add actions:write permission to workflow-dispatch workflow ([749fa70](https://github.com/maintained-actions-test/public-test/commit/749fa70cf3f5d52cde301969cd66fb427734b25a))
+* move uses before continue-on-error in publish workflow job ([21c35b8](https://github.com/maintained-actions-test/public-test/commit/21c35b8e3e3b9c785f2944b3851492b58d253b0a))
+* remove continue-on-error from reusable workflow call job ([cab27ca](https://github.com/maintained-actions-test/public-test/commit/cab27ca94db744904dc7701df987764543b80500))
+* update publish-to-bcr workflow to use proper test fixture ([c29638f](https://github.com/maintained-actions-test/public-test/commit/c29638f0807d23ceb0123ac027a29a1bb1f22089))
+* use local fixtures, point publish workflow at public-test repo ([47ddbfb](https://github.com/maintained-actions-test/public-test/commit/47ddbfb4cc0e054a66fb2e69a88c60e0f305552b))
+* use valid dSYM fixture for upload-dsyms test ([d8d0501](https://github.com/maintained-actions-test/public-test/commit/d8d05018763ba8160526ba6b828d15dc07e9b88c))
+
+
+### Features
+
+* add BCR test fixtures ([9011c99](https://github.com/maintained-actions-test/public-test/commit/9011c99b674261e194f41e69483ad364939ea592))
+* add BCR test fixtures ([533ad77](https://github.com/maintained-actions-test/public-test/commit/533ad777abc4532ee06866ad9e01a85304fc2810))
+* add BCR test fixtures ([33487c4](https://github.com/maintained-actions-test/public-test/commit/33487c483bd0e37871e2830ea3cc93e97d2a48a2))
+* add BCR test fixtures ([5f08f99](https://github.com/maintained-actions-test/public-test/commit/5f08f995d2704fbf0623d05f3f2411bb6336671a))
+* add publish-to-bcr test workflow ([9105817](https://github.com/maintained-actions-test/public-test/commit/91058173f63221be65fce41f7b232b236947cd40))
+* Onboard DopplerHQ/secrets-test(secrets-fetch-action): Add test ([70d77fd](https://github.com/maintained-actions-test/public-test/commit/70d77fd5e0ecd29d8451dfd40f804b261478d477))
+* Onboard nothing-but-nixut-nix action ([e92e065](https://github.com/maintained-actions-test/public-test/commit/e92e0658a7e89bb79ffbc26009b9ad2dba22c6f7))
+
+
+
 ## [1.1.1](https://github.com/maintained-actions-test/public-test/compare/v92.12.0...v1.1.1) (2026-06-03)
 
 
