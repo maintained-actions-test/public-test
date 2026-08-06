@@ -31,7 +31,7 @@ jobs:
           key: cache-${{ hashFiles('testdata/buildkit-cache-dance/Dockerfile') }}
 
       - name: Inject cache into docker
-        uses: step-security/buildkit-cache-dance@release
+        uses: step-security/buildkit-cache-dance@main
         with:
           builder: ${{ steps.setup-buildx.outputs.name }}
           cache-map: |
