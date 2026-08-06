@@ -1,0 +1,39 @@
+name: github-action-submit-signing-request
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  submit-signing-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Create sample artifact
+        run: |
+          mkdir -p dist
+          echo "sample artifact for signing test" > dist/sample.txt
+
+      - name: Upload artifact for signing
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifact
+          path: dist/
+
+      - name: Submit signing request
+        uses: step-security/github-action-submit-signing-request@release
+        with:
+          api-token: dummy-api-token
+          organization-id: dummy-org-id
+          project-slug: test-project
+          signing-policy-slug: test-signing
+          github-artifact-id: ${{ steps.upload.outputs.artifact-id }}
+          wait-for-completion: 'false'
