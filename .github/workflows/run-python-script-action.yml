@@ -1,0 +1,31 @@
+name: run-python-script-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-python-script-action:
+    name: run-python-script-action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run script
+        id: action
+        uses: step-security/run-python-script-action@release
+        with:
+          script: |
+            print("smoke-ok")
+
+      - name: Verify
+        run: |
+          test "${{ steps.action.outputs.error }}" = "false"
+          grep -F "smoke-ok" <<< '${{ steps.action.outputs.stdout }}'
