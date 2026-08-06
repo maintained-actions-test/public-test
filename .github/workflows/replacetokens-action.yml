@@ -18,7 +18,7 @@ jobs:
           echo '{"greeting": "#{greeting}#", "name": "#{name}#"}' > test-config.json
 
       - name: Replace Tokens
-        uses: step-security/replacetokens-action@release
+        uses: step-security/replacetokens-action@main
         with:
           sources: test-config.json
           variables: '{"greeting":"Hello","name":"World"}'
