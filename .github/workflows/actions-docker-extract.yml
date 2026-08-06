@@ -1,0 +1,21 @@
+name: actions-docker-extract
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  docker-extract-main:
+    name: Docker Extract (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Extract files from Docker image
+        id: extract
+        uses: step-security/actions-docker-extract@release
+        with:
+          image: "alpine:latest"
+          path: "/etc/alpine-release"
+      - name: Show extracted content
+        run: cat "${{ steps.extract.outputs.destination }}/alpine-release"
