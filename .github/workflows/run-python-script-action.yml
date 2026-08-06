@@ -24,7 +24,7 @@ jobs:
 
       - name: Run script
         id: action
-        uses: step-security/run-python-script-action@release
+        uses: step-security/run-python-script-action@main
         with:
           script: |
             print("smoke-ok")
