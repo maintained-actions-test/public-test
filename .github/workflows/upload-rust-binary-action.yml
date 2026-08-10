@@ -1,0 +1,28 @@
+name: upload-rust-binary-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+jobs:
+  upload-rust-binary-main:
+    name: Upload Rust Binary (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Upload Rust Binary
+        id: upload
+        uses: step-security/upload-rust-binary-action@release
+        with:
+          bin: main
+          dry-run: "true"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify Upload Result
+        run: |
+          echo "archive: ${{ steps.upload.outputs.archive }}"
+          echo "tar:     ${{ steps.upload.outputs.tar }}"
+          echo "zip:     ${{ steps.upload.outputs.zip }}"
