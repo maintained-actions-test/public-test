@@ -17,7 +17,9 @@ jobs:
         id: upload
         uses: step-security/upload-rust-binary-action@main
         with:
-          bin: main
+          bin: pkg-bin
+          package: pkg-bin
+          manifest-path: __tests__/pkg-bin/Cargo.toml
           dry-run: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
