@@ -15,11 +15,9 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
       - name: Upload Rust Binary
         id: upload
-        uses: step-security/upload-rust-binary-action@release
+        uses: step-security/upload-rust-binary-action@main
         with:
-          bin: pkg-bin
-          package: pkg-bin
-          manifest-path: __tests__/pkg-bin/Cargo.toml
+          bin: main
           dry-run: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
