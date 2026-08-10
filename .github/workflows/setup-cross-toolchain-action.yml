@@ -1,0 +1,22 @@
+name: setup-cross-toolchain-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-cross-toolchain-main:
+    name: Setup Cross Toolchain (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Cross Toolchain
+        uses: step-security/setup-cross-toolchain-action@release
+        with:
+          target: aarch64-unknown-linux-gnu
+      - name: Verify Cross Toolchain Setup
+        run: |
+          echo "CARGO_BUILD_TARGET: $CARGO_BUILD_TARGET"
+          rustup target list --installed
+          aarch64-linux-gnu-gcc --version
