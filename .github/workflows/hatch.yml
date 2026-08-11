@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Install Hatch
-        uses: step-security/pypa-hatch@release
+        uses: step-security/pypa-hatch@main
 
       - name: Verify
         run: hatch --version
