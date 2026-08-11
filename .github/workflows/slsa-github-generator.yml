@@ -294,6 +294,7 @@ jobs:
   create-container-based-predicate:
     permissions:
       contents: read
+      actions: read
     runs-on: ubuntu-latest
     steps:
       - name: Harden the runner (Audit all outbound calls)
