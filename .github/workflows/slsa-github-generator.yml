@@ -17,7 +17,7 @@ jobs:
           egress-policy: audit
       - name: Generate random value
         id: rng
-        uses: step-security/slsa-github-generator/.github/actions/rng@release
+        uses: step-security/slsa-github-generator/.github/actions/rng@main
       - name: Print output
         run: echo "Random value - ${{ steps.rng.outputs.random }}"
 
@@ -31,7 +31,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Privacy check
-        uses: step-security/slsa-github-generator/.github/actions/privacy-check@release
+        uses: step-security/slsa-github-generator/.github/actions/privacy-check@main
         with:
           override: "true"
 
@@ -48,7 +48,7 @@ jobs:
         run: echo "test" > test.txt
       - name: Compute SHA256
         id: sha256
-        uses: step-security/slsa-github-generator/.github/actions/compute-sha256@release
+        uses: step-security/slsa-github-generator/.github/actions/compute-sha256@main
         with:
           path: test.txt
       - name: Print output
@@ -64,7 +64,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Secure project checkout
-        uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout@main
         with:
           path: project
 
@@ -78,13 +78,13 @@ jobs:
         with:
           egress-policy: audit
       - name: Setup builder dir
-        uses: step-security/slsa-github-generator/.github/actions/secure-builder-checkout@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-builder-checkout@main
         with:
           repository: step-security/slsa-github-generator
           ref: release
           path: __BUILDER_CHECKOUT_DIR__
       - name: Secure project checkout (Go)
-        uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout-go@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout-go@main
         with:
           path: project
           go-version: "1.22"
@@ -99,13 +99,13 @@ jobs:
         with:
           egress-policy: audit
       - name: Setup builder dir
-        uses: step-security/slsa-github-generator/.github/actions/secure-builder-checkout@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-builder-checkout@main
         with:
           repository: step-security/slsa-github-generator
           ref: release
           path: __BUILDER_CHECKOUT_DIR__
       - name: Secure project checkout (Node)
-        uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout-node@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout-node@main
         with:
           path: project
           node-version: "20"
@@ -126,7 +126,7 @@ jobs:
         id: sha256
         run: echo "sha256=$(sha256sum artifact.txt | cut -d ' ' -f1)" >> $GITHUB_OUTPUT
       - name: Secure upload artifact
-        uses: step-security/slsa-github-generator/.github/actions/secure-upload-artifact@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-upload-artifact@main
         with:
           name: test-artifact-${{ github.run_id }}
           path: artifact.txt
@@ -150,7 +150,7 @@ jobs:
         id: sha256
         run: echo "sha256=$(sha256sum artifact.txt | cut -d' ' -f1)" >> $GITHUB_OUTPUT
       - name: Secure upload artifact
-        uses: step-security/slsa-github-generator/.github/actions/secure-upload-artifact@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-upload-artifact@main
         with:
           name: dl-test-artifact-${{ github.run_id }}
           path: artifact.txt
@@ -168,7 +168,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Secure download artifact
-        uses: step-security/slsa-github-generator/.github/actions/secure-download-artifact@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-download-artifact@main
         with:
           name: dl-test-artifact-${{ github.run_id }}
           path: artifact.txt
@@ -190,7 +190,7 @@ jobs:
         run: mkdir -p test-folder && echo "test" > test-folder/file.txt
       - name: Secure upload folder
         id: upload
-        uses: step-security/slsa-github-generator/.github/actions/secure-upload-folder@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-upload-folder@main
         with:
           name: test-folder-${{ github.run_id }}
           path: test-folder
@@ -211,7 +211,7 @@ jobs:
         run: mkdir -p test-folder && echo "test" > test-folder/file.txt
       - name: Secure upload folder
         id: upload
-        uses: step-security/slsa-github-generator/.github/actions/secure-upload-folder@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-upload-folder@main
         with:
           name: dl-test-folder-${{ github.run_id }}
           path: test-folder
@@ -228,7 +228,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Secure download folder
-        uses: step-security/slsa-github-generator/.github/actions/secure-download-folder@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-download-folder@main
         with:
           name: dl-test-folder-${{ github.run_id }}
           sha256: ${{ needs.upload-folder-for-download.outputs.sha256 }}
@@ -244,7 +244,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Secure builder checkout
-        uses: step-security/slsa-github-generator/.github/actions/secure-builder-checkout@release
+        uses: step-security/slsa-github-generator/.github/actions/secure-builder-checkout@main
         with:
           repository: actions/checkout
           ref: v4.2.2
@@ -261,7 +261,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Detect workflow
-        uses: step-security/slsa-github-generator/.github/actions/detect-workflow-js@release
+        uses: step-security/slsa-github-generator/.github/actions/detect-workflow-js@main
         with:
           repository: ${{ github.repository }}
           ref: ${{ github.ref }}
@@ -284,7 +284,7 @@ jobs:
           EOF
           mkdir -p output
       - name: Generate attestations
-        uses: step-security/slsa-github-generator/.github/actions/generate-attestations@release
+        uses: step-security/slsa-github-generator/.github/actions/generate-attestations@main
         with:
           slsa-layout-file: layout.json
           predicate-type: https://slsa.dev/provenance/v0.2
@@ -307,7 +307,7 @@ jobs:
           {"buildType":"https://slsa.dev/container-based-build/v0.1","externalParameters":{},"internalParameters":{}}
           EOF
       - name: Create container based predicate
-        uses: step-security/slsa-github-generator/.github/actions/create-container_based-predicate@release
+        uses: step-security/slsa-github-generator/.github/actions/create-container_based-predicate@main
         with:
           build-definition: build-def.json
           output-file: predicate.json
@@ -330,7 +330,7 @@ jobs:
           PAYLOAD=$(printf '%s' "test-${{ github.run_id }}-${{ github.run_attempt }}" | base64 -w0)
           echo "{\"payloadType\":\"application/vnd.in-toto+json\",\"payload\":\"${PAYLOAD}\",\"signatures\":[]}" > attestations/test.intoto.jsonl
       - name: Sign attestations
-        uses: step-security/slsa-github-generator/.github/actions/sign-attestations@release
+        uses: step-security/slsa-github-generator/.github/actions/sign-attestations@main
         with:
           attestations: attestations
           output-folder: output
@@ -347,7 +347,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Verify token
-        uses: step-security/slsa-github-generator/.github/actions/verify-token@release
+        uses: step-security/slsa-github-generator/.github/actions/verify-token@main
         with:
           slsa-workflow-recipient: generic_generator_v0.0.1
           slsa-unverified-token: ${{ github.token }}
@@ -364,7 +364,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Generate builder
-        uses: step-security/slsa-github-generator/.github/actions/generate-builder@release
+        uses: step-security/slsa-github-generator/.github/actions/generate-builder@main
         with:
           ref: refs/tags/v1.7.0
           repository: slsa-framework/slsa-github-generator
