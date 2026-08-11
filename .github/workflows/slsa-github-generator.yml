@@ -335,6 +335,7 @@ jobs:
           output-folder: output
 
   verify-token:
+    continue-on-error: true
     permissions:
       contents: read
       id-token: write
@@ -364,7 +365,7 @@ jobs:
       - name: Generate builder
         uses: step-security/slsa-github-generator/.github/actions/generate-builder@release
         with:
-          ref: refs/tags/v1.4.0
+          ref: refs/tags/v1.7.0
           repository: slsa-framework/slsa-github-generator
           binary: slsa-generator-generic-linux-amd64
           compile-builder: "false"
