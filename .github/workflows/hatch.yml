@@ -1,0 +1,25 @@
+name: hatch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hatch:
+    name: hatch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install Hatch
+        uses: step-security/hatch@release
+
+      - name: Verify
+        run: hatch --version
