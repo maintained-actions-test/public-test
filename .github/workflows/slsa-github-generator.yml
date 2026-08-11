@@ -77,6 +77,12 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
+      - name: Setup builder dir
+        uses: step-security/slsa-github-generator/.github/actions/secure-builder-checkout@release
+        with:
+          repository: step-security/slsa-github-generator
+          ref: release
+          path: __BUILDER_CHECKOUT_DIR__
       - name: Secure project checkout (Go)
         uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout-go@release
         with:
@@ -92,6 +98,12 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
+      - name: Setup builder dir
+        uses: step-security/slsa-github-generator/.github/actions/secure-builder-checkout@release
+        with:
+          repository: step-security/slsa-github-generator
+          ref: release
+          path: __BUILDER_CHECKOUT_DIR__
       - name: Secure project checkout (Node)
         uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout-node@release
         with:
@@ -313,9 +325,9 @@ jobs:
           egress-policy: audit
       - name: Create test attestation
         run: |
-          mkdir -p attestations
-          echo '{"payloadType":"application/vnd.in-toto+json","payload":"dGVzdA==","signatures":[]}' > attestations/test.intoto.jsonl
-          mkdir -p output
+          mkdir -p attestations output
+          PAYLOAD=$(printf '%s' "test-${{ github.run_id }}-${{ github.run_attempt }}" | base64 -w0)
+          echo "{\"payloadType\":\"application/vnd.in-toto+json\",\"payload\":\"${PAYLOAD}\",\"signatures\":[]}" > attestations/test.intoto.jsonl
       - name: Sign attestations
         uses: step-security/slsa-github-generator/.github/actions/sign-attestations@release
         with:
@@ -337,6 +349,8 @@ jobs:
         with:
           slsa-workflow-recipient: generic_generator_v0.0.1
           slsa-unverified-token: ${{ github.token }}
+          output-predicate: predicate.json
+          builder-interface-type: generator
 
   generate-builder:
     permissions:
@@ -350,7 +364,7 @@ jobs:
       - name: Generate builder
         uses: step-security/slsa-github-generator/.github/actions/generate-builder@release
         with:
-          ref: refs/tags/v1.0.0
+          ref: refs/tags/v1.4.0
           repository: slsa-framework/slsa-github-generator
           binary: slsa-generator-generic-linux-amd64
           compile-builder: "false"
