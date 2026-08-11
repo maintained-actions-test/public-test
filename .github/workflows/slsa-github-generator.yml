@@ -1,0 +1,358 @@
+name: slsa-github-generator
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  rng:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Generate random value
+        id: rng
+        uses: step-security/slsa-github-generator/.github/actions/rng@release
+      - name: Print output
+        run: echo "Random value - ${{ steps.rng.outputs.random }}"
+
+  privacy-check:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Privacy check
+        uses: step-security/slsa-github-generator/.github/actions/privacy-check@release
+        with:
+          override: "true"
+
+  compute-sha256:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create test file
+        run: echo "test" > test.txt
+      - name: Compute SHA256
+        id: sha256
+        uses: step-security/slsa-github-generator/.github/actions/compute-sha256@release
+        with:
+          path: test.txt
+      - name: Print output
+        run: echo "SHA256 - ${{ steps.sha256.outputs.sha256 }}"
+
+  secure-project-checkout:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Secure project checkout
+        uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout@release
+        with:
+          path: project
+
+  secure-project-checkout-go:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Secure project checkout (Go)
+        uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout-go@release
+        with:
+          path: project
+          go-version: "1.22"
+
+  secure-project-checkout-node:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Secure project checkout (Node)
+        uses: step-security/slsa-github-generator/.github/actions/secure-project-checkout-node@release
+        with:
+          path: project
+          node-version: "20"
+
+  secure-upload-artifact:
+    permissions:
+      contents: read
+      actions: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create artifact
+        run: echo "test artifact" > artifact.txt
+      - name: Compute SHA256
+        id: sha256
+        run: echo "sha256=$(sha256sum artifact.txt | cut -d ' ' -f1)" >> $GITHUB_OUTPUT
+      - name: Secure upload artifact
+        uses: step-security/slsa-github-generator/.github/actions/secure-upload-artifact@release
+        with:
+          name: test-artifact-${{ github.run_id }}
+          path: artifact.txt
+          sha256: ${{ steps.sha256.outputs.sha256 }}
+
+  upload-for-download:
+    permissions:
+      contents: read
+      actions: write
+    runs-on: ubuntu-latest
+    outputs:
+      sha256: ${{ steps.sha256.outputs.sha256 }}
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create artifact
+        run: echo "test artifact" > artifact.txt
+      - name: Compute SHA256
+        id: sha256
+        run: echo "sha256=$(sha256sum artifact.txt | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+      - name: Secure upload artifact
+        uses: step-security/slsa-github-generator/.github/actions/secure-upload-artifact@release
+        with:
+          name: dl-test-artifact-${{ github.run_id }}
+          path: artifact.txt
+          sha256: ${{ steps.sha256.outputs.sha256 }}
+
+  secure-download-artifact:
+    needs: upload-for-download
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Secure download artifact
+        uses: step-security/slsa-github-generator/.github/actions/secure-download-artifact@release
+        with:
+          name: dl-test-artifact-${{ github.run_id }}
+          path: artifact.txt
+          sha256: ${{ needs.upload-for-download.outputs.sha256 }}
+      - name: Print artifact
+        run: cat artifact.txt
+
+  secure-upload-folder:
+    permissions:
+      contents: read
+      actions: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create test folder
+        run: mkdir -p test-folder && echo "test" > test-folder/file.txt
+      - name: Secure upload folder
+        id: upload
+        uses: step-security/slsa-github-generator/.github/actions/secure-upload-folder@release
+        with:
+          name: test-folder-${{ github.run_id }}
+          path: test-folder
+
+  upload-folder-for-download:
+    permissions:
+      contents: read
+      actions: write
+    runs-on: ubuntu-latest
+    outputs:
+      sha256: ${{ steps.upload.outputs.sha256 }}
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create test folder
+        run: mkdir -p test-folder && echo "test" > test-folder/file.txt
+      - name: Secure upload folder
+        id: upload
+        uses: step-security/slsa-github-generator/.github/actions/secure-upload-folder@release
+        with:
+          name: dl-test-folder-${{ github.run_id }}
+          path: test-folder
+
+  secure-download-folder:
+    needs: upload-folder-for-download
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Secure download folder
+        uses: step-security/slsa-github-generator/.github/actions/secure-download-folder@release
+        with:
+          name: dl-test-folder-${{ github.run_id }}
+          sha256: ${{ needs.upload-folder-for-download.outputs.sha256 }}
+          path: test-folder
+
+  secure-builder-checkout:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Secure builder checkout
+        uses: step-security/slsa-github-generator/.github/actions/secure-builder-checkout@release
+        with:
+          repository: actions/checkout
+          ref: v4.2.2
+          path: builder-dir
+
+  detect-workflow-js:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Detect workflow
+        uses: step-security/slsa-github-generator/.github/actions/detect-workflow-js@release
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          workflow: .github/workflows/slsa-github-generator.yml
+
+  generate-attestations:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create test inputs
+        run: |
+          echo '{}' > predicate.json
+          cat > layout.json << 'EOF'
+          {"version":1,"attestations":[{"name":"test.intoto.jsonl","subjects":[{"name":"artifact","digest":{"sha256":"abc123def456"}}]}]}
+          EOF
+          mkdir -p output
+      - name: Generate attestations
+        uses: step-security/slsa-github-generator/.github/actions/generate-attestations@release
+        with:
+          slsa-layout-file: layout.json
+          predicate-type: https://slsa.dev/provenance/v0.2
+          predicate-file: predicate.json
+          output-folder: output
+
+  create-container-based-predicate:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create test build definition
+        run: |
+          cat > build-def.json << 'EOF'
+          {"buildType":"https://slsa.dev/container-based-build/v0.1","externalParameters":{},"internalParameters":{}}
+          EOF
+      - name: Create container based predicate
+        uses: step-security/slsa-github-generator/.github/actions/create-container_based-predicate@release
+        with:
+          build-definition: build-def.json
+          output-file: predicate.json
+          binary-sha256: abc123
+          binary-uri: https://github.com/slsa-framework/slsa-github-generator/releases/download/v1.0.0/builder
+
+  sign-attestations:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create test attestation
+        run: |
+          mkdir -p attestations
+          echo '{"payloadType":"application/vnd.in-toto+json","payload":"dGVzdA==","signatures":[]}' > attestations/test.intoto.jsonl
+          mkdir -p output
+      - name: Sign attestations
+        uses: step-security/slsa-github-generator/.github/actions/sign-attestations@release
+        with:
+          attestations: attestations
+          output-folder: output
+
+  verify-token:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Verify token
+        uses: step-security/slsa-github-generator/.github/actions/verify-token@release
+        with:
+          slsa-workflow-recipient: generic_generator_v0.0.1
+          slsa-unverified-token: ${{ github.token }}
+
+  generate-builder:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Generate builder
+        uses: step-security/slsa-github-generator/.github/actions/generate-builder@release
+        with:
+          ref: refs/tags/v1.0.0
+          repository: slsa-framework/slsa-github-generator
+          binary: slsa-generator-generic-linux-amd64
+          compile-builder: "false"
+          directory: internal/builders/generic
+          go-version: "1.21"
