@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Go binary
-        uses: step-security/actions-go-build@release
+        uses: step-security/actions-go-build@main
         with:
           product_name: test-app
           product_version: 0.0.1
