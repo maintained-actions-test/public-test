@@ -46,5 +46,6 @@ jobs:
         uses: step-security/release-drafter/autolabeler@main
         with:
           config-name: release-drafter.yml
+          dry-run: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
