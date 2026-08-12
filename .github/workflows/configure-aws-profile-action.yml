@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Configure AWS Profile
-        uses: step-security/mcblair-configure-aws-profile-action@release
+        uses: step-security/mcblair-configure-aws-profile-action@main
         with:
           role-arn: ${{ secrets.AWS_ROLE_ARN }}
           profile-name: test-profile
