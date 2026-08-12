@@ -1,0 +1,31 @@
+name: configure-aws-profile-action
+
+on:
+  workflow_dispatch:
+    inputs: {}
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  configure-aws-profile-action:
+    name: Configure AWS Profile Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure AWS Profile
+        uses: step-security/configure-aws-profile-action@release
+        with:
+          role-arn: ${{ secrets.AWS_ROLE_ARN }}
+          profile-name: test-profile
+
+      - name: Verify Profile
+        run: aws sts get-caller-identity --profile test-profile
