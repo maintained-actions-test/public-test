@@ -1,0 +1,32 @@
+name: actions-go-build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  go-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Go binary
+        uses: step-security/actions-go-build@release
+        with:
+          product_name: test-app
+          product_version: 0.0.1
+          go_version: '1.24'
+          os: linux
+          arch: amd64
+          work_dir: testapp
+          reproducible: nope
+          instructions: |
+            go build -o "$BIN_PATH" -trimpath -buildvcs=false
