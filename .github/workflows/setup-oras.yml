@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Setup ORAS
-        uses: step-security/setup-oras@release
+        uses: step-security/setup-oras@main
         with:
           version: 1.3.1
 
