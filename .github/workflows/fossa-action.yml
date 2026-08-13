@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: FOSSA Scan
-        uses: step-security/fossa-action@release
+        uses: step-security/fossa-action@main
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
