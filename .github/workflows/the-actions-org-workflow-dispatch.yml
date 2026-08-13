@@ -1,0 +1,31 @@
+name: the-actions-org-workflow-dispatch
+
+on:
+  workflow_dispatch:
+    inputs: {}
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  the-actions-org-workflow-dispatch:
+    name: the-actions-org-workflow-dispatch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Dispatch Workflow
+        uses: step-security/the-actions-org-workflow-dispatch@release
+        with:
+          workflow: the-actions-org-workflow-dispatch-target.yml
+          token: ${{ secrets.GH_TOKEN }}
+          inputs: '{"message": "hello from the-actions-org-workflow-dispatch test"}'
+          wait-for-completion: true
+          wait-for-completion-timeout: 5m

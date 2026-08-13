@@ -1,0 +1,16 @@
+name: the-actions-org-workflow-dispatch-target
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "Message to echo"
+        required: false
+        default: "hello"
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo message
+        run: echo "${{ inputs.message }}"
