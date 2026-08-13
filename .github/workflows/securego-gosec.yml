@@ -1,0 +1,44 @@
+name: securego-gosec
+
+on:
+  workflow_dispatch:
+    inputs: {}
+
+permissions:
+  contents: read
+
+jobs:
+  securego-gosec:
+    name: securego-gosec
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create test Go project
+        run: |
+          mkdir -p testgo
+          cat > testgo/go.mod << 'EOF'
+          module github.com/test/example
+
+          go 1.22
+          EOF
+          cat > testgo/main.go << 'EOF'
+          package main
+
+          import "fmt"
+
+          func main() {
+              fmt.Println("Hello, World!")
+          }
+          EOF
+
+      - name: Run Gosec
+        uses: step-security/securego-gosec@release
+        with:
+          args: ./testgo/...
