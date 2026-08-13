@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Dispatch Workflow
-        uses: step-security/the-actions-org-workflow-dispatch@release
+        uses: step-security/the-actions-org-workflow-dispatch@main
         with:
           workflow: the-actions-org-workflow-dispatch-target.yml
           token: ${{ secrets.GH_TOKEN }}
