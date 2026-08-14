@@ -1,0 +1,333 @@
+name: zingdevlimited-actions-helpers
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  create-flex-plugin-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/create-flex-plugin-version@release
+        continue-on-error: true
+        with:
+          PLUGIN_NAME: test-plugin
+          PLUGIN_VERSION: "1.0.0"
+          ASSET_URL: https://example.com/bundle.js
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  deploy-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create assets directory
+        run: mkdir -p /tmp/assets && echo "test" > /tmp/assets/test.txt
+      - uses: step-security/zingdevlimited-actions-helpers/deploy-assets@release
+        continue-on-error: true
+        with:
+          SERVICE_NAME: test-service
+          ASSETS_DIRECTORY: /tmp/assets
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  deploy-flex-plugin-asset:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create bundle file
+        run: echo "// dummy bundle" > /tmp/bundle.js
+      - uses: step-security/zingdevlimited-actions-helpers/deploy-flex-plugin-asset@release
+        continue-on-error: true
+        with:
+          FILE_PATH: /tmp/bundle.js
+          PLUGIN_NAME: test-plugin
+          PLUGIN_VERSION: "1.0.0"
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  get-twilio-functions-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/get-twilio-functions-service@release
+        continue-on-error: true
+        with:
+          SERVICE_NAME: test-service
+          IGNORE_NOT_FOUND: "true"
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  get-twilio-resource-sid:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/get-twilio-resource-sid@release
+        continue-on-error: true
+        with:
+          TWILIO_AREA: taskrouter
+          API_TYPE: Workspaces
+          ALLOW_NO_RESULTS: "true"
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  install-library-flex-plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/install-library-flex-plugin@release
+        continue-on-error: true
+        with:
+          FLEX_UI_VERSION: "2.0.0"
+          PLUGIN_NAME: test-plugin
+          VERSION_SID: FV00000000000000000000000000000000
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  register-event-stream-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/register-event-stream-webhook@release
+        continue-on-error: true
+        with:
+          SINK_WEBHOOK_URL: https://example.com/webhook
+          SINK_WEBHOOK_METHOD: POST
+          SINK_DESCRIPTION: Test Sink
+          SINK_BATCH_EVENTS: "false"
+          SUBSCRIPTION_DESCRIPTION: Test Subscription
+          EVENT_TYPES: |
+            com.twilio.taskrouter.task.created=2
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  release-flex-plugin-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/release-flex-plugin-versions@release
+        continue-on-error: true
+        with:
+          PLUGIN_VERSIONS: |
+            test-plugin=1.0.0
+          RELEASE_NAME: Test Release
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  reset-twilio-account:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/reset-twilio-account@release
+        continue-on-error: true
+        with:
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  set-flex-teams:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create teams config
+        run: echo '{"teams":[]}' > /tmp/teams.json
+      - uses: step-security/zingdevlimited-actions-helpers/set-flex-teams@release
+        continue-on-error: true
+        with:
+          CONFIG_PATH: /tmp/teams.json
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  setup-flex-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create plugin directory
+        run: |
+          mkdir -p /tmp/plugin
+          echo '{"name":"test-plugin","version":"1.0.0","dependencies":{"@twilio/flex-plugin-scripts":"6.0.0"}}' > /tmp/plugin/package.json
+      - uses: step-security/zingdevlimited-actions-helpers/setup-flex-cli@release
+        continue-on-error: true
+        with:
+          PLUGIN_DIRECTORY: /tmp/plugin
+
+  update-content-templates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create content templates config
+        run: echo '{"templates":[]}' > /tmp/content-templates.json
+      - uses: step-security/zingdevlimited-actions-helpers/update-content-templates@release
+        continue-on-error: true
+        with:
+          CONFIG_PATH: /tmp/content-templates.json
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  update-flex-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/update-flex-config@release
+        continue-on-error: true
+        with:
+          CONFIG_SECTION: test-section
+          CONFIG_DATA_JSON: '{"key":"value"}'
+          TWILIO_ACCOUNT_SID: ACtest00000000000000000000000000000
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  update-flex-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/update-flex-skills@release
+        continue-on-error: true
+        with:
+          SIMPLE_SKILLS: |
+            test-skill
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  update-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create sync config
+        run: echo '{"documents":[],"lists":[],"maps":[],"streams":[]}' > /tmp/sync.json
+      - uses: step-security/zingdevlimited-actions-helpers/update-sync@release
+        continue-on-error: true
+        with:
+          CONFIG_PATH: /tmp/sync.json
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  update-taskrouter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create taskrouter config
+        run: echo '{"activities":[],"channels":[],"queues":[],"workflows":[]}' > /tmp/taskrouter.json
+      - uses: step-security/zingdevlimited-actions-helpers/update-taskrouter@release
+        continue-on-error: true
+        with:
+          CONFIG_PATH: /tmp/taskrouter.json
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  update-twilio-functions-variables:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/update-twilio-functions-variables@release
+        continue-on-error: true
+        with:
+          SERVICE_NAME: test-service
+          VARIABLES_ENV: |
+            MY_VAR=test-value
+          TWILIO_API_KEY: test-key
+          TWILIO_API_SECRET: test-secret
+
+  format-app-settings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/azure/format-app-settings@release
+        with:
+          APP_SETTINGS_ENV: |
+            SETTING_A=value1
+            SETTING_B=value2
+
+  terraform-init:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Create terraform directory
+        run: mkdir -p /tmp/terraform && echo 'terraform {}' > /tmp/terraform/main.tf
+      - uses: step-security/zingdevlimited-actions-helpers/azure/terraform-init@release
+        continue-on-error: true
+        with:
+          AZ_CLIENT_ID: dummy-client-id
+          AZ_TENANT_ID: dummy-tenant-id
+          AZ_SUBSCRIPTION_ID: dummy-subscription-id
+          STORAGE_ACCOUNT_RESOURCEGROUP: dummy-rg
+          STORAGE_ACCOUNT_NAME: dummystorage
+          STORAGE_ACCOUNT_CONTAINER: dummy-container
+          TERRAFORM_DIRECTORY: /tmp/terraform
+
+  terraform-output:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - uses: step-security/zingdevlimited-actions-helpers/azure/terraform-output@release
+        continue-on-error: true
+        with:
+          AZ_CLIENT_ID: dummy-client-id
+          AZ_TENANT_ID: dummy-tenant-id
+          AZ_SUBSCRIPTION_ID: dummy-subscription-id
+          STORAGE_ACCOUNT_RESOURCEGROUP: dummy-rg
+          STORAGE_ACCOUNT_NAME: dummystorage
+          STORAGE_ACCOUNT_CONTAINER: dummy-container
+          STORAGE_BLOB_NAME: dummy.tfstate
