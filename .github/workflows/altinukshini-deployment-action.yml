@@ -18,7 +18,7 @@ jobs:
 
       - name: Create deployment
         id: deploy
-        uses: step-security/altinukshini-deployment-action@release
+        uses: step-security/altinukshini-deployment-action@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           environment: smoke-test-${{ github.run_id }}
