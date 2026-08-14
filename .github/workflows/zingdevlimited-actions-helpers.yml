@@ -14,7 +14,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/create-flex-plugin-version@release
+      - uses: step-security/zingdevlimited-actions-helpers/create-flex-plugin-version@main
         with:
           PLUGIN_NAME: test-plugin
           PLUGIN_VERSION: "1.0.0"
@@ -31,7 +31,7 @@ jobs:
           egress-policy: audit
       - name: Create assets directory
         run: mkdir -p /tmp/assets && echo "test" > /tmp/assets/test.txt
-      - uses: step-security/zingdevlimited-actions-helpers/deploy-assets@release
+      - uses: step-security/zingdevlimited-actions-helpers/deploy-assets@main
         with:
           SERVICE_NAME: test-service
           ASSETS_DIRECTORY: /tmp/assets
@@ -47,7 +47,7 @@ jobs:
           egress-policy: audit
       - name: Create bundle file
         run: echo "// dummy bundle" > /tmp/bundle.js
-      - uses: step-security/zingdevlimited-actions-helpers/deploy-flex-plugin-asset@release
+      - uses: step-security/zingdevlimited-actions-helpers/deploy-flex-plugin-asset@main
         with:
           FILE_PATH: /tmp/bundle.js
           PLUGIN_NAME: test-plugin
@@ -62,7 +62,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/get-twilio-functions-service@release
+      - uses: step-security/zingdevlimited-actions-helpers/get-twilio-functions-service@main
         with:
           SERVICE_NAME: test-service
           IGNORE_NOT_FOUND: "true"
@@ -76,7 +76,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/get-twilio-resource-sid@release
+      - uses: step-security/zingdevlimited-actions-helpers/get-twilio-resource-sid@main
         with:
           TWILIO_AREA: taskrouter
           API_TYPE: Workspaces
@@ -91,7 +91,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/install-library-flex-plugin@release
+      - uses: step-security/zingdevlimited-actions-helpers/install-library-flex-plugin@main
         with:
           FLEX_UI_VERSION: "2.0.0"
           PLUGIN_NAME: test-plugin
@@ -106,7 +106,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/register-event-stream-webhook@release
+      - uses: step-security/zingdevlimited-actions-helpers/register-event-stream-webhook@main
         with:
           SINK_WEBHOOK_URL: https://example.com/webhook
           SINK_WEBHOOK_METHOD: POST
@@ -118,14 +118,14 @@ jobs:
           TWILIO_API_KEY: test-key
           TWILIO_API_SECRET: test-secret
 
-  release-flex-plugin-versions:
+  main-flex-plugin-versions:
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/release-flex-plugin-versions@release
+      - uses: step-security/zingdevlimited-actions-helpers/main-flex-plugin-versions@main
         with:
           PLUGIN_VERSIONS: |
             test-plugin=1.0.0
@@ -140,7 +140,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/reset-twilio-account@release
+      - uses: step-security/zingdevlimited-actions-helpers/reset-twilio-account@main
         with:
           TWILIO_API_KEY: test-key
           TWILIO_API_SECRET: test-secret
@@ -154,7 +154,7 @@ jobs:
           egress-policy: audit
       - name: Create teams config
         run: echo '{"teams":[]}' > /tmp/teams.json
-      - uses: step-security/zingdevlimited-actions-helpers/set-flex-teams@release
+      - uses: step-security/zingdevlimited-actions-helpers/set-flex-teams@main
         with:
           CONFIG_PATH: /tmp/teams.json
           TWILIO_API_KEY: test-key
@@ -171,7 +171,7 @@ jobs:
         run: |
           mkdir -p /tmp/plugin
           echo '{"name":"test-plugin","version":"1.0.0","dependencies":{"@twilio/flex-plugin-scripts":"6.0.0"}}' > /tmp/plugin/package.json
-      - uses: step-security/zingdevlimited-actions-helpers/setup-flex-cli@release
+      - uses: step-security/zingdevlimited-actions-helpers/setup-flex-cli@main
         with:
           PLUGIN_DIRECTORY: /tmp/plugin
 
@@ -184,7 +184,7 @@ jobs:
           egress-policy: audit
       - name: Create content templates config
         run: echo '{"templates":[]}' > /tmp/content-templates.json
-      - uses: step-security/zingdevlimited-actions-helpers/update-content-templates@release
+      - uses: step-security/zingdevlimited-actions-helpers/update-content-templates@main
         with:
           CONFIG_PATH: /tmp/content-templates.json
           TWILIO_API_KEY: test-key
@@ -197,7 +197,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/update-flex-config@release
+      - uses: step-security/zingdevlimited-actions-helpers/update-flex-config@main
         with:
           CONFIG_SECTION: test-section
           CONFIG_DATA_JSON: '{"key":"value"}'
@@ -212,7 +212,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/update-flex-skills@release
+      - uses: step-security/zingdevlimited-actions-helpers/update-flex-skills@main
         with:
           SIMPLE_SKILLS: |
             test-skill
@@ -228,7 +228,7 @@ jobs:
           egress-policy: audit
       - name: Create sync config
         run: echo '{"documents":[],"lists":[],"maps":[],"streams":[]}' > /tmp/sync.json
-      - uses: step-security/zingdevlimited-actions-helpers/update-sync@release
+      - uses: step-security/zingdevlimited-actions-helpers/update-sync@main
         with:
           CONFIG_PATH: /tmp/sync.json
           TWILIO_API_KEY: test-key
@@ -243,7 +243,7 @@ jobs:
           egress-policy: audit
       - name: Create taskrouter config
         run: echo '{"activities":[],"channels":[],"queues":[],"workflows":[]}' > /tmp/taskrouter.json
-      - uses: step-security/zingdevlimited-actions-helpers/update-taskrouter@release
+      - uses: step-security/zingdevlimited-actions-helpers/update-taskrouter@main
         with:
           CONFIG_PATH: /tmp/taskrouter.json
           TWILIO_API_KEY: test-key
@@ -256,7 +256,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/update-twilio-functions-variables@release
+      - uses: step-security/zingdevlimited-actions-helpers/update-twilio-functions-variables@main
         with:
           SERVICE_NAME: test-service
           VARIABLES_ENV: |
@@ -271,7 +271,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/azure/format-app-settings@release
+      - uses: step-security/zingdevlimited-actions-helpers/azure/format-app-settings@main
         with:
           APP_SETTINGS_ENV: |
             SETTING_A=value1
@@ -288,7 +288,7 @@ jobs:
           egress-policy: audit
       - name: Create terraform directory
         run: mkdir -p /tmp/terraform && echo 'terraform {}' > /tmp/terraform/main.tf
-      - uses: step-security/zingdevlimited-actions-helpers/azure/terraform-init@release
+      - uses: step-security/zingdevlimited-actions-helpers/azure/terraform-init@main
         with:
           AZ_CLIENT_ID: dummy-client-id
           AZ_TENANT_ID: dummy-tenant-id
@@ -307,7 +307,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           egress-policy: audit
-      - uses: step-security/zingdevlimited-actions-helpers/azure/terraform-output@release
+      - uses: step-security/zingdevlimited-actions-helpers/azure/terraform-output@main
         with:
           AZ_CLIENT_ID: dummy-client-id
           AZ_TENANT_ID: dummy-tenant-id
