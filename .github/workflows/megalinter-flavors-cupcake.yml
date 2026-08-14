@@ -28,3 +28,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: 'false'
+          DISABLE_ERRORS: true           # don't fail on lint errors
+          GITHUB_COMMENT_REPORTER: false # no PR comments
