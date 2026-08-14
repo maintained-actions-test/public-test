@@ -25,3 +25,22 @@ jobs:
 
       - name: Verify CLI installed
         run: cloudsmith --version
+
+  cloudsmith-cli-action-main-dockerless:
+    name: cloudsmith-cli-action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run cloudsmith-cli-action
+        uses: step-security/cloudsmith-cli-action/dockerless@main
+        with:
+          api-key: dummy
+
+      - name: Verify CLI installed
+        run: cloudsmith --version
