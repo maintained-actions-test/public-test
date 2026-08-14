@@ -279,6 +279,8 @@ jobs:
 
   terraform-init:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@rc
@@ -298,6 +300,8 @@ jobs:
 
   terraform-output:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@rc
