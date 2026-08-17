@@ -17,7 +17,7 @@ jobs:
           echo "# Home" > wiki/Home.md
           echo "This is a test wiki page." >> wiki/Home.md
       - name: Sync Wiki
-        uses: step-security/github-wiki-action@release
+        uses: step-security/github-wiki-action@main
         with:
           path: wiki
           dry-run: "true"
