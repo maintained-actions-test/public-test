@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0
 
       - name: MegaLinter
-        uses: step-security/megalinter-flavors-cupcake@release
+        uses: step-security/megalinter-flavors-cupcake@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: 'false'
