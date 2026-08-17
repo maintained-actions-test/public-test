@@ -1,0 +1,19 @@
+name: setup-sam
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-sam-main:
+    name: Setup SAM CLI (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup SAM CLI
+        uses: step-security/setup-sam@release
+        with:
+          token: ${{ github.token }}
+      - name: Verify SAM CLI installation
+        run: sam --version
