@@ -1,0 +1,23 @@
+name: github-wiki-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+jobs:
+  github-wiki-action-main:
+    name: GitHub Wiki Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Create wiki directory
+        run: |
+          mkdir -p wiki
+          echo "# Home" > wiki/Home.md
+          echo "This is a test wiki page." >> wiki/Home.md
+      - name: Sync Wiki
+        uses: step-security/github-wiki-action@release
+        with:
+          path: wiki
+          dry-run: "true"
