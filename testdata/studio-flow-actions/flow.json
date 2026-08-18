@@ -1,0 +1,13 @@
+{
+  "description": "Test flow",
+  "initial_state": "Trigger",
+  "flags": { "allow_concurrent_calls": true },
+  "states": [
+    {
+      "name": "Trigger",
+      "type": "trigger",
+      "properties": {},
+      "transitions": []
+    }
+  ]
+}
