@@ -18,7 +18,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-
       - name: Check Studio Flow
         uses: step-security/studio-flow-actions/check@release
         with:
@@ -34,7 +33,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v7
-
 
       - name: Validate Studio Flow
         uses: step-security/studio-flow-actions/validate@release
@@ -54,7 +52,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-
       - name: Deploy Studio Flow
         uses: step-security/studio-flow-actions/deploy@release
         with:
@@ -64,6 +61,7 @@ jobs:
 
   sync:
     runs-on: ubuntu-latest
+    needs: [deploy]
     permissions:
       contents: write
       pull-requests: write
@@ -75,7 +73,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v7
-
 
       - name: Sync Studio Flow
         uses: step-security/studio-flow-actions/sync@release
