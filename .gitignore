@@ -147,6 +147,7 @@ out
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+!testdatacopy/**/*.out
 
 # Go workspace file
 go.work
