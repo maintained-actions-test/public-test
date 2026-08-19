@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: step-security/octocov-action@main
         with:
-          work-dir: testdatacopy/path/to/.octocov.yml
+          work-dir: testdatacopy/path/to
         env:
           ARTIFACT_NAME: "octocov-report-with-work-dir-${{ matrix.os }}"
 
