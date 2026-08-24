@@ -31,7 +31,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Update Deployment Status
-        uses: step-security/altinukshini-deployment-status@release
+        uses: step-security/altinukshini-deployment-status@main
         with:
           state: success
           token: ${{ github.token }}
