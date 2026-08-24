@@ -1,0 +1,38 @@
+name: altinukshini-deployment-status
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deployment-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Create deployment
+        id: create-deployment
+        run: |
+          deployment_id=$(gh api repos/${{ github.repository }}/deployments \
+            --method POST \
+            -f ref=${{ github.sha }} \
+            -f environment=test \
+            -f auto_inactive=false \
+            --jq '.id')
+          echo "id=$deployment_id" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Update Deployment Status
+        uses: step-security/altinukshini-deployment-status@release
+        with:
+          state: success
+          token: ${{ github.token }}
+          deployment_id: ${{ steps.create-deployment.outputs.id }}
+          description: Test deployment status update
