@@ -1,0 +1,47 @@
+name: python-coverage-comment-action
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  coverage-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate coverage data
+        run: |
+          pip install coverage
+          cat > .coveragerc << 'EOF'
+          [run]
+          relative_files = true
+          EOF
+          cat > sample.py << 'EOF'
+          def add(a, b):
+              return a + b
+          def subtract(a, b):
+              return a - b
+          result = add(1, 2)
+          diff = subtract(5, 3)
+          EOF
+          coverage run --source=. sample.py
+
+      - name: Python Coverage Comment
+        uses: step-security/python-coverage-comment-action@release
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
