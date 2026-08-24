@@ -1,0 +1,24 @@
+name: nix-quick-install-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nix-quick-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install Nix
+        uses: step-security/nix-quick-install-action@release
+        with:
+          nix_version: "2.34.7"
+
+      - name: Verify Nix installation
+        run: nix --version
