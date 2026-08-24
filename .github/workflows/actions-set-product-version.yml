@@ -1,0 +1,26 @@
+name: actions-set-product-version
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  set-product-version-main:
+    name: Set Product Version (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set Product Version
+        id: set-version
+        uses: step-security/actions-set-product-version@release
+        with:
+          checkout: "false"
+      - name: Verify Outputs
+        run: |
+          echo "product-version:            ${{ steps.set-version.outputs.product-version }}"
+          echo "base-product-version:       ${{ steps.set-version.outputs.base-product-version }}"
+          echo "prerelease-product-version: ${{ steps.set-version.outputs.prerelease-product-version }}"
+          echo "minor-product-version:      ${{ steps.set-version.outputs.minor-product-version }}"
+          test -n "${{ steps.set-version.outputs.product-version }}"
+          test -n "${{ steps.set-version.outputs.base-product-version }}"
