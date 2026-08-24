@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install yq
-        uses: step-security/install-yq-action@release
+        uses: step-security/install-yq-action@main
         with:
           version: "v4.44.3"
           download-compressed: "true"
