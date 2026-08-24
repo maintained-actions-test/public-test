@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: NPM Lockfile Changes
-        uses: step-security/npm-lockfile-changes@release
+        uses: step-security/npm-lockfile-changes@main
         with:
           token: ${{ github.token }}
           path: testdata/npm-lockfile-changes/package-lock.json
