@@ -1,0 +1,28 @@
+name: npm-lockfile-changes
+
+on:
+  pull_request:
+    paths:
+      - 'testdata/npm-lockfile-changes/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  npm-lockfile-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: NPM Lockfile Changes
+        uses: step-security/npm-lockfile-changes@release
+        with:
+          token: ${{ github.token }}
+          path: testdata/npm-lockfile-changes/package-lock.json
