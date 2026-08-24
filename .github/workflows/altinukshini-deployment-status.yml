@@ -24,6 +24,7 @@ jobs:
             -f ref=${{ github.sha }} \
             -f environment=test \
             -f auto_inactive=false \
+            -f required_contexts[] \
             --jq '.id')
           echo "id=$deployment_id" >> $GITHUB_OUTPUT
         env:
