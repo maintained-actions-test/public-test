@@ -1,0 +1,23 @@
+name: "install-yq-action"
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  install-yq-main:
+    name: Install YQ (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install yq
+        uses: step-security/install-yq-action@release
+        with:
+          version: "v4.44.3"
+          download-compressed: "true"
+          force: "false"
+      - name: Print yq path and version
+        run: |
+          which yq
+          yq --version
