@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Install Nix
-        uses: step-security/nix-quick-install-action@release
+        uses: step-security/nix-quick-install-action@main
         with:
           nix_version: "2.34.7"
 
