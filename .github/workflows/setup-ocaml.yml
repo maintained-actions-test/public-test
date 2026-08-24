@@ -1,0 +1,29 @@
+name: "setup-ocaml"
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+jobs:
+  setup-ocaml-main:
+    name: Setup OCaml (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up OCaml
+        uses: step-security/setup-ocaml@release
+        with:
+          ocaml-compiler: "5"
+      - name: Print OCaml and opam versions
+        run: |
+          ocaml --version
+          opam --version
+      - name: Analyse opam dependencies
+        uses: step-security/setup-ocaml/analysis@main
+      - name: Lint OCaml documentation
+        uses: step-security/setup-ocaml/lint-doc@main
+      - name: Lint OCaml formatting
+        uses: step-security/setup-ocaml/lint-fmt@main
+      - name: Lint opam files
+        uses: step-security/setup-ocaml/lint-opam@main
