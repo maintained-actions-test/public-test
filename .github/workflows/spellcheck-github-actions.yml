@@ -12,6 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Spellcheck
-        uses: step-security/spellcheck-github-actions@release
+        uses: step-security/spellcheck-github-actions@main
         with:
           config_path: ".spellcheck.yml"
