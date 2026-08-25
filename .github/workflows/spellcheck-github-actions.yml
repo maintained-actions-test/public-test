@@ -1,0 +1,17 @@
+name: spellcheck-github-actions
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  spellcheck-main:
+    name: Spellcheck (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Spellcheck
+        uses: step-security/spellcheck-github-actions@release
+        with:
+          config_path: ".spellcheck.yml"
