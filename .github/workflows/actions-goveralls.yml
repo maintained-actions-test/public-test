@@ -38,3 +38,4 @@ jobs:
           path-to-profile: /tmp/profile.cov
           github-token: ${{ secrets.GITHUB_TOKEN }}
           shallow: true
+          working-directory: /tmp/gotest
