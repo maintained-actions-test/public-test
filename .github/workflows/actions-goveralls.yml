@@ -33,7 +33,7 @@ jobs:
           go test -v -coverprofile=/tmp/profile.cov ./...
 
       - name: Send coverage
-        uses: step-security/actions-goveralls@release
+        uses: step-security/actions-goveralls@main
         with:
           path-to-profile: /tmp/profile.cov
           github-token: ${{ secrets.GITHUB_TOKEN }}
