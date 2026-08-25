@@ -1,0 +1,32 @@
+name: danger-swift
+on:
+  pull_request:
+permissions:
+  contents: read
+  issues: read
+  pull-requests: write
+jobs:
+  danger-swift-dynamic:
+    name: Danger Swift (dynamic)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Danger Swift
+        uses: step-security/danger-swift@release
+        with:
+          args: "--failOnErrors --no-publish-check"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  danger-swift-main:
+    name: Danger Swift (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Danger Swift
+        uses: step-security/danger-swift@release
+        with:
+          args: "--failOnErrors --no-publish-check"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
