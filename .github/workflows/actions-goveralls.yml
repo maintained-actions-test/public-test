@@ -1,0 +1,40 @@
+name: actions-goveralls
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  actions-goveralls:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Create minimal Go project and generate coverage
+        run: |
+          mkdir -p /tmp/gotest
+          cd /tmp/gotest
+          go mod init example.com/gotest
+          printf 'package main\n\nfunc Add(a, b int) int { return a + b }\n' > main.go
+          printf 'package main\n\nimport "testing"\n\nfunc TestAdd(t *testing.T) {\n\tif Add(1, 2) != 3 {\n\t\tt.Fatal("expected 3")\n\t}\n}\n' > main_test.go
+          go test -v -coverprofile=/tmp/profile.cov ./...
+
+      - name: Send coverage
+        uses: step-security/actions-goveralls@release
+        with:
+          path-to-profile: /tmp/profile.cov
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          shallow: true
