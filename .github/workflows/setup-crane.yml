@@ -17,7 +17,7 @@ jobs:
           egress-policy: audit
 
       - name: Setup crane
-        uses: step-security/setup-crane@release
+        uses: step-security/setup-crane@main
         with:
           version: latest-release
 
