@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Terraform apply
-        uses: step-security/dflook-terraform-apply@release
+        uses: step-security/dflook-terraform-apply@main
         with:
           path: testdata/dflook-terraform-apply
           auto_approve: "true"
