@@ -1,0 +1,25 @@
+name: setup-crane
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  setup-crane:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup crane
+        uses: step-security/setup-crane@release
+        with:
+          version: latest-release
+
+      - name: Verify crane installation
+        run: crane version
