@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Terraform fmt check
-        uses: step-security/dflook-terraform-fmt-check@release
+        uses: step-security/dflook-terraform-fmt-check@main
         with:
           path: testdata/dflook-terraform-fmt-check
