@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Terraform check
-        uses: step-security/dflook-terraform-check@release
+        uses: step-security/dflook-terraform-check@main
         with:
           path: testdata/dflook-terraform-check
