@@ -1,0 +1,24 @@
+name: terraform-fmt-check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-fmt-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Terraform fmt check
+        uses: dflook/terraform-fmt-check@v3
+        with:
+          path: testdata/dflook-terraform-fmt-check
