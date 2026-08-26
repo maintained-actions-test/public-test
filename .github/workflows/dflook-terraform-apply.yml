@@ -1,0 +1,25 @@
+name: dflook-terraform-apply
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Terraform apply
+        uses: step-security/dflook-terraform-apply@release
+        with:
+          path: testdata/dflook-terraform-apply
+          auto_approve: "true"
