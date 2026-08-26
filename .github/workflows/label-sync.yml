@@ -1,0 +1,26 @@
+name: label-sync
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync Labels
+        uses: step-security/label-sync@release
+        with:
+          config-file: .github/labels.yml
+          dry-run: 'true'
