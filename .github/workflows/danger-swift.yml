@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Danger Swift
-        uses: step-security/danger-swift@release
+        uses: step-security/danger-swift@main
         with:
           args: "--failOnErrors --no-publish-check"
         env:
@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Danger Swift
-        uses: step-security/danger-swift@release
+        uses: step-security/danger-swift@main
         with:
           args: "--failOnErrors --no-publish-check"
         env:
