@@ -1,0 +1,22 @@
+name: wait-for-status-checks
+
+on:
+  pull_request:
+
+permissions:
+  checks: read
+
+jobs:
+  wait-for-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Wait for Status Checks
+        uses: step-security/wait-for-status-checks@release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          timeout: 300
