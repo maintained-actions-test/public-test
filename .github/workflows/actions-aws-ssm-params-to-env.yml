@@ -1,0 +1,27 @@
+name: actions-aws-ssm-params-to-env
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subscription-check:
+    name: Subscription Check
+    runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: us-east-1
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run actions-aws-ssm-params-to-env
+        uses: step-security/actions-aws-ssm-params-to-env@release
+        with:
+          ssm-path: /test/param
