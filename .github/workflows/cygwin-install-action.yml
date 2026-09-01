@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Install Cygwin
-        uses: step-security/cygwin-install-action@release
+        uses: step-security/cygwin-install-action@main
         with:
           platform: x86_64
           packages: wget
