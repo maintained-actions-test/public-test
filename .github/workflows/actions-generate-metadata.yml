@@ -1,0 +1,24 @@
+name: actions-generate-metadata
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  actions-generate-metadata-main:
+    name: Generate Metadata (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Generate Metadata
+        uses: step-security/actions-generate-metadata@release
+        with:
+          repository: "workflow-playground"
+          version: "1.0.0"
+          repositoryOwner: "step-security"
+          product: "workflow-playground"
+      - name: Verify metadata.json
+        run: |
+          test -f metadata.json || (echo "metadata.json not found" && exit 1)
+          cat metadata.json
