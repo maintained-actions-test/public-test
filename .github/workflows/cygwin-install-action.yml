@@ -1,0 +1,21 @@
+name: cygwin-install-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  cygwin-install-action-main:
+    name: Cygwin Install (main)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install Cygwin
+        uses: step-security/cygwin-install-action@release
+        with:
+          platform: x86_64
+          packages: wget
+      - name: Verify Cygwin Installation
+        shell: bash
+        run: cygcheck --version
