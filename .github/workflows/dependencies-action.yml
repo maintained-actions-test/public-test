@@ -1,0 +1,20 @@
+name: dependencies-action
+on:
+  pull_request:
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+jobs:
+  dependencies-action-main:
+    name: PR Dependency Check (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: PR Dependency Check
+        uses: step-security/dependencies-action@release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          custom-domains: ""
