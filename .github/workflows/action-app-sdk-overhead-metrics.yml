@@ -1,0 +1,29 @@
+name: action-app-sdk-overhead-metrics
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+jobs:
+  action-app-sdk-overhead-metrics-main:
+    name: App SDK Overhead Metrics (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: App SDK Overhead Metrics
+        id: metrics-main
+        uses: step-security/action-app-sdk-overhead-metrics@release
+        with:
+          config: "testdata/action-app-sdk-overhead-metrics/config.yml"
+          sauce-user: ${{ secrets.SAUCE_USERNAME }}
+          sauce-key: ${{ secrets.SAUCE_ACCESS_KEY }}
+      - name: Verify metrics test results
+        run: |
+          echo "Artifact Name: ${{ steps.metrics-main.outputs.artifactName }}"
+          echo "Artifact Path: ${{ steps.metrics-main.outputs.artifactPath }}"
+          test -n "${{ steps.metrics-main.outputs.artifactPath }}" && echo "✓ Artifact path generated" || echo "✗ No artifact path"
+          ls -la "${{ steps.metrics-main.outputs.artifactPath }}" 2>/dev/null || echo "Checking for test results..."
+          find . -name "*.json" -type f 2>/dev/null | grep -E "(test|result|metric)" | head -10
