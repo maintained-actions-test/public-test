@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Wait for Status Checks
-        uses: step-security/wait-for-status-checks@release
+        uses: step-security/wait-for-status-checks@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           timeout: 300
