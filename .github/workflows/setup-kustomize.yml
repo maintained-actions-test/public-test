@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Setup Kustomize
-        uses: step-security/setup-kustomize@release
+        uses: step-security/setup-kustomize@main
         with:
           kustomize-version: '5.x'
           github-token: ${{ secrets.GITHUB_TOKEN }}
