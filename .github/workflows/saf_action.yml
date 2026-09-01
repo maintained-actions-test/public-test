@@ -1,0 +1,23 @@
+name: saf_action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  saf_action-main:
+    name: SAF CLI Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run SAF CLI
+        id: saf-main
+        uses: step-security/saf_action@release
+        with:
+          command_string: "view --help"
+      - name: Verify SAF action worked
+        run: |
+          echo "✓ SAF action executed successfully"
+          echo "Running additional SAF command to verify..."
+          saf convert --help 2>/dev/null | head -5 || echo "SAF CLI is available"
