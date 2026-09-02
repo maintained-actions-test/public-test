@@ -1,0 +1,37 @@
+name: gitversion-execute
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  gitversion-execute-main:
+    name: GitVersion Execute (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Setup GitVersion
+        uses: step-security/gittools-actions/gitversion/setup@main
+        with:
+          versionSpec: '6.x'
+      - name: Execute GitVersion
+        id: gitversion
+        uses: step-security/gittools-actions/gitversion/execute@main
+        with:
+          targetPath: "./"
+          disableCache: "false"
+          disableNormalization: "false"
+          overrideConfig: |
+            semantic-version-format=Loose
+      - name: Display GitVersion outputs
+        run: |
+          echo "Major:      ${{ steps.gitversion.outputs.major }}"
+          echo "Minor:      ${{ steps.gitversion.outputs.minor }}"
+          echo "Patch:      ${{ steps.gitversion.outputs.patch }}"
+          echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
+          echo "SemVer:     ${{ steps.gitversion.outputs.semVer }}"
+          echo "BranchName: ${{ steps.gitversion.outputs.branchName }}"
+          echo "ShortSha:   ${{ steps.gitversion.outputs.shortSha }}"
