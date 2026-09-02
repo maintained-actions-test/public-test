@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Terraform plan
-        uses: step-security/dflook-terraform-plan@release
+        uses: step-security/dflook-terraform-plan@main
         with:
           path: testdata/dflook-terraform-plan
           add_github_comment: "false"
