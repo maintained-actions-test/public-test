@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Terraform validate
-        uses: step-security/dflook-terraform-validate@release
+        uses: step-security/dflook-terraform-validate@main
         with:
           path: testdata/dflook-terraform-validate
