@@ -17,6 +17,6 @@ jobs:
           egress-policy: audit
 
       - name: Rebase Pull Requests
-        uses: step-security/peter-evans-rebase@release
+        uses: step-security/peter-evans-rebase@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
