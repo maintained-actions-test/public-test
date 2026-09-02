@@ -1,0 +1,24 @@
+name: dflook-terraform-validate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Terraform validate
+        uses: step-security/dflook-terraform-validate@release
+        with:
+          path: testdata/dflook-terraform-validate
