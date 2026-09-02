@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v6
       - name: App SDK Overhead Metrics
         id: metrics-main
-        uses: step-security/action-app-sdk-overhead-metrics@release
+        uses: step-security/action-app-sdk-overhead-metrics@main
         with:
           config: "testdata/action-app-sdk-overhead-metrics/config.yml"
           sauce-user: ${{ secrets.SAUCE_USERNAME }}
