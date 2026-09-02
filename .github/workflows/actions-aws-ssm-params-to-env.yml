@@ -27,6 +27,6 @@ jobs:
           aws-region: ap-south-1
 
       - name: Run actions-aws-ssm-params-to-env
-        uses: step-security/actions-aws-ssm-params-to-env@release
+        uses: step-security/actions-aws-ssm-params-to-env@main
         with:
           ssm-path: /test/param
