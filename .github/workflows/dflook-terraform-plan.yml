@@ -1,0 +1,25 @@
+name: dflook-terraform-plan
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Terraform plan
+        uses: step-security/dflook-terraform-plan@release
+        with:
+          path: testdata/dflook-terraform-plan
+          add_github_comment: "false"
