@@ -14,12 +14,12 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup GitVersion
-        uses: step-security/gittools-actions/gitversion/setup@main
+        uses: step-security/gittools-actions/gitversion/setup@release
         with:
           versionSpec: '6.x'
       - name: Execute GitVersion
         id: gitversion
-        uses: step-security/gittools-actions/gitversion/execute@main
+        uses: step-security/gittools-actions/gitversion/execute@release
         with:
           targetPath: "./"
           disableCache: "false"
