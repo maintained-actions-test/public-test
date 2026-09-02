@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Generate Metadata
-        uses: step-security/actions-generate-metadata@release
+        uses: step-security/actions-generate-metadata@main
         with:
           repository: "workflow-playground"
           version: "1.0.0"
