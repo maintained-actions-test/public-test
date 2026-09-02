@@ -1,0 +1,27 @@
+name: go-semantic-release-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  go-semantic-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run go-semantic-release
+        uses: step-security/go-semantic-release-action@release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          dry: "true"
