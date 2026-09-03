@@ -21,4 +21,4 @@ jobs:
       - name: Xcode Select Version
         uses: step-security/xcode-select-version-action@release
         with:
-          xcode-select-version: "16.4"
+          xcode-select-version: "26.2"
