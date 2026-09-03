@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run go-semantic-release
-        uses: step-security/go-semantic-release-action@release
+        uses: step-security/go-semantic-release-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           dry: "true"
