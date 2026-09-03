@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Install Perl modules with cpanm
-        uses: step-security/install-with-cpanm@release
+        uses: step-security/install-with-cpanm@main
         with:
           install: |
             Simple::Accessor
