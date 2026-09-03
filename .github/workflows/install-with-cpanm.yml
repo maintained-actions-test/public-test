@@ -1,0 +1,24 @@
+name: install-with-cpanm
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  install-with-cpanm-main:
+    name: Install with cpanm (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install Perl modules with cpanm
+        uses: step-security/install-with-cpanm@release
+        with:
+          install: |
+            Simple::Accessor
+            Test::Parallel
+          sudo: true
+      - name: Verify installed modules
+        run: |
+          perl -MSimple::Accessor -e1
+          perl -MTest::Parallel -e1
