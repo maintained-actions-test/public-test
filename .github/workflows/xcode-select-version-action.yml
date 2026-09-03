@@ -1,0 +1,24 @@
+name: xcode-select-version-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  xcode-select-version:
+    runs-on: macos-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Xcode Select Version
+        uses: step-security/xcode-select-version-action@release
+        with:
+          xcode-select-version: "16.4"
