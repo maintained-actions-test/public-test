@@ -28,5 +28,5 @@ jobs:
       - name: Run pr-lint-action
         uses: step-security/pr-lint-action@release
         with:
-          title-regex: '.*'
+          title-regex: '^(feat|fix|chore|docs|refactor|test|ci)(\(.+\))?: .+'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
