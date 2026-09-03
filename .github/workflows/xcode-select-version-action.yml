@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Xcode Select Version
-        uses: step-security/xcode-select-version-action@release
+        uses: step-security/xcode-select-version-action@main
         with:
           xcode-select-version: "26.2"
