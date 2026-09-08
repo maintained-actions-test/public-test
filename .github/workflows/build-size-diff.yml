@@ -18,7 +18,7 @@ jobs:
         uses: step-security/build-size-diff@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          build-command: 'mkdir -p dist && cp nodetest/index.js dist/'
+          build-command: 'mkdir -p dist && cp src/sum.js dist/'
           allow-unsafe-build: 'true'
           skip-install: 'true'
           dist-path: dist
