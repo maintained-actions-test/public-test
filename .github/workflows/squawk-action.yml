@@ -24,7 +24,7 @@ jobs:
           printf 'ALTER TABLE users ADD COLUMN age INTEGER;\n' > migrations/test-migration.sql
 
       - name: Lint SQL migrations
-        uses: step-security/squawk-action@release
+        uses: step-security/squawk-action@main
         with:
           files: migrations/test-migration.sql
           version: 'latest'
