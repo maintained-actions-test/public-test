@@ -14,7 +14,7 @@ jobs:
       - name: Send Mattermost Notification
         uses: step-security/action-mattermost-notify@release
         with:
-          MATTERMOST_WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           MATTERMOST_CHANNEL: test-channel
           MATTERMOST_USERNAME: github-actions
           TEXT: "Test notification from ${{ github.repository }}"
