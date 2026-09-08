@@ -29,7 +29,7 @@ jobs:
           distribution: temurin
 
       - name: Publish Maven artifacts
-        uses: step-security/action-maven-publish@release
+        uses: step-security/action-maven-publish@main
         with:
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
@@ -57,7 +57,7 @@ jobs:
           distribution: temurin
 
       - name: Publish Maven artifacts
-        uses: step-security/action-maven-publish@release
+        uses: step-security/action-maven-publish@main
         with:
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
@@ -87,7 +87,7 @@ jobs:
           distribution: temurin
 
       - name: Publish Maven artifacts
-        uses: step-security/action-maven-publish@release
+        uses: step-security/action-maven-publish@main
         with:
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
