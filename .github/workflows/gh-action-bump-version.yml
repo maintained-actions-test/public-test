@@ -1,0 +1,30 @@
+name: gh-action-bump-version
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+jobs:
+  gh-action-bump-version-main:
+    needs: gh-action-bump-version-dynamic
+    name: Automated Version Bump (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
+        run: npm install
+      - name: Automated Version Bump
+        id: bump_version
+        uses: step-security/gh-action-bump-version@release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          version-type: 'patch'
+          skip-push: 'true'
+      - name: Print new tag
+        run: echo "New version tag -> ${{ steps.bump_version.outputs.newTag }}"
+      - name: Show updated package.json
+        run: cat package.json
