@@ -1,0 +1,27 @@
+name: github-action-next-semvers
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  next-semvers-main:
+    name: Next SemVers (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Get Next SemVers
+        id: semvers
+        uses: step-security/github-action-next-semvers@release
+        with:
+          version: "1.2.3"
+          strict: "true"
+      - name: Print outputs
+        run: |
+          echo "major: ${{ steps.semvers.outputs.major }}"
+          echo "minor: ${{ steps.semvers.outputs.minor }}"
+          echo "patch: ${{ steps.semvers.outputs.patch }}"
+          echo "v_major: ${{ steps.semvers.outputs.v_major }}"
+          echo "v_minor: ${{ steps.semvers.outputs.v_minor }}"
+          echo "v_patch: ${{ steps.semvers.outputs.v_patch }}"
