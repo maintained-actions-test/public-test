@@ -1,0 +1,20 @@
+name: action-mattermost-notify
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  action-mattermost-notify-main:
+    name: Mattermost Notify (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Send Mattermost Notification
+        uses: step-security/action-mattermost-notify@release
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          MATTERMOST_CHANNEL: test-channel
+          MATTERMOST_USERNAME: github-actions
+          TEXT: "Test notification from ${{ github.repository }}"
