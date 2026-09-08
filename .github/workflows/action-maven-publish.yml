@@ -1,0 +1,95 @@
+name: action-maven-publish
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  without-gpg:
+    name: Without GPG signing
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          java-version: 11
+          distribution: temurin
+
+      - name: Publish Maven artifacts
+        uses: step-security/action-maven-publish@release
+        with:
+          nexus_username: ${{ secrets.NEXUS_USERNAME }}
+          nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+          directory: testdata/action-maven-publish/without-gpg
+
+  with-gpg:
+    name: With GPG signing
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          java-version: 11
+          distribution: temurin
+
+      - name: Publish Maven artifacts
+        uses: step-security/action-maven-publish@release
+        with:
+          nexus_username: ${{ secrets.NEXUS_USERNAME }}
+          nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          directory: testdata/action-maven-publish/with-gpg
+
+  with-profiles:
+    name: With custom Maven profile
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          java-version: 11
+          distribution: temurin
+
+      - name: Publish Maven artifacts
+        uses: step-security/action-maven-publish@release
+        with:
+          nexus_username: ${{ secrets.NEXUS_USERNAME }}
+          nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+          maven_profiles: release
+          directory: testdata/action-maven-publish/with-profiles
