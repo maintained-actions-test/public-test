@@ -1,0 +1,24 @@
+name: cloudposse-github-actions-screenshot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  screenshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Screenshot
+        uses: step-security/cloudposse-github-actions-screenshot@release
+        with:
+          url: "https://example.com"
+          viewportWidth: "800"
+          viewportHeight: "600"
+          output: "screenshot.png"
