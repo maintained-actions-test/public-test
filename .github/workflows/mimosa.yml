@@ -25,6 +25,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Setup mimosa
+        uses: step-security/mimosa/gh/setup-action@release
+        with:
+          version: latest
+
       - name: Set up QEMU
         uses: step-security/setup-qemu-action@main
 
@@ -50,6 +55,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
+      - name: Setup mimosa
+        uses: step-security/mimosa/gh/setup-action@release
+        with:
+          version: latest
 
       - name: Set up QEMU
         uses: step-security/setup-qemu-action@main
