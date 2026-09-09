@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v6
       - name: Get Next SemVers
         id: semvers
-        uses: step-security/github-action-next-semvers@release
+        uses: step-security/github-action-next-semvers@main
         with:
           version: "1.2.3"
           strict: "true"
