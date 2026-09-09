@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Screenshot
-        uses: step-security/cloudposse-github-actions-screenshot@release
+        uses: step-security/cloudposse-github-actions-screenshot@main
         with:
           url: "https://example.com"
           viewportWidth: "800"
