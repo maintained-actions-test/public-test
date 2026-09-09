@@ -1,0 +1,28 @@
+name: tim-actions-dco
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  dco-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Fetch PR Commits
+        id: pr-commits
+        uses: tim-actions/get-pr-commits@v1.3.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate DCO Sign-off
+        uses: step-security/tim-actions-dco@release
+        with:
+          commits: ${{ steps.pr-commits.outputs.commits }}
