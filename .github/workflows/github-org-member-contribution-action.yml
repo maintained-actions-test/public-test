@@ -1,0 +1,25 @@
+name: github-org-member-contribution-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  github-org-member-contribution-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Get Member Contributions
+        uses: step-security/github-org-member-contribution-action@release
+        with:
+          token: ${{ secrets.ORG_TOKEN }}
+          org: step-security
