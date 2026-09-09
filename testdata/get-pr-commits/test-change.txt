@@ -1,0 +1,2 @@
+Test file for get-pr-commits action.
+trigger get-pr-commits test
