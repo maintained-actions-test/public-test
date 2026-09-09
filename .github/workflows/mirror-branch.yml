@@ -1,0 +1,21 @@
+name: mirror-branch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mirror-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Mirror main to mirror-test
+        uses: step-security/mirror-branch@release
+        with:
+          target-branch: mirror-test
