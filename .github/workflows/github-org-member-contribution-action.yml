@@ -22,4 +22,4 @@ jobs:
         uses: step-security/github-org-member-contribution-action@release
         with:
           token: ${{ secrets.ORG_TOKEN }}
-          org: step-security
+          org: maintained-actions-test
