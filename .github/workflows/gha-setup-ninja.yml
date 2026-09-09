@@ -1,0 +1,25 @@
+name: gha-setup-ninja
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gha-setup-ninja:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Ninja
+        uses: step-security/gha-setup-ninja@release
+
+      - name: Verify ninja is available
+        run: ninja --version
