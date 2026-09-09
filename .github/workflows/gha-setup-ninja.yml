@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Setup Ninja
-        uses: step-security/gha-setup-ninja@release
+        uses: step-security/gha-setup-ninja@main
 
       - name: Verify ninja is available
         run: ninja --version
