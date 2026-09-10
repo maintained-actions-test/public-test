@@ -16,6 +16,6 @@ jobs:
           egress-policy: audit
 
       - name: Mirror main to mirror-test
-        uses: step-security/mirror-branch@release
+        uses: step-security/mirror-branch@main
         with:
           target-branch: mirror-test
