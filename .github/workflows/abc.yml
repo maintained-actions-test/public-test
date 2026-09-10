@@ -22,6 +22,6 @@ jobs:
         uses: step-security/closed-issue-message@main
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          message: "Test comment from closed-issue-message action (main job)."
+          message: "test comment from closed-issue-message action (main job)."
 
 
