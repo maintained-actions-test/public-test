@@ -23,6 +23,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Validate DCO Sign-off
-        uses: step-security/tim-actions-dco@release
+        uses: step-security/tim-actions-dco@main
         with:
           commits: ${{ steps.pr-commits.outputs.commits }}
