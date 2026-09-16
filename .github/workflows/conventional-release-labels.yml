@@ -17,6 +17,6 @@ jobs:
           egress-policy: audit
 
       - name: Label PR
-        uses: step-security/conventional-release-labels@release
+        uses: step-security/conventional-release-labels@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
