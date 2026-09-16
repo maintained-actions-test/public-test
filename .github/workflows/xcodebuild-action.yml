@@ -22,7 +22,7 @@ jobs:
         uses: step-security/xcodebuild-action@release
         with:
           spm-package: './'
-          scheme: xcodebuild-action-Package
+          scheme: TestSpmLcov-Package
           destination: platform=macOS
           action: test
           dry-run: 'true'
