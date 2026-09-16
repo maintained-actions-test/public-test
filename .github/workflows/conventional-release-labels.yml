@@ -1,0 +1,22 @@
+name: conventional-release-labels
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Label PR
+        uses: step-security/conventional-release-labels@release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
