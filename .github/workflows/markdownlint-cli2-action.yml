@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Lint Markdown files
-        uses: step-security/markdownlint-cli2-action@release
+        uses: step-security/markdownlint-cli2-action@main
         continue-on-error: true
         with:
           globs: "**/*.md"
