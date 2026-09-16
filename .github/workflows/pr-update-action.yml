@@ -1,0 +1,23 @@
+name: pr-update-action
+on:
+  pull_request:
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  pr-update-main:
+    name: PR Update Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Update Pull Request
+        uses: step-security/pr-update-action@release
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          base-branch-regex: "[a-z\\d-_.\\\\/]+"
+          head-branch-regex: "[a-z\\d-_.\\\\/]+"
+          title-template: "[%headbranch%] "
+          title-update-action: "prefix"
+          body-template: "Merging into '%basebranch%'"
+          body-update-action: "prefix"
