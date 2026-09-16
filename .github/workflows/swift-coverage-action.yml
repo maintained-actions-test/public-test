@@ -1,0 +1,37 @@
+name: swift-coverage-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  swift-coverage-main:
+    name: Swift Coverage Action (main)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Run Swift tests with coverage
+        run: swift test --enable-code-coverage
+      - name: Convert Swift Coverage
+        id: coverage
+        uses: step-security/swift-coverage-action@release
+        with:
+          search-paths: "./.build"
+          output: "./.swiftcov"
+          format: "lcov"
+          fail-on-empty-output: "true"
+      - name: Verify coverage files
+        run: |
+          files='${{ steps.coverage.outputs.files }}'
+          echo "Coverage files: $files"
+          count=$(echo "$files" | jq 'length')
+          echo "Total coverage files: $count"
+          if [ "$count" -eq 0 ]; then
+            echo "No coverage files were generated"
+            exit 1
+          fi
+          echo "$files" | jq -r '.[]' | while read -r f; do
+            [ -f "$f" ] || { echo "Missing file: $f"; exit 1; }
+            echo "Verified: $f"
+          done
