@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run xcodebuild
-        uses: step-security/xcodebuild-action@release
+        uses: step-security/xcodebuild-action@main
         with:
           spm-package: './'
           scheme: TestSpmLcov-Package
