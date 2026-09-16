@@ -1,0 +1,24 @@
+name: azure-cli
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  azure-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Run Azure CLI
+        uses: step-security/azure-cli@release
+        with:
+          inlineScript: az version
