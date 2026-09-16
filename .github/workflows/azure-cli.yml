@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run Azure CLI
-        uses: step-security/azure-cli@release
+        uses: step-security/azure-cli-action@release
         with:
           inlineScript: az version
