@@ -1,0 +1,28 @@
+name: xcodebuild-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  xcodebuild:
+    runs-on: macos-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run xcodebuild
+        uses: step-security/xcodebuild-action@release
+        with:
+          spm-package: './'
+          scheme: xcodebuild-action-Package
+          destination: platform=macOS
+          action: test
+          dry-run: 'true'
