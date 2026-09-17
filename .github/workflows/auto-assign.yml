@@ -19,7 +19,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           addReviewers: "true"
           addAssignees: "true"
-          reviewers: "amanstep"
+          reviewers: |
+            amanstep
+            step-security/maintained-actions-dev
           assignees: "amanstep"
           numberOfReviewers: 1
           skipDraft: "true"
