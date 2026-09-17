@@ -1,3 +1,12 @@
 {
-   "signedContributors": []
+  "signedContributors": [
+    {
+      "name": "anurag-stepsecurity",
+      "id": 213403278,
+      "comment_id": 5709804917,
+      "created_at": "2026-09-17T06:13:00Z",
+      "repoId": 1168221965,
+      "pullRequestNo": 150
+    }
+  ]
 }
