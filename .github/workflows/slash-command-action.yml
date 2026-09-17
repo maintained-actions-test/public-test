@@ -1,0 +1,23 @@
+name: slash-command-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  slash-command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Check for Command
+        uses: step-security/slash-command-action@release
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          command: test
+          permission-level: write
