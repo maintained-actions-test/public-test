@@ -1,0 +1,22 @@
+name: action-conventional-commits
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  validate-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Validate Commit Messages
+        uses: step-security/action-conventional-commits@release
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
