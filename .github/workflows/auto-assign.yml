@@ -19,7 +19,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           addReviewers: "true"
           addAssignees: "true"
-          reviewers: "Raj-StepSecurity"
-          assignees: "Raj-StepSecurity"
+          reviewers: "amanstep"
+          assignees: "amanstep"
           numberOfReviewers: 1
           skipDraft: "true"
