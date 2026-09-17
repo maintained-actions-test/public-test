@@ -15,7 +15,7 @@ jobs:
         run: swift test --enable-code-coverage
       - name: Convert Swift Coverage
         id: coverage
-        uses: step-security/swift-coverage-action@release
+        uses: step-security/swift-coverage-action@main
         with:
           search-paths: "./.build"
           output: "./.swiftcov"
