@@ -17,6 +17,6 @@ jobs:
           egress-policy: audit
 
       - name: Validate Commit Messages
-        uses: step-security/action-conventional-commits@release
+        uses: step-security/action-conventional-commits@main
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
