@@ -1,7 +1,8 @@
 name: slash-command-action
 
 on:
-  workflow_dispatch:
+  issue_comment:
+    types: [created]
 
 permissions:
   issues: write
@@ -16,8 +17,12 @@ jobs:
           egress-policy: audit
 
       - name: Check for Command
+        id: command
         uses: step-security/slash-command-action@release
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           command: test
+          reaction: "true"
+          reaction-type: "eyes"
+          allow-edits: "false"
           permission-level: write
