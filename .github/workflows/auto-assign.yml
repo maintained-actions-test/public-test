@@ -21,7 +21,6 @@ jobs:
           addAssignees: "true"
           reviewers: |
             amanstep
-            step-security/maintained-actions-dev
           assignees: "amanstep"
           numberOfReviewers: 1
           skipDraft: "true"
