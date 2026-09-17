@@ -18,7 +18,7 @@ jobs:
 
       - name: Check for Command
         id: command
-        uses: step-security/slash-command-action@release
+        uses: step-security/slash-command-action@main
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           command: test
