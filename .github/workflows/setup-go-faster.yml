@@ -1,0 +1,20 @@
+name: setup-go-faster
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-go-faster-main:
+    name: Setup Go Faster (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Go Faster
+        id: setup-go
+        uses: step-security/setup-go-faster@release
+        with:
+          go-version: "stable"
+      - name: Verify Go
+        run: go version
