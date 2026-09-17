@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Auto Assign Issues/PRs
-        uses: step-security/wow-actions-auto-assign@fix/audit-packages
+        uses: step-security/wow-actions-auto-assign@main
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           addReviewers: "true"
