@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Dynamic uses
-        uses: step-security/jenseng-dynamic-uses@release
+        uses: step-security/jenseng-dynamic-uses@main
         with:
           uses: actions/checkout@v7
           with: "{}"
