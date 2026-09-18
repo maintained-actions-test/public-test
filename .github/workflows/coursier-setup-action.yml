@@ -1,0 +1,30 @@
+name: coursier-setup-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coursier-setup-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Coursier
+        uses: step-security/coursier-setup-action@release
+        with:
+          jvm: temurin:17
+          apps: cs
+
+      - name: Verify
+        run: |
+          cs --version
+          java -version
