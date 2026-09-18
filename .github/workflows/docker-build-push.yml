@@ -1,0 +1,27 @@
+name: docker-build-push
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker-build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build Docker image
+        uses: step-security/docker-build-push@release
+        with:
+          image: test-image
+          registry: ghcr.io
+          dockerfile: testdata/docker-build-push/Dockerfile
+          pushImage: false
