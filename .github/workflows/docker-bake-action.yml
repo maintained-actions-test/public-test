@@ -1,0 +1,48 @@
+name: docker-bake-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker-bake-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Bake
+        uses: step-security/docker-bake-action@release
+        with:
+          files: testdata/docker-bake-action/docker-bake.hcl
+          set: "*.output=type=cacheonly"
+
+  docker-bake-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Generate matrix
+        id: matrix
+        uses: step-security/docker-bake-action/subaction/matrix@release
+        with:
+          files: testdata/docker-bake-action/docker-bake.hcl
+
+      - name: Print matrix
+        run: echo '${{ steps.matrix.outputs.matrix }}'
