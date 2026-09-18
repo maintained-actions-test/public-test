@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Build Docker image
-        uses: step-security/docker-build-push@release
+        uses: step-security/docker-build-push@main
         with:
           image: test-image
           registry: ghcr.io
