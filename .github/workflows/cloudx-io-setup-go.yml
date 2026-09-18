@@ -1,0 +1,20 @@
+name: cloudx-io-setup-go
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  cloudx-io-setup-go-main:
+    name: Setup Go with Isolated Cache (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Go with Isolated Cache
+        uses: step-security/cloudx-io-setup-go@release
+        with:
+          go-version: "stable"
+          cache-key-prefix: "test"
+      - name: Verify Go
+        run: go version
