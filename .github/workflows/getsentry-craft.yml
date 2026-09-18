@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Craft Prepare Release
-        uses: step-security/getsentry-craft@release
+        uses: step-security/getsentry-craft@main
         with:
           version: "0.0.${{ github.run_number }}"
           force: "false"
