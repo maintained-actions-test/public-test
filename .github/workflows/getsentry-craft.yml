@@ -1,0 +1,26 @@
+name: getsentry-craft
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+  issues: write
+  actions: write
+jobs:
+  craft-prepare-main:
+    name: Craft Prepare Release (main)
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Craft Prepare Release
+        uses: step-security/getsentry-craft@release
+        with:
+          version: "0.0.${{ github.run_number }}"
+          force: "false"
+          blocker_label: "release-blocker"
+          publish_repo: "self"
+          path: "testdata/getsentry-craft"
+          craft_config_from_merge_target: "false"
