@@ -20,7 +20,7 @@ jobs:
 
       - name: Get current time
         id: time
-        uses: step-security/get-current-time@release
+        uses: step-security/get-current-time@main
         with:
           format: YYYY-MM-DDTHH:mm:ss
           utcOffset: "+00:00"
