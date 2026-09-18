@@ -1,0 +1,32 @@
+name: get-current-time
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  get-current-time:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Get current time
+        id: time
+        uses: step-security/get-current-time@release
+        with:
+          format: YYYY-MM-DDTHH:mm:ss
+          utcOffset: "+00:00"
+
+      - name: Print outputs
+        run: |
+          echo "time: ${{ steps.time.outputs.time }}"
+          echo "readableTime: ${{ steps.time.outputs.readableTime }}"
+          echo "formattedTime: ${{ steps.time.outputs.formattedTime }}"
