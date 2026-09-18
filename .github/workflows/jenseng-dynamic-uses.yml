@@ -1,0 +1,25 @@
+name: jenseng-dynamic-uses
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  jenseng-dynamic-uses:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Dynamic uses
+        uses: step-security/jenseng-dynamic-uses@release
+        with:
+          uses: actions/checkout@v7
+          with: "{}"
