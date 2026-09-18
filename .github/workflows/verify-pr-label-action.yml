@@ -18,7 +18,7 @@ jobs:
           egress-policy: audit
 
       - name: Verify PR Label
-        uses: step-security/verify-pr-label-action@release
+        uses: step-security/verify-pr-label-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           valid-labels: 'bug, enhancement, documentation, feature'
