@@ -22,7 +22,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Bake
-        uses: step-security/docker-bake-action@release
+        uses: step-security/docker-bake-action@main
         with:
           files: testdata/docker-bake-action/docker-bake.hcl
           set: "*.output=type=cacheonly"
@@ -40,7 +40,7 @@ jobs:
 
       - name: Generate matrix
         id: matrix
-        uses: step-security/docker-bake-action/subaction/matrix@release
+        uses: step-security/docker-bake-action/subaction/matrix@main
         with:
           files: testdata/docker-bake-action/docker-bake.hcl
 
