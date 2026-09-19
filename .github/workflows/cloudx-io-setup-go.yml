@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup Go with Isolated Cache
-        uses: step-security/cloudx-io-setup-go@release
+        uses: step-security/cloudx-io-setup-go@main
         with:
           go-version: "stable"
           cache-key-prefix: "test"
