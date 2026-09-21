@@ -23,7 +23,7 @@ jobs:
         run: mkdir -p /tmp/test-cache && echo "cached-content" > /tmp/test-cache/data.txt
 
       - name: Cache test directory
-        uses: step-security/gcs-cache@release
+        uses: step-security/gcs-cache@main
         with:
           path: /tmp/test-cache
           key: gcs-cache-${{ runner.os }}-${{ github.run_id }}
