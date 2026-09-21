@@ -22,7 +22,7 @@ jobs:
       - name: Run opencode
         uses: step-security/opencode-action@main
         with:
-          model: anthropic/claude-sonnet-4-20250514
+          model: anthropic/claude-sonnet-4-6
           use_github_token: "true"
           prompt: "Say hello world"
         env:
