@@ -22,7 +22,7 @@ jobs:
       - name: Run opencode
         uses: step-security/opencode-action@release
         with:
-          model: claude-haiku-4-5
+          model: anthropic/claude-haiku-4-5-20251001
           use_github_token: "true"
           prompt: "Say hello world"
         env:
