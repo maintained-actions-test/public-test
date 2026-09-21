@@ -18,7 +18,7 @@ jobs:
           egress-policy: audit
 
       - name: Remove Stale Branches
-        uses: step-security/remove-stale-branches@release
+        uses: step-security/remove-stale-branches@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           dry-run: 'true'
