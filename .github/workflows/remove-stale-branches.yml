@@ -1,0 +1,24 @@
+name: remove-stale-branches
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+
+jobs:
+  remove-stale-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Remove Stale Branches
+        uses: step-security/remove-stale-branches@release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          dry-run: 'true'
