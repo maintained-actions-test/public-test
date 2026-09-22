@@ -1,0 +1,21 @@
+name: pr-preview-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  pr-preview-action-main:
+    name: Deploy PR Preview (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Deploy PR Preview
+        uses: step-security/pr-preview-action@release
+        with:
+          source-dir: "."
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: deploy
