@@ -1,0 +1,27 @@
+name: gha-docker-run
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Docker Container
+        uses: step-security/gha-docker-run@release
+        with:
+          image: alpine:latest
+          run: |
+            echo "Hello from Docker"
+            ls -la
