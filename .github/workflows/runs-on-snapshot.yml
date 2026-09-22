@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run snapshot
-        uses: step-security/runs-on-snapshot@release
+        uses: step-security/runs-on-snapshot@main
         with:
           path: /tmp
           save: "false"
