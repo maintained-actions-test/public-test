@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Docker Container
-        uses: step-security/gha-docker-run@release
+        uses: step-security/gha-docker-run@main
         with:
           image: ubuntu:24.04
           run: |
