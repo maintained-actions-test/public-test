@@ -20,7 +20,7 @@ jobs:
 
       - name: Get repo info
         id: request
-        uses: step-security/octokit-request-action@release
+        uses: step-security/octokit-request-action@main
         with:
           route: GET /repos/${{ github.repository }}
         env:
