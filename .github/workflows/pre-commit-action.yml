@@ -1,0 +1,26 @@
+name: pre-commit-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pre-commit-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Run pre-commit
+        uses: step-security/pre-commit-action@release
+        with:
+          extra_args: >-
+            --config testdata/pre-commit-action/.pre-commit-config.yaml
+            --files testdata/pre-commit-action/test-file.txt
