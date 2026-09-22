@@ -1,0 +1,25 @@
+name: runs-on-snapshot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runs-on-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Run snapshot
+        uses: step-security/runs-on-snapshot@release
+        with:
+          path: /tmp
+          save: "false"
