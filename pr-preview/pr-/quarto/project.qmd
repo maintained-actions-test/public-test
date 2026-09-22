@@ -1,0 +1,15 @@
+---
+title: "Sample Quarto Project"
+format: html
+editor: visual
+---
+
+# Welcome to Quarto
+
+This is a simple **Quarto** project you can render to HTML.
+
+## Bullet List
+
+- Quarto is markdown-based
+- Supports R, Python, Julia
+- Outputs HTML, PDF, Word, slides, books, and more.

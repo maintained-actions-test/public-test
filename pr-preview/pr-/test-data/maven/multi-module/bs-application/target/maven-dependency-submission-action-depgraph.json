@@ -1,0 +1,269 @@
+{
+  "graphName" : "bs-application",
+  "artifacts" : [ {
+    "id" : "org.eclipse.jetty:jetty-server:jar",
+    "numericId" : 1,
+    "groupId" : "org.eclipse.jetty",
+    "artifactId" : "jetty-server",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty.toolchain:jetty-servlet-api:jar",
+    "numericId" : 2,
+    "groupId" : "org.eclipse.jetty.toolchain",
+    "artifactId" : "jetty-servlet-api",
+    "version" : "4.0.6",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty:jetty-http:jar",
+    "numericId" : 3,
+    "groupId" : "org.eclipse.jetty",
+    "artifactId" : "jetty-http",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty:jetty-util:jar",
+    "numericId" : 4,
+    "groupId" : "org.eclipse.jetty",
+    "artifactId" : "jetty-util",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty:jetty-io:jar",
+    "numericId" : 5,
+    "groupId" : "org.eclipse.jetty",
+    "artifactId" : "jetty-io",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.slf4j:slf4j-api:jar",
+    "numericId" : 6,
+    "groupId" : "org.slf4j",
+    "artifactId" : "slf4j-api",
+    "version" : "2.0.0-alpha6",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "com.github.octodemo:bs-application:jar",
+    "numericId" : 7,
+    "groupId" : "com.github.octodemo",
+    "artifactId" : "bs-application",
+    "version" : "1.0.0-SNAPSHOT",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty:jetty-client:jar",
+    "numericId" : 8,
+    "groupId" : "org.eclipse.jetty",
+    "artifactId" : "jetty-client",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty:jetty-alpn-client:jar",
+    "numericId" : 9,
+    "groupId" : "org.eclipse.jetty",
+    "artifactId" : "jetty-alpn-client",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty.http2:http2-http-client-transport:jar",
+    "numericId" : 10,
+    "groupId" : "org.eclipse.jetty.http2",
+    "artifactId" : "http2-http-client-transport",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty.http2:http2-common:jar",
+    "numericId" : 11,
+    "groupId" : "org.eclipse.jetty.http2",
+    "artifactId" : "http2-common",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty.http2:http2-hpack:jar",
+    "numericId" : 12,
+    "groupId" : "org.eclipse.jetty.http2",
+    "artifactId" : "http2-hpack",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty.http2:http2-client:jar",
+    "numericId" : 13,
+    "groupId" : "org.eclipse.jetty.http2",
+    "artifactId" : "http2-client",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.eclipse.jetty:jetty-alpn-java-client:jar",
+    "numericId" : 14,
+    "groupId" : "org.eclipse.jetty",
+    "artifactId" : "jetty-alpn-java-client",
+    "version" : "10.0.10",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "com.github.octodemo:bs-library:jar",
+    "numericId" : 15,
+    "groupId" : "com.github.octodemo",
+    "artifactId" : "bs-library",
+    "version" : "1.0.0-SNAPSHOT",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.apache.logging.log4j:log4j-api:jar",
+    "numericId" : 16,
+    "groupId" : "org.apache.logging.log4j",
+    "artifactId" : "log4j-api",
+    "version" : "2.19.0",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "junit:junit:jar",
+    "numericId" : 17,
+    "groupId" : "junit",
+    "artifactId" : "junit",
+    "version" : "4.13",
+    "optional" : false,
+    "scopes" : [ "test" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.hamcrest:hamcrest-core:jar",
+    "numericId" : 18,
+    "groupId" : "org.hamcrest",
+    "artifactId" : "hamcrest-core",
+    "version" : "1.3",
+    "optional" : false,
+    "scopes" : [ "test" ],
+    "types" : [ "jar" ]
+  } ],
+  "dependencies" : [ {
+    "from" : "org.eclipse.jetty:jetty-server:jar",
+    "to" : "org.eclipse.jetty.toolchain:jetty-servlet-api:jar",
+    "numericFrom" : 0,
+    "numericTo" : 1,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty:jetty-http:jar",
+    "to" : "org.eclipse.jetty:jetty-util:jar",
+    "numericFrom" : 2,
+    "numericTo" : 3,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty:jetty-server:jar",
+    "to" : "org.eclipse.jetty:jetty-http:jar",
+    "numericFrom" : 0,
+    "numericTo" : 2,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty:jetty-server:jar",
+    "to" : "org.eclipse.jetty:jetty-io:jar",
+    "numericFrom" : 0,
+    "numericTo" : 4,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty:jetty-server:jar",
+    "to" : "org.slf4j:slf4j-api:jar",
+    "numericFrom" : 0,
+    "numericTo" : 5,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "com.github.octodemo:bs-application:jar",
+    "to" : "org.eclipse.jetty:jetty-server:jar",
+    "numericFrom" : 6,
+    "numericTo" : 0,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty:jetty-client:jar",
+    "to" : "org.eclipse.jetty:jetty-alpn-client:jar",
+    "numericFrom" : 7,
+    "numericTo" : 8,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty.http2:http2-http-client-transport:jar",
+    "to" : "org.eclipse.jetty:jetty-client:jar",
+    "numericFrom" : 9,
+    "numericTo" : 7,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty.http2:http2-common:jar",
+    "to" : "org.eclipse.jetty.http2:http2-hpack:jar",
+    "numericFrom" : 10,
+    "numericTo" : 11,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty.http2:http2-client:jar",
+    "to" : "org.eclipse.jetty.http2:http2-common:jar",
+    "numericFrom" : 12,
+    "numericTo" : 10,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty.http2:http2-http-client-transport:jar",
+    "to" : "org.eclipse.jetty.http2:http2-client:jar",
+    "numericFrom" : 9,
+    "numericTo" : 12,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "org.eclipse.jetty.http2:http2-http-client-transport:jar",
+    "to" : "org.eclipse.jetty:jetty-alpn-java-client:jar",
+    "numericFrom" : 9,
+    "numericTo" : 13,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "com.github.octodemo:bs-library:jar",
+    "to" : "org.eclipse.jetty.http2:http2-http-client-transport:jar",
+    "numericFrom" : 14,
+    "numericTo" : 9,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "com.github.octodemo:bs-library:jar",
+    "to" : "org.apache.logging.log4j:log4j-api:jar",
+    "numericFrom" : 14,
+    "numericTo" : 15,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "com.github.octodemo:bs-application:jar",
+    "to" : "com.github.octodemo:bs-library:jar",
+    "numericFrom" : 6,
+    "numericTo" : 14,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "junit:junit:jar",
+    "to" : "org.hamcrest:hamcrest-core:jar",
+    "numericFrom" : 16,
+    "numericTo" : 17,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "com.github.octodemo:bs-application:jar",
+    "to" : "junit:junit:jar",
+    "numericFrom" : 6,
+    "numericTo" : 16,
+    "resolution" : "INCLUDED"
+  } ]
+}

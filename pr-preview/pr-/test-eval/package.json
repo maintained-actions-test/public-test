@@ -1,0 +1,7 @@
+{
+  "name": "test-eval",
+  "version": "1.0.0",
+  "dependencies": {
+    "braintrust": "^0.0.124"
+  }
+}

@@ -1,0 +1,7 @@
+minVersion: '2.14.0'
+preReleaseCommand: >-
+  node -p "
+    const {execSync} = require('child_process');
+    execSync('npm --no-git-tag-version version ' + process.env.CRAFT_NEW_VERSION).toString();
+  "
+targets: []

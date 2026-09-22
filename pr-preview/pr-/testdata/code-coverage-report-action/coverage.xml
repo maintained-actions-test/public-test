@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<coverage branch-rate="0" branches-covered="0" branches-valid="0" complexity="0" line-rate="0.85" lines-covered="85" lines-valid="100" timestamp="1620000000" version="5.5">
+    <packages>
+        <package branch-rate="0" complexity="0" line-rate="0.85" name="src">
+            <classes>
+                <class branch-rate="0" complexity="0" filename="src/main.py" line-rate="0.85" name="main">
+                    <lines>
+                        <line hits="1" number="1"/>
+                    </lines>
+                </class>
+            </classes>
+        </package>
+    </packages>
+</coverage>

@@ -1,0 +1,7 @@
+apps:
+  - name: test-app
+    path: 'https://raw.githubusercontent.com/appium/appium-android-driver/a713100de8913fe395f347cb0131dd4620e24167/test/assets/ContactManager.apk'
+
+binarySizeTest:
+  diffMin: 0 MiB
+  diffMax: 1000 MiB

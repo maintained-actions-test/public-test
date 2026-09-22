@@ -1,0 +1,11 @@
+Package: myrpackage
+Type: Package
+Title: A Minimal R Package with One Dependency
+Version: 0.1.0
+Authors@R: person(given = "Test", family = "User", email = "test@example.com", role = c("aut", "cre"))
+Description: A minimal R package that demonstrates use of an external dependency.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    stringr

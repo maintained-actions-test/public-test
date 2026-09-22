@@ -1,0 +1,59 @@
+{
+  "graphName" : "bs-libraries",
+  "artifacts" : [ {
+    "id" : "com.github.octodemo:bs-libraries:pom",
+    "numericId" : 1,
+    "groupId" : "com.github.octodemo",
+    "artifactId" : "bs-libraries",
+    "version" : "1.0.0-SNAPSHOT",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "pom" ]
+  }, {
+    "id" : "org.apache.logging.log4j:log4j-api:jar",
+    "numericId" : 2,
+    "groupId" : "org.apache.logging.log4j",
+    "artifactId" : "log4j-api",
+    "version" : "2.19.0",
+    "optional" : false,
+    "scopes" : [ "compile" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "junit:junit:jar",
+    "numericId" : 3,
+    "groupId" : "junit",
+    "artifactId" : "junit",
+    "version" : "4.13",
+    "optional" : false,
+    "scopes" : [ "test" ],
+    "types" : [ "jar" ]
+  }, {
+    "id" : "org.hamcrest:hamcrest-core:jar",
+    "numericId" : 4,
+    "groupId" : "org.hamcrest",
+    "artifactId" : "hamcrest-core",
+    "version" : "1.3",
+    "optional" : false,
+    "scopes" : [ "test" ],
+    "types" : [ "jar" ]
+  } ],
+  "dependencies" : [ {
+    "from" : "com.github.octodemo:bs-libraries:pom",
+    "to" : "org.apache.logging.log4j:log4j-api:jar",
+    "numericFrom" : 0,
+    "numericTo" : 1,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "junit:junit:jar",
+    "to" : "org.hamcrest:hamcrest-core:jar",
+    "numericFrom" : 2,
+    "numericTo" : 3,
+    "resolution" : "INCLUDED"
+  }, {
+    "from" : "com.github.octodemo:bs-libraries:pom",
+    "to" : "junit:junit:jar",
+    "numericFrom" : 0,
+    "numericTo" : 2,
+    "resolution" : "INCLUDED"
+  } ]
+}

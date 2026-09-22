@@ -1,0 +1,10 @@
+{
+  "flows": [
+    {
+      "name": "Test Flow",
+      "path": "testdata/studio-flow-actions/flow.json",
+      "allowCreate": true
+    }
+  ],
+  "replaceWidgetTypes": []
+}

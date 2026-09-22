@@ -1,0 +1,27 @@
+{
+  "R": {
+    "Version": "4.3.2",
+    "Repositories": [
+      {
+        "Name": "CRAN",
+        "URL": "https://cloud.r-project.org"
+      }
+    ]
+  },
+  "Packages": {
+    "glue": {
+      "Package": "glue",
+      "Version": "1.6.2",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    }
+  },
+  "Metadata": {
+    "renv": {
+      "Version": "1.0.3"
+    },
+    "Lockfile": {
+      "Version": 1
+    }
+  }
+}

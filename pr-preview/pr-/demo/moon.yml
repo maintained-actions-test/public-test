@@ -1,0 +1,6 @@
+$schema: 'https://moonrepo.dev/schemas/project.json'
+
+tasks:
+  echo:
+    command: echo
+    args: 'Hello from moon-ci-retrospect!'

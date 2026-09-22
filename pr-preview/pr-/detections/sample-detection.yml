@@ -1,0 +1,15 @@
+title: "Suspicious"
+id: "7bca4b72-1337-4d92-8081-30910123abcd"
+status: "experimental"
+description: "Detects whenever the AWS root user logs into the console."
+logsource:
+    product: "aws"
+    service: "cloudtrail"
+detection:
+    selection:
+        userIdentity.type: "Root"
+        eventName: "ConsoleLogin"
+    condition: selection
+falsepositives:
+    - "Legitimate administrator maintenance work"
+level: "high"

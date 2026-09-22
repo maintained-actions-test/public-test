@@ -1,0 +1,8 @@
+"base_path": "."
+"preserve_hierarchy": true
+"files": [
+  {
+    "source": "/README.md",
+    "translation": "/translations/%two_letters_code%/README.md"
+  }
+]

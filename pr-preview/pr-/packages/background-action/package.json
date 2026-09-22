@@ -1,0 +1,11 @@
+{
+  "name": "sut-server",
+  "version": "1.0.6",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
