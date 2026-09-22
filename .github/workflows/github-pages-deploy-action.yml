@@ -16,7 +16,7 @@ jobs:
           mkdir -p build
           echo "<html><body><h1>Test Deploy</h1></body></html>" > build/index.html
       - name: Deploy to GitHub Pages
-        uses: step-security/github-pages-deploy-action@release
+        uses: step-security/github-pages-deploy-action@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
