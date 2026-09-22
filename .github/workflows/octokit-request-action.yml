@@ -22,7 +22,7 @@ jobs:
         id: request
         uses: step-security/octokit-request-action@release
         with:
-          route: GET /repos/{owner}/{repo}
+          route: GET /repos/${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
