@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run pre-commit
-        uses: step-security/pre-commit-action@release
+        uses: step-security/pre-commit-action@main
         with:
           extra_args: >-
             --config testdata/pre-commit-action/.pre-commit-config.yaml
