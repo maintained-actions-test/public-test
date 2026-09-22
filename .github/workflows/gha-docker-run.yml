@@ -21,7 +21,7 @@ jobs:
       - name: Run Docker Container
         uses: step-security/gha-docker-run@release
         with:
-          image: alpine:latest
+          image: ubuntu:24.04
           run: |
             echo "Hello from Docker"
             ls -la
