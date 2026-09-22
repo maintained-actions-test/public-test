@@ -1,0 +1,35 @@
+name: octokit-request-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  octokit-request-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Get repo info
+        id: request
+        uses: step-security/octokit-request-action@release
+        with:
+          route: GET /repos/{owner}/{repo}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify response
+        run: |
+          echo "status: ${{ steps.request.outputs.status }}"
+          if [ "${{ steps.request.outputs.status }}" != "200" ]; then
+            echo "Expected status 200, got ${{ steps.request.outputs.status }}"
+            exit 1
+          fi
