@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Set commit status
-        uses: step-security/github-status-action-v2@release
+        uses: step-security/github-status-action-v2@main
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: test/github-status-action-v2
