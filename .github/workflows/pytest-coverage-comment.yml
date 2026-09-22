@@ -1,0 +1,39 @@
+name: pytest-coverage-comment
+
+on:
+  pull_request:
+    paths:
+      - 'testdata/pytest-coverage-comment/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  pytest-coverage-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Run pytest with coverage
+        run: |
+          pip install pytest pytest-cov
+          cd testdata/pytest-coverage-comment
+          pytest --cov=src --cov-report=term-missing | tee pytest-coverage.txt
+
+      - name: Post coverage comment
+        uses: step-security/pytest-coverage-comment@release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pytest-coverage-path: testdata/pytest-coverage-comment/pytest-coverage.txt
