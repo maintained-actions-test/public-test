@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Maturin
-        uses: step-security/maturin-action@release
+        uses: step-security/maturin-action@main
         with:
           command: build
           args: --release
