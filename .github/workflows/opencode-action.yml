@@ -1,14 +1,29 @@
 name: opencode-action
 
 on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
   workflow_dispatch:
+    inputs:
+      prompt:
+        description: "Prompt for opencode"
+        required: false
+        default: "Say hello world"
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
+  issues: write
+  pull-requests: write
 
 jobs:
   opencode-action:
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.comment.body, '/oc') ||
+      contains(github.event.comment.body, '/opencode')
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
@@ -22,8 +37,9 @@ jobs:
       - name: Run opencode
         uses: step-security/opencode-action@main
         with:
-          model: anthropic/claude-3-5-sonnet-20241022
+          model: anthropic/claude-sonnet-4-20250514
           use_github_token: "true"
-          prompt: "Say hello world"
+          prompt: ${{ github.event.inputs.prompt }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
