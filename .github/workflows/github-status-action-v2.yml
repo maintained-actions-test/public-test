@@ -1,0 +1,28 @@
+name: github-status-action-v2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  statuses: write
+
+jobs:
+  github-status-action-v2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set commit status
+        uses: step-security/github-status-action-v2@release
+        with:
+          authToken: ${{ secrets.GITHUB_TOKEN }}
+          context: test/github-status-action-v2
+          description: "Test status"
+          state: success
