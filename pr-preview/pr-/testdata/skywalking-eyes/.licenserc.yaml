@@ -1,0 +1,10 @@
+header:
+  license:
+    spdx-id: Apache-2.0
+    copyright-owner: The Author
+  paths:
+    - testdata/skywalking-eyes/src/hello.go
+
+dependency:
+  files:
+    - testdata/skywalking-eyes/go.mod
