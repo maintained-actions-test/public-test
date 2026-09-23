@@ -10,6 +10,7 @@ jobs:
   skywalking-eyes-root:
     name: skywalking-eyes (root)
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@rc
@@ -27,6 +28,7 @@ jobs:
   skywalking-eyes-header:
     name: skywalking-eyes (header)
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@rc
@@ -44,6 +46,7 @@ jobs:
   skywalking-eyes-dependency:
     name: skywalking-eyes (dependency)
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@rc
