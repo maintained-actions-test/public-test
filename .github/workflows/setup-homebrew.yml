@@ -17,7 +17,7 @@ jobs:
 
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: step-security/setup-homebrew@release
+        uses: step-security/setup-homebrew@main
 
       - name: Verify setup
         run: |
