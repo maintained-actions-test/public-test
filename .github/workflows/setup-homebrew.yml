@@ -1,0 +1,26 @@
+name: setup-homebrew
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-homebrew:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: step-security/setup-homebrew@release
+
+      - name: Verify setup
+        run: |
+          brew --version
+          echo "Gems path: ${{ steps.set-up-homebrew.outputs.gems-path }}"
+          echo "Gems hash: ${{ steps.set-up-homebrew.outputs.gems-hash }}"
