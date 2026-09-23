@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Deploy PR Preview
-        uses: step-security/pr-preview-action@release
+        uses: step-security/pr-preview-action@main
         with:
           source-dir: "."
           preview-branch: gh-pages
