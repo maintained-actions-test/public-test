@@ -1,0 +1,59 @@
+name: skywalking-eyes
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  skywalking-eyes-root:
+    name: skywalking-eyes (root)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Check License Header
+        uses: step-security/skywalking-eyes@release
+        with:
+          config: testdata/skywalking-eyes/.licenserc.yaml
+
+  skywalking-eyes-header:
+    name: skywalking-eyes (header)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Check License Header
+        uses: step-security/skywalking-eyes/header@release
+        with:
+          config: testdata/skywalking-eyes/.licenserc.yaml
+
+  skywalking-eyes-dependency:
+    name: skywalking-eyes (dependency)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Check Dependency Licenses
+        uses: step-security/skywalking-eyes/dependency@release
+        with:
+          config: testdata/skywalking-eyes/.licenserc.yaml
