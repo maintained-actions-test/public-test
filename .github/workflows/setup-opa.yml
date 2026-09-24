@@ -1,0 +1,24 @@
+name: setup-opa
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-opa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup OPA
+        uses: step-security/setup-opa@release
+        with:
+          version: latest
+
+      - name: Verify OPA installation
+        run: opa version
