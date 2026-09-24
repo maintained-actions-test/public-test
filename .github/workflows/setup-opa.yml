@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Setup OPA
-        uses: step-security/setup-opa@release
+        uses: step-security/setup-opa@main
         with:
           version: latest
 
