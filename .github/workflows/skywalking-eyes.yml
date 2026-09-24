@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Check License Header
-        uses: step-security/skywalking-eyes@release
+        uses: step-security/skywalking-eyes@main
         with:
           config: testdata/skywalking-eyes/.licenserc.yaml
 
@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Check License Header
-        uses: step-security/skywalking-eyes/header@release
+        uses: step-security/skywalking-eyes/header@main
         with:
           config: testdata/skywalking-eyes/.licenserc.yaml
 
@@ -57,6 +57,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Check Dependency Licenses
-        uses: step-security/skywalking-eyes/dependency@release
+        uses: step-security/skywalking-eyes/dependency@main
         with:
           config: testdata/skywalking-eyes/.licenserc.yaml
