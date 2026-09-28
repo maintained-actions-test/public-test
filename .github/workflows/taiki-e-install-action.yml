@@ -16,6 +16,6 @@ jobs:
           egress-policy: audit
 
       - name: Install tools
-        uses: step-security/taiki-e-install-action@release
+        uses: step-security/taiki-e-install-action@main
         with:
           tool: cargo-hack
