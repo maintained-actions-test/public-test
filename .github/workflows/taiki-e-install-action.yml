@@ -1,0 +1,21 @@
+name: taiki-e-install-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install-tools:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install tools
+        uses: step-security/taiki-e-install-action@release
+        with:
+          tool: cargo-hack
