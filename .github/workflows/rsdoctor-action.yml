@@ -37,7 +37,7 @@ jobs:
           npm run build
 
       - name: Report Bundle Size
-        uses: step-security/rsdoctor-action@release
+        uses: step-security/rsdoctor-action@main
         env:
           AI_TOKEN: ${{ secrets.ANTHROPIC_API_KEY }}
         with:
