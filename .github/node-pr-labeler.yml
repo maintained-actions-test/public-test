@@ -1,4 +1,0 @@
-subSystemLabels:
-  /^testdata\/node-pr-labeler\//: documentation
-
-exlusiveLabels: {}

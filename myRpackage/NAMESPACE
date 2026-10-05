@@ -1,2 +1,0 @@
-importFrom(stringr, str_to_upper)
-export(hello)
