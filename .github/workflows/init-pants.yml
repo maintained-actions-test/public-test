@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Initialize Pants
-        uses: step-security/pantsbuild-actions/init-pants@release
+        uses: step-security/pantsbuild-actions/init-pants@main
         with:
           named-caches-hash: ${{ hashFiles('pants.toml') }}
           gha-cache-key: test-v0
