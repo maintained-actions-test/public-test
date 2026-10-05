@@ -1,0 +1,28 @@
+name: init-pants
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  init-pants:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Initialize Pants
+        uses: step-security/init-pants@release
+        with:
+          named-caches-hash: ${{ hashFiles('pants.toml') }}
+          gha-cache-key: test-v0
+
+      - name: Verify Pants
+        run: pants --version
