@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Run Rudder Transformation Action
-        uses: step-security/rudder-transformation-action@release
+        uses: step-security/rudder-transformation-action@main
         with:
           metaPath: "./testdata/rudder-transformation-action/meta.json"
           email: ${{ secrets.RUDDERSTACK_EMAIL }}
