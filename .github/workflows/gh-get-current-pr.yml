@@ -18,7 +18,7 @@ jobs:
 
       - name: Get current PR
         id: pr
-        uses: step-security/gh-get-current-pr@release
+        uses: step-security/gh-get-current-pr@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           filterOutClosed: false
