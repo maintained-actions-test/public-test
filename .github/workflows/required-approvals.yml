@@ -26,7 +26,7 @@ jobs:
 
       - name: Check PR approvals
         id: approvals
-        uses: step-security/required-approvals@release
+        uses: step-security/required-approvals@main
         with:
           token: ${{ secrets.MEMBERS_PERMS_SUBS_TEST }}
           read_org_scoped_token: ${{ secrets.MEMBERS_PERMS_SUBS_TEST }}
