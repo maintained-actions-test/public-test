@@ -1,0 +1,34 @@
+name: slugify-value
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  slugify-value:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Slugify value
+        id: slugify
+        uses: step-security/slugify-value@release
+        with:
+          key: MY_VALUE
+          value: "Hello World! This is a Test/Value 123"
+
+      - name: Show outputs
+        run: |
+          echo "slug: ${{ steps.slugify.outputs.slug }}"
+          echo "slug-cs: ${{ steps.slugify.outputs.slug-cs }}"
+          echo "slug-url: ${{ steps.slugify.outputs.slug-url }}"
+          echo "slug-url-cs: ${{ steps.slugify.outputs.slug-url-cs }}"
