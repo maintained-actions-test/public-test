@@ -1,0 +1,30 @@
+name: gh-get-current-pr
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  get-current-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Get current PR
+        id: pr
+        uses: step-security/gh-get-current-pr@release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          filterOutClosed: false
+          filterOutDraft: false
+
+      - name: Print outputs
+        run: |
+          echo "PR found: ${{ steps.pr.outputs.pr_found }}"
+          echo "PR number: ${{ steps.pr.outputs.number }}"
