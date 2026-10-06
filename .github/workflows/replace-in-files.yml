@@ -1,0 +1,32 @@
+name: replace-in-files
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replace-in-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Replace in files
+        uses: step-security/replace-in-files@release
+        with:
+          files: testdata/replace-in-files/sample.txt
+          search-text: Hello
+          replacement-text: Hi
+
+      - name: Verify replacement
+        run: |
+          grep "Hi World" testdata/replace-in-files/sample.txt
+          grep "Hi again" testdata/replace-in-files/sample.txt
+          ! grep "Hello" testdata/replace-in-files/sample.txt
