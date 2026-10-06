@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Replace in files
-        uses: step-security/replace-in-files@release
+        uses: step-security/replace-in-files@main
         with:
           files: testdata/replace-in-files/sample.txt
           search-text: Hello
