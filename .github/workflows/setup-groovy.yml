@@ -1,0 +1,28 @@
+name: setup-groovy
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-groovy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Groovy
+        uses: step-security/setup-groovy@release
+        with:
+          groovy-version: "4.x"
+
+      - name: Verify Groovy installation
+        run: groovy --version
