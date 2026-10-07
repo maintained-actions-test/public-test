@@ -1,0 +1,31 @@
+name: flutter-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  flutter-setup-main:
+    name: Flutter Setup (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Flutter
+        id: flutter
+        uses: step-security/flutter-action@release
+        with:
+          channel: stable
+          flutter-version: "3.x"
+          cache: "true"
+          pub-cache: "true"
+      - name: Verify Flutter Installation
+        run: |
+          echo "Flutter version output:"
+          flutter --version
+          echo ""
+          echo "Dart version output:"
+          dart --version
+          echo ""
+          echo "Flutter doctor:"
+          flutter doctor
