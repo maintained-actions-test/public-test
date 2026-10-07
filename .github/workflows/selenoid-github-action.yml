@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start selenoid
-        uses: step-security/selenoid-github-action@release
+        uses: step-security/selenoid-github-action@main
         with:
           selenoid-start-arguments: |
             --browsers 'chrome' --last-versions 1
