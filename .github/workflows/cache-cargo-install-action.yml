@@ -1,0 +1,25 @@
+name: cache-cargo-install-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cache-cargo-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install cargo-hack with cache
+        uses: step-security/cache-cargo-install-action@release
+        with:
+          tool: cargo-hack
+          locked: 'true'
+
+      - name: Verify installation
+        run: cargo hack --version
