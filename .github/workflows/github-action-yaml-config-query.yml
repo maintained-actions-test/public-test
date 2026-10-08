@@ -1,0 +1,34 @@
+name: github-action-yaml-config-query
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  yaml-config-query:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Query YAML config
+        id: context
+        uses: step-security/github-action-yaml-config-query@release
+        with:
+          query: .push
+          config: |
+            push:
+              build: true
+              deploy: staging
+            pull_request:
+              build: false
+              deploy: preview
+
+      - name: Verify outputs
+        run: |
+          echo "build=${{ steps.context.outputs.build }}"
+          echo "deploy=${{ steps.context.outputs.deploy }}"
