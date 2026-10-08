@@ -17,7 +17,7 @@ jobs:
 
       - name: Query YAML config
         id: context
-        uses: step-security/github-action-yaml-config-query@release
+        uses: step-security/github-action-yaml-config-query@main
         with:
           query: .push
           config: |
