@@ -21,7 +21,7 @@ jobs:
 
       - name: Slugify value
         id: slugify
-        uses: step-security/slugify-value@release
+        uses: step-security/slugify-value@main
         with:
           key: MY_VALUE
           value: "Hello World! This is a Test/Value 123"
