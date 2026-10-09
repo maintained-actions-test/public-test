@@ -1,0 +1,27 @@
+name: anchore-scan-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  anchore-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Scan current project
+        uses: step-security/anchore-scan-action@release
+        with:
+          path: "."
+          fail-build: "false"
+          output-format: table
+          severity-cutoff: critical
