@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.025" tests="28" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-05-21T10:05:34" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="dashboard" timestamp="2025-05-21T10:05:34" tests="3" file="/Users/noobie_doobie_doo/Desktop/step/maintained-actions/test-summary-action/test/dashboard.ts" time="0.002" failures="0">
+    <testcase name="dashboard escapes HTML entities" time="0.001" classname="escapes HTML entities">
+    </testcase>
+    <testcase name="dashboard uses &lt;no name&gt; for test cases without name" time="0.000" classname="uses &lt;no name&gt; for test cases without name">
+    </testcase>
+    <testcase name="dashboard includes details and message when present, using proper escaping" time="0.000" classname="includes details and message when present, using proper escaping">
+    </testcase>
+  </testsuite>
+  <testsuite name="file" timestamp="2025-05-21T10:05:34" tests="7" file="/Users/noobie_doobie_doo/Desktop/step/maintained-actions/test-summary-action/test/file.ts" time="0.010" failures="0">
+    <testcase name="file identifies common tap" time="0.001" classname="identifies common tap">
+    </testcase>
+    <testcase name="file identifies creative liberties tap" time="0.000" classname="identifies creative liberties tap">
+    </testcase>
+    <testcase name="file identifies node-tap output" time="0.000" classname="identifies node-tap output">
+    </testcase>
+    <testcase name="file rejects invalid tap file" time="0.001" classname="rejects invalid tap file">
+    </testcase>
+    <testcase name="file identifies common junit" time="0.001" classname="identifies common junit">
+    </testcase>
+    <testcase name="file identifies example junit" time="0.002" classname="identifies example junit">
+    </testcase>
+    <testcase name="file identifies junit" time="0.002" classname="identifies junit">
+    </testcase>
+  </testsuite>
+  <testsuite name="junit" timestamp="2025-05-21T10:05:34" tests="8" file="/Users/noobie_doobie_doo/Desktop/step/maintained-actions/test-summary-action/test/junit.ts" time="0.008" failures="0">
+    <testcase name="junit parses common" time="0.000" classname="parses common">
+    </testcase>
+    <testcase name="junit parses example" time="0.001" classname="parses example">
+    </testcase>
+    <testcase name="junit parses junit" time="0.001" classname="parses junit">
+    </testcase>
+    <testcase name="junit parses bazel" time="0.001" classname="parses bazel">
+    </testcase>
+    <testcase name="junit parses empty testsuites" time="0.000" classname="parses empty testsuites">
+    </testcase>
+    <testcase name="junit parses empty testsuite" time="0.001" classname="parses empty testsuite">
+    </testcase>
+    <testcase name="junit parses testsuite with no failure message" time="0.001" classname="parses testsuite with no failure message">
+    </testcase>
+    <testcase name="junit parses attributeless failure tags" time="0.000" classname="parses attributeless failure tags">
+    </testcase>
+  </testsuite>
+  <testsuite name="tap" timestamp="2025-05-21T10:05:34" tests="10" file="/Users/noobie_doobie_doo/Desktop/step/maintained-actions/test-summary-action/test/tap.ts" time="0.003" failures="0">
+    <testcase name="tap parses common" time="0.000" classname="parses common">
+    </testcase>
+    <testcase name="tap parses unknown amount and failure" time="0.000" classname="parses unknown amount and failure">
+    </testcase>
+    <testcase name="tap can bail out" time="0.000" classname="can bail out">
+    </testcase>
+    <testcase name="tap understands skipped tests" time="0.000" classname="understands skipped tests">
+    </testcase>
+    <testcase name="tap can skip an entire file" time="0.000" classname="can skip an entire file">
+    </testcase>
+    <testcase name="tap reads todos as skipped" time="0.000" classname="reads todos as skipped">
+    </testcase>
+    <testcase name="tap handles creative liberties" time="0.000" classname="handles creative liberties">
+    </testcase>
+    <testcase name="tap handles everything" time="0.000" classname="handles everything">
+    </testcase>
+    <testcase name="tap parses node-tap output" time="0.000" classname="parses node-tap output">
+    </testcase>
+    <testcase name="tap rejects invalid trailer" time="0.000" classname="rejects invalid trailer">
+    </testcase>
+  </testsuite>
+</testsuites>
