@@ -1,0 +1,26 @@
+name: simulator-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  simulator-action-main:
+    name: Launch iOS Simulator (main)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Launch iOS Simulator
+        id: launch-simulator
+        uses: step-security/simulator-action@release
+        with:
+          model: "iPhone 17"
+          os: "iOS"
+          erase_before_boot: "true"
+          wait_for_boot: "true"
+          boot_timeout_seconds: "360"
+          shutdown_after_job: "true"
+      - name: Verify Simulator Booted
+        run: |
+          echo "Launched UDID: ${{ steps.launch-simulator.outputs.udid }}"
