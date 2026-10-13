@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v6
       - name: Launch iOS Simulator
         id: launch-simulator
-        uses: step-security/simulator-action@release
+        uses: step-security/simulator-action@main
         with:
           model: "iPhone 17"
           os: "iOS"
