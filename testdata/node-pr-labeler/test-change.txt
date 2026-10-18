@@ -1,1 +1,2 @@
 Test file for node-pr-labeler action.
+trigger node-pr-labeler test
