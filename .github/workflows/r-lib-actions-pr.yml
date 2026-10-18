@@ -1,4 +1,4 @@
-name: r-lib-actions-pr
+name: r-lib-actions-pr-test
 on:
   [pull_request]
   
