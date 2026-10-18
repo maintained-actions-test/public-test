@@ -19,7 +19,7 @@ jobs:
           egress-policy: audit
 
       - name: Check Required Labels
-        uses: step-security/github-action-required-labels@release
+        uses: step-security/github-action-required-labels@main
         with:
           mode: minimum
           count: 1
