@@ -1,6 +1,6 @@
 # Linkinator Test
 
-This file is used to test broken and working links.
+This file is used to test broken and working links
 
 ## ✅ Working Links
 - [GitHub](https://github.com)
