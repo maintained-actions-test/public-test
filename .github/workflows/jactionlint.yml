@@ -1,0 +1,27 @@
+name: jactionlint
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  jactionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run jactionlint
+        uses: step-security/jactionlint@release
+        with:
+          online: "false"
+          annotations: "true"
