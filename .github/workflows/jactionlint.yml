@@ -21,7 +21,7 @@ jobs:
           persist-credentials: false
 
       - name: Run jactionlint
-        uses: step-security/jactionlint@release
+        uses: step-security/jactionlint@main
         with:
           online: "false"
           annotations: "true"
