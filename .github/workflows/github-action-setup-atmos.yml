@@ -1,0 +1,30 @@
+name: github-action-setup-atmos
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-atmos-main:
+    name: Setup Atmos (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Atmos
+        id: setup-atmos
+        uses: step-security/github-action-setup-atmos@release
+        with:
+          atmos-version: latest
+          install-wrapper: "true"
+      - name: Verify
+        run: |
+          ATMOS_VERSION="${{ steps.setup-atmos.outputs.atmos-version }}"
+          echo "Installed atmos version: $ATMOS_VERSION"
+          atmos version
+          if [ -n "$ATMOS_VERSION" ]; then
+            echo "✓ Atmos installed successfully: $ATMOS_VERSION"
+          else
+            echo "✗ No atmos-version output returned"
+            exit 1
+          fi
