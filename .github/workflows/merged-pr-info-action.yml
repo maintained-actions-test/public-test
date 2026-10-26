@@ -13,6 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Get merged PR info
-        uses: step-security/merged-pr-info-action@release
+        uses: step-security/merged-pr-info-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
