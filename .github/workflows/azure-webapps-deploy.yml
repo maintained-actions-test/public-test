@@ -1,0 +1,25 @@
+name: azure-webapps-deploy
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  azure-webapps-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Deploy to Azure Web App
+        uses: step-security/azure-webapps-deploy@release
+        with:
+          app-name: test-app
