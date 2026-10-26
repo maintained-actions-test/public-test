@@ -1,0 +1,18 @@
+name: merged-pr-info-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  merged-pr-info-main:
+    name: Get Merged PR Info (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get merged PR info
+        uses: step-security/merged-pr-info-action@release
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
