@@ -1,0 +1,30 @@
+name: tj-actions-docker-run
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  docker-run-main:
+    name: Docker Run (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Docker Run
+        id: docker-run
+        uses: step-security/tj-actions-docker-run@release
+        with:
+          image: ubuntu:latest
+          name: test-container
+          args: echo Hello World
+      - name: Verify
+        run: |
+          CONTAINER_ID="${{ steps.docker-run.outputs.container-id }}"
+          echo "Container ID: $CONTAINER_ID"
+          if [ -n "$CONTAINER_ID" ]; then
+            echo "✓ Container ran successfully"
+          else
+            echo "✗ No container ID returned"
+            exit 1
+          fi
