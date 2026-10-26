@@ -1,0 +1,25 @@
+name: use-kubelogin
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  use-kubelogin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup kubelogin
+        uses: step-security/use-kubelogin@release
+        with:
+          kubelogin-version: v0.0.24
+          skip-cache: 'true'
+
+      - name: Verify kubelogin
+        run: kubelogin --version
