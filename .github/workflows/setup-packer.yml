@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Setup Packer
-        uses: step-security/setup-packer@release
+        uses: step-security/setup-packer@main
 
       - name: Verify Packer installation
         run: packer version
