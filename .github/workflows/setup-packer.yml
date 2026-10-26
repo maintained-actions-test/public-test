@@ -1,0 +1,26 @@
+name: setup-packer
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-packer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Packer
+        uses: step-security/setup-packer@release
+
+      - name: Verify Packer installation
+        run: packer version
