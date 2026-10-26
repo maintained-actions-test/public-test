@@ -1,7 +1,6 @@
 name: psscriptanalyzer-action
 
 on:
-  push:
   workflow_dispatch:
 
 permissions:
