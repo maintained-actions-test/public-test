@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Setup kubelogin
-        uses: step-security/use-kubelogin@release
+        uses: step-security/use-kubelogin@main
         with:
           kubelogin-version: v0.0.24
           skip-cache: 'true'
