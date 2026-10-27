@@ -1,0 +1,42 @@
+name: github-action-auto-release
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+  pull-requests: read
+jobs:
+  auto-release-main:
+    name: Auto Release (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Auto Release
+        id: auto-release
+        uses: step-security/github-action-auto-release@release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          publish: "false"
+          prerelease: "false"
+          config-name: release-drafter.yml
+      - name: Verify
+        run: |
+          TAG="${{ steps.auto-release.outputs.tag_name }}"
+          EXISTS="${{ steps.auto-release.outputs.exists }}"
+          HTML_URL="${{ steps.auto-release.outputs.html_url }}"
+          RESOLVED="${{ steps.auto-release.outputs.resolved_version }}"
+
+          echo "exists:           $EXISTS"
+          echo "tag_name:         $TAG"
+          echo "resolved_version: $RESOLVED"
+          echo "html_url:         $HTML_URL"
+
+          if [ "$EXISTS" = "true" ]; then
+            echo "✓ Tag already exists — skipped duplicate release"
+          elif [ -n "$TAG" ]; then
+            echo "✓ Draft release created/updated: $TAG"
+          else
+            echo "✗ No release output returned"
+            exit 1
+          fi
