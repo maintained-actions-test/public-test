@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Docker Run
         id: docker-run
-        uses: step-security/tj-actions-docker-run@release
+        uses: step-security/tj-actions-docker-run@main
         with:
           image: ubuntu:latest
           name: test-container
