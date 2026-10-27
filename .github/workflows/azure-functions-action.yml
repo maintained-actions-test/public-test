@@ -1,0 +1,58 @@
+name: azure-functions-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  azure-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create sample function app
+        run: |
+          mkdir -p function-app/HttpTrigger
+          cat > function-app/host.json << 'EOF'
+          {
+            "version": "2.0"
+          }
+          EOF
+          cat > function-app/HttpTrigger/function.json << 'EOF'
+          {
+            "bindings": [
+              {
+                "authLevel": "anonymous",
+                "type": "httpTrigger",
+                "direction": "in",
+                "name": "req",
+                "methods": ["get"]
+              },
+              {
+                "type": "http",
+                "direction": "out",
+                "name": "res"
+              }
+            ]
+          }
+          EOF
+          cat > function-app/HttpTrigger/index.js << 'EOF'
+          module.exports = async function (context, req) {
+            context.res = { body: "Hello from StepSecurity test" };
+          };
+          EOF
+
+      - name: Deploy to Azure Functions
+        uses: step-security/azure-functions-action@release
+        with:
+          app-name: stepsecurity-test-function-app
+          package: function-app
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
