@@ -51,7 +51,7 @@ jobs:
           EOF
 
       - name: Deploy to Azure Functions
-        uses: step-security/azure-functions-action@release
+        uses: step-security/azure-functions-action@main
         with:
           app-name: stepsecurity-test-function-app
           package: function-app
