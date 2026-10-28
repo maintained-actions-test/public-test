@@ -19,6 +19,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - uses: step-security/azure-login@main
+        with:
+          client-id: "00000000-0000-0000-0000-000000000000"
+          tenant-id: "00000000-0000-0000-0000-000000000000"
+          subscription-id: "00000000-0000-0000-0000-000000000000"
+
       - name: Deploy to Azure Web App
         uses: step-security/azure-webapps-deploy@main
         with:
