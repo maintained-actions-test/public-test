@@ -1,0 +1,22 @@
+name: github-action-release-branch-manager
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: write
+jobs:
+  release-branch-manager-main:
+    name: Release Branch Manager (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Release Branch Manager
+        uses: step-security/github-action-release-branch-manager@release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          log-level: "info"
+          git-user-name: "actions-bot"
+          git-user-email: "actions-bot@users.noreply.github.com"
+          dry-run: "true"
+          minimal-version: "0"
