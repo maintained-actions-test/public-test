@@ -1,0 +1,35 @@
+name: setup-spark
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  setup-spark-main:
+    name: Setup Spark (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Setup Spark
+        uses: step-security/setup-spark@release
+        with:
+          spark-version: "3.5.3"
+          hadoop-version: "3"
+          py4j-version: "0.10.9"
+          xmx: "2048M"
+          xms: "1024M"
+          log-level: "info"
+      - name: Verify Spark Installation
+        run: |
+          spark-submit --version
+          spark-shell --version
