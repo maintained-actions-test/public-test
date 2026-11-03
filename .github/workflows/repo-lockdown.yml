@@ -22,7 +22,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           exclude-issue-created-before: '2099-01-01T00:00:00Z'
           exclude-pr-created-before: '2099-01-01T00:00:00Z'
-          close-issue: false
+          close-issue: true
           lock-issue: false
           close-pr: false
           lock-pr: false
