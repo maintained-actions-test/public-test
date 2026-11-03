@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Setup Spark
-        uses: step-security/setup-spark@release
+        uses: step-security/setup-spark@main
         with:
           spark-version: "3.5.3"
           hadoop-version: "3"
