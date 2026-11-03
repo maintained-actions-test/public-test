@@ -1,27 +1,25 @@
-name: test-reporting
-
+name: 'test-reporting'
 on:
   workflow_dispatch:
-
-permissions:
-  contents: read
-  checks: write
-
+    inputs: {}
 jobs:
-  report:
+  build-test-report-main:
+    name: Build & Test & Report (main)
     runs-on: ubuntu-latest
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Report tests
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - name: Install dependencies
+        run: npm ci
+        working-directory: report/mochawesome
+      - name: Test
+        run: npm test
+        working-directory: report/mochawesome
+        continue-on-error: true
+      - name: Report
         uses: step-security/test-reporting@main
         with:
-          name: smoke
-          reporter: jest-junit
-          path: testdata/test-reporting/junit.xml
+          name: Mochawesome Tests
+          path: report/reports/mochawesome-json.json
+          reporter: mochawesome-json
+          fail-on-error: false
