@@ -22,7 +22,7 @@ jobs:
 
       - name: Semver Release
         id: semver
-        uses: step-security/semver-release-action@release
+        uses: step-security/semver-release-action@main
         with:
           release_branch: main
           release_strategy: none
