@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Create Tag
-        uses: step-security/create-tag@release
+        uses: step-security/create-tag@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: "v0.1.0-test"
