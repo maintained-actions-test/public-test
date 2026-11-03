@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Playwright Report Comment
-        uses: step-security/playwright-report-comment@release
+        uses: step-security/playwright-report-comment@main
         with:
           report-file: testdata/playwright-report-comment/report.json
           create-comment: 'false'
