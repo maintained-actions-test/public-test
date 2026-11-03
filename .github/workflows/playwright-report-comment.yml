@@ -1,0 +1,26 @@
+name: playwright-report-comment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  playwright-report-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Playwright Report Comment
+        uses: step-security/playwright-report-comment@release
+        with:
+          report-file: testdata/playwright-report-comment/report.json
+          create-comment: 'false'
+          job-summary: 'true'
