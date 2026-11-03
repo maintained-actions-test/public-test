@@ -1,0 +1,25 @@
+name: setup-pulumi
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-pulumi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Pulumi
+        uses: step-security/setup-pulumi@release
+
+      - name: Verify Pulumi installation
+        run: pulumi version
