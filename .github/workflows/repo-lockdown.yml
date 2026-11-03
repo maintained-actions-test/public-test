@@ -17,7 +17,7 @@ jobs:
           egress-policy: audit
 
       - name: Run Repo Lockdown
-        uses: step-security/repo-lockdown@release
+        uses: step-security/repo-lockdown@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           exclude-issue-created-before: '2099-01-01T00:00:00Z'
