@@ -15,5 +15,5 @@ jobs:
         uses: step-security/create-tag@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          version: "v0.1.0-test"
+          version: "v0.2.0-test"
           message: "Test tag created by workflow"
