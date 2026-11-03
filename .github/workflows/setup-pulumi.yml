@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Setup Pulumi
-        uses: step-security/setup-pulumi@release
+        uses: step-security/setup-pulumi@main
 
       - name: Verify Pulumi installation
         run: pulumi version
