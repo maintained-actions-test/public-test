@@ -1,0 +1,32 @@
+name: semver-release-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  semver-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Semver Release
+        id: semver
+        uses: step-security/semver-release-action@release
+        with:
+          release_branch: main
+          release_strategy: none
+          tag: v0.0.1
+          tag_format: 'v%major%.%minor%.%patch%'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
