@@ -1,0 +1,30 @@
+name: jira-issue-transition
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  jira-issue-transition-main:
+    name: Jira Issue Transition (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Jira Login
+        uses: frieder/gha-jira-login@main
+        env:
+          JIRA_BASE_URL: https://stepsecurity-team.atlassian.net
+          JIRA_USER_EMAIL: rajkumar@stepsecurity.io
+          JIRA_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
+      - name: Transition Jira Issue
+        id: transition
+        uses: step-security/jira-issue-transition@release
+        with:
+          issue: "KAN-1"
+          transition: "In Progress"
+      - name: Print Transition Result
+        run: |
+          echo "Has Errors: ${{ steps.transition.outputs.hasErrors }}"
+          echo "Successful: ${{ steps.transition.outputs.successful }}"
+          echo "Failed:     ${{ steps.transition.outputs.failed }}"
