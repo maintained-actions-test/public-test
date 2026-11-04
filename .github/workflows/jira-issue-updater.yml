@@ -17,10 +17,10 @@ jobs:
 
       - name: Jira Login
         uses: step-security/gha-jira-login@release
-        env:
-          JIRA_BASE_URL: ${{ vars.JIRA_BASE_URL }}
-          JIRA_USER_EMAIL: ${{ vars.JIRA_USER_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        with:
+          baseUrl: https://koolprojects.atlassian.net
+          email: amantripathi87@gmail.com
+          token: ${{ secrets.JIRA_TOKEN }}
 
       - name: Update Jira issue
         id: updatefields
