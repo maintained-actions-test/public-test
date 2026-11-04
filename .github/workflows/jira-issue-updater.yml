@@ -15,13 +15,6 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: Jira Login
-        uses: step-security/gha-jira-login@release
-        with:
-          baseUrl: https://koolprojects.atlassian.net
-          email: amantripathi87@gmail.com
-          token: ${{ secrets.JIRA_TOKEN }}
-
       - name: Update Jira issue
         id: updatefields
         uses: step-security/jira-issue-updater@main
