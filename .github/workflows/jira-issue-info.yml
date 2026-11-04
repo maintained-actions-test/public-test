@@ -21,7 +21,7 @@ jobs:
         id: issue-info
         uses: step-security/jira-issue-info@main
         with:
-          issue: "KAN-1"
+          issue: "BTS-1"
       - name: Print Issue Info
         run: |
           echo "Issue:  ${{ steps.issue-info.outputs.issue }}"
