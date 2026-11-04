@@ -1,0 +1,24 @@
+name: codacy-analysis-cli-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codacy-analysis-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Run Codacy Analysis CLI
+        uses: step-security/codacy-analysis-cli-action@release
+        with:
+          run-docker-tools: false
