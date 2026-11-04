@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Jira Login
-        uses: step-security/gha-jira-login@release
+        uses: step-security/gha-jira-login@main
         with:
           baseUrl: https://koolprojects.atlassian.net
           email: amantripathi87@gmail.com
