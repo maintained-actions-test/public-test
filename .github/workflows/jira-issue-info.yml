@@ -19,7 +19,7 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
       - name: Get Jira Issue Info
         id: issue-info
-        uses: step-security/jira-issue-info@release
+        uses: step-security/jira-issue-info@main
         with:
           issue: "KAN-1"
       - name: Print Issue Info
