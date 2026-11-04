@@ -24,7 +24,7 @@ jobs:
 
       - name: Update Jira issue
         id: updatefields
-        uses: step-security/jira-issue-updater@release
+        uses: step-security/jira-issue-updater@main
         with:
           retries: 1
           retryDelay: 10
