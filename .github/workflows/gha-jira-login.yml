@@ -1,0 +1,23 @@
+name: gha-jira-login
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  jira-login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Jira Login
+        uses: step-security/gha-jira-login@release
+        with:
+          baseUrl: https://example.atlassian.net
+          email: test@example.com
+          token: ${{ secrets.JIRA_TOKEN }}
