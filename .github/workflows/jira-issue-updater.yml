@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Jira Login
-        uses: step-security/gha-jira-login@v1
+        uses: step-security/gha-jira-login@release
         env:
           JIRA_BASE_URL: ${{ vars.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ vars.JIRA_USER_EMAIL }}
