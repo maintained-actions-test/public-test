@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run Codacy Analysis CLI
-        uses: step-security/codacy-analysis-cli-action@release
+        uses: step-security/codacy-analysis-cli-action@main
         with:
           run-docker-tools: false
