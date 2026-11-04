@@ -1,0 +1,41 @@
+name: jira-issue-updater
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  jira-issue-updater:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Jira Login
+        uses: step-security/gha-jira-login@v1
+        env:
+          JIRA_BASE_URL: ${{ vars.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ vars.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Update Jira issue
+        id: updatefields
+        uses: step-security/jira-issue-updater@release
+        with:
+          retries: 1
+          retryDelay: 10
+          timeout: 5000
+          failOnError: false
+          issue: TEST-1
+          labels: |
+            + step-security-test
+
+      - name: Print Outputs
+        run: |
+          echo "HAS ERRORS: ${{ steps.updatefields.outputs.hasErrors }}"
+          echo "IDs SUCCESS: ${{ steps.updatefields.outputs.successful }}"
+          echo "IDs ERROR: ${{ steps.updatefields.outputs.failed }}"
