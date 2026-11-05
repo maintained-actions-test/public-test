@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Release Branch Manager
-        uses: step-security/github-action-release-branch-manager@release
+        uses: step-security/github-action-release-branch-manager@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           log-level: "info"
