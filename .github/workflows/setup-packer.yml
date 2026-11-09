@@ -13,6 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
       - name: Setup Packer (@main)
-        uses: step-security/setup-packer@v3.0.1
+        uses: step-security/setup-packer@main
       - name: Verify Packer installation
         run: packer version
