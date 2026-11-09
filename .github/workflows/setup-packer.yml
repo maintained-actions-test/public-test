@@ -16,3 +16,13 @@ jobs:
         uses: step-security/setup-packer@main
       - name: Verify Packer installation
         run: packer version
+  setup-packer-main-v3.0.1:
+    name: setup-packer (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Packer (@main)
+        uses: step-security/setup-packer@v3.0.1-main
+      - name: Verify Packer installation
+        run: packer version
