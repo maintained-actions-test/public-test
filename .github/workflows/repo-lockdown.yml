@@ -1,23 +1,30 @@
 name: repo-lockdown
-
 on:
   workflow_dispatch:
-
+    inputs: {}
 permissions:
   issues: write
   pull-requests: write
-
 jobs:
-  repo-lockdown:
+  repo-lockdown-main:
     runs-on: ubuntu-latest
     steps:
-      - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@rc
-        with:
-          egress-policy: audit
-
       - name: Run Repo Lockdown
         uses: step-security/repo-lockdown@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          exclude-issue-created-before: '2099-01-01T00:00:00Z'
+          exclude-pr-created-before: '2099-01-01T00:00:00Z'
+          close-issue: true
+          lock-issue: false
+          close-pr: true
+          lock-pr: false
+          log-output: true
+  repo-lockdown-main-v4-0-0:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Repo Lockdown
+        uses: step-security/repo-lockdown@v4.0.0-main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           exclude-issue-created-before: '2099-01-01T00:00:00Z'
