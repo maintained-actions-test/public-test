@@ -1,0 +1,29 @@
+name: wait-on-check-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: read
+
+jobs:
+  wait-on-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Wait on check
+        uses: step-security/wait-on-check-action@release
+        with:
+          ref: ${{ github.sha }}
+          repo-token: ${{ github.token }}
+          check-name: wait-on-check-action
+          fail-on-no-checks: false
+          checks-discovery-timeout: "10"
