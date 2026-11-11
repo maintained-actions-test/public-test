@@ -23,3 +23,20 @@ jobs:
         with:
           pulumi-version: '^3'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  pulumi-actions-v4:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Pulumi CLI
+        uses: step-security/pulumi-actions@v4.5.0-main
+        with:
+          pulumi-version: '^3'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
