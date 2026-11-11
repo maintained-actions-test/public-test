@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Wait on check
-        uses: step-security/wait-on-check-action@release
+        uses: step-security/wait-on-check-action@main
         with:
           ref: ${{ github.sha }}
           repo-token: ${{ github.token }}
