@@ -1,0 +1,19 @@
+name: webapps-deploy
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  webapps-deploy-main:
+    name: Deploy to Azure Web App (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Deploy to Azure Web App
+        uses: step-security/webapps-deploy@release
+        with:
+          app-name: "my-azure-webapp"
+          package: "."
+          slot-name: "production"
