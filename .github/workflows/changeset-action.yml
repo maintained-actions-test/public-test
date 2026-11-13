@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Create PR or Release
-        uses: step-security/changeset-action@release
+        uses: step-security/changeset-action@main
         with:
           version-script: npm run version
           publish-script: npm run publish
