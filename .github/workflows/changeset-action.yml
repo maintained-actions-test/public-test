@@ -1,24 +1,28 @@
 name: changeset-action
-on: 
+
+on:
   workflow_dispatch:
-    inputs:
-      action-tag:
-        description: 'Tag for the action'
-        required: true
-        default: 'main'
+
+permissions:
+  contents: read
 
 jobs:
-    create-release:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-              
-            - name: create-PR
-              uses: step-security/changeset-action@main
-              with:
-                version: npm run version
-                publish: npm run publish     
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout repo
+        uses: actions/checkout@v7
+
+      - name: Create PR or Release
+        uses: step-security/changeset-action@release
+        with:
+          version-script: npm run version
+          publish-script: npm run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
