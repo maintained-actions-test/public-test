@@ -1,0 +1,5 @@
+name: "Test Action"
+description: "Minimal action for build-and-tag-action testing"
+runs:
+  using: node24
+  main: dist/index.js
