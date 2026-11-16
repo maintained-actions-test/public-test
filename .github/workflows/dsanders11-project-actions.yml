@@ -64,7 +64,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/github-script@main
+      - uses: step-security/dsanders11-project-actions/github-script@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           script: core.info('hello from project-actions/github-script')
 
@@ -80,7 +80,7 @@ jobs:
         with:
           egress-policy: audit
       - id: run
-        uses: step-security/dsanders11-project-actions/get-project@main
+        uses: step-security/dsanders11-project-actions/get-project@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.setup-source-project.outputs.number }}
@@ -94,7 +94,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/find-project@main
+      - uses: step-security/dsanders11-project-actions/find-project@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           title: ${{ needs.get-project.outputs.title }}
@@ -111,7 +111,7 @@ jobs:
         with:
           egress-policy: audit
       - id: run
-        uses: step-security/dsanders11-project-actions/find-workflow@main
+        uses: step-security/dsanders11-project-actions/find-workflow@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.setup-source-project.outputs.number }}
@@ -126,7 +126,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/get-workflow@main
+      - uses: step-security/dsanders11-project-actions/get-workflow@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.setup-source-project.outputs.number }}
@@ -144,7 +144,7 @@ jobs:
         with:
           egress-policy: audit
       - id: run
-        uses: step-security/dsanders11-project-actions/copy-project@main
+        uses: step-security/dsanders11-project-actions/copy-project@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.setup-source-project.outputs.number }}
@@ -159,7 +159,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/edit-project@main
+      - uses: step-security/dsanders11-project-actions/edit-project@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -174,7 +174,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/link-project@main
+      - uses: step-security/dsanders11-project-actions/link-project@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -189,7 +189,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/completed-by@main
+      - uses: step-security/dsanders11-project-actions/completed-by@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -204,7 +204,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/add-item@main
+      - uses: step-security/dsanders11-project-actions/add-item@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -219,7 +219,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/get-item@main
+      - uses: step-security/dsanders11-project-actions/get-item@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -234,7 +234,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/edit-item@main
+      - uses: step-security/dsanders11-project-actions/edit-item@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -251,7 +251,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/archive-item@main
+      - uses: step-security/dsanders11-project-actions/archive-item@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -266,7 +266,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/add-item@main
+      - uses: step-security/dsanders11-project-actions/add-item@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -281,7 +281,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/delete-item@main
+      - uses: step-security/dsanders11-project-actions/delete-item@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -296,7 +296,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/close-project@main
+      - uses: step-security/dsanders11-project-actions/close-project@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
@@ -312,7 +312,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/delete-project@main
+      - uses: step-security/dsanders11-project-actions/delete-project@bf54605898ae8845957effe127cda77e4bf9ed0f
         with:
           token: ${{ secrets.PROJECT_PAT }}
           project-number: ${{ needs.copy-project.outputs.number }}
