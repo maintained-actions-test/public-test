@@ -32,7 +32,6 @@ jobs:
           echo "Created: $url1 / $url2"
           echo "url1=$url1" >> "$GITHUB_OUTPUT"
           echo "url2=$url2" >> "$GITHUB_OUTPUT"
-
   setup-source-project:
     name: setup - create source project
     runs-on: ubuntu-latest
@@ -45,7 +44,7 @@ jobs:
           egress-policy: audit
       - id: create
         env:
-          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          GH_TOKEN: ${{ secrets.TEMP_TOKEN }}
         run: |
           out=$(gh project create \
             --owner "${{ github.repository_owner }}" \
@@ -55,7 +54,6 @@ jobs:
           number=$(echo "$out" | jq -r '.number')
           echo "Source project number: $number"
           echo "number=$number" >> "$GITHUB_OUTPUT"
-
   github-script:
     name: github-script
     runs-on: ubuntu-latest
@@ -64,7 +62,7 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/github-script@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/github-script@main
         with:
           script: core.info('hello from project-actions/github-script')
 
@@ -80,9 +78,9 @@ jobs:
         with:
           egress-policy: audit
       - id: run
-        uses: step-security/dsanders11-project-actions/get-project@bf54605898ae8845957effe127cda77e4bf9ed0f
+        uses: step-security/dsanders11-project-actions/get-project@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
           project-number: ${{ needs.setup-source-project.outputs.number }}
 
   find-project:
@@ -94,9 +92,9 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/find-project@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/find-project@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
           title: ${{ needs.get-project.outputs.title }}
 
   find-workflow:
@@ -111,9 +109,9 @@ jobs:
         with:
           egress-policy: audit
       - id: run
-        uses: step-security/dsanders11-project-actions/find-workflow@bf54605898ae8845957effe127cda77e4bf9ed0f
+        uses: step-security/dsanders11-project-actions/find-workflow@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
           project-number: ${{ needs.setup-source-project.outputs.number }}
           name: Item added to project
 
@@ -126,9 +124,9 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/get-workflow@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/get-workflow@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
           project-number: ${{ needs.setup-source-project.outputs.number }}
           number: ${{ needs.find-workflow.outputs.number }}
 
@@ -144,9 +142,10 @@ jobs:
         with:
           egress-policy: audit
       - id: run
-        uses: step-security/dsanders11-project-actions/copy-project@bf54605898ae8845957effe127cda77e4bf9ed0f
+        uses: step-security/dsanders11-project-actions/copy-project@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.setup-source-project.outputs.number }}
           title: throwaway-copy-${{ github.run_id }}
 
@@ -159,9 +158,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/edit-project@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/edit-project@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           description: edited by workflow run ${{ github.run_id }}
 
@@ -174,9 +174,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/link-project@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/link-project@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           repository: ${{ github.repository }}
 
@@ -189,9 +190,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/completed-by@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/completed-by@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           field-value: Done
 
@@ -204,9 +206,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/add-item@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/add-item@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           content-url: ${{ needs.setup-issues.outputs.url1 }}
 
@@ -219,9 +222,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/get-item@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/get-item@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           item: ${{ needs.setup-issues.outputs.url1 }}
 
@@ -234,9 +238,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/edit-item@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/edit-item@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           item: ${{ needs.setup-issues.outputs.url1 }}
           field: Status
@@ -251,9 +256,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/archive-item@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/archive-item@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           item: ${{ needs.setup-issues.outputs.url1 }}
 
@@ -266,9 +272,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/add-item@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/add-item@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           content-url: ${{ needs.setup-issues.outputs.url2 }}
 
@@ -281,9 +288,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/delete-item@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/delete-item@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           item: ${{ needs.setup-issues.outputs.url2 }}
 
@@ -296,9 +304,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/close-project@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/close-project@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
           closed: "true"
 
@@ -312,9 +321,10 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - uses: step-security/dsanders11-project-actions/delete-project@bf54605898ae8845957effe127cda77e4bf9ed0f
+      - uses: step-security/dsanders11-project-actions/delete-project@main
         with:
-          token: ${{ secrets.PROJECT_PAT }}
+          token: ${{ secrets.TEMP_TOKEN }}
+          owner: ${{ github.repository_owner }}
           project-number: ${{ needs.copy-project.outputs.number }}
 
   cleanup:
@@ -349,7 +359,7 @@ jobs:
       - name: Delete source project
         if: needs.setup-source-project.outputs.number != ''
         env:
-          GH_TOKEN: ${{ secrets.PROJECT_PAT }}
+          GH_TOKEN: ${{ secrets.TEMP_TOKEN }}
         run: |
           gh project delete "${{ needs.setup-source-project.outputs.number }}" \
             --owner "${{ github.repository_owner }}" || true
