@@ -1,0 +1,23 @@
+name: delete-draft-releases
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  delete-draft-releases:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Delete drafts
+        uses: step-security/delete-draft-releases@release
+        with:
+          threshold: 5d
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
