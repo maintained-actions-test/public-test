@@ -12,6 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Validate Kubernetes Manifests
-        uses: step-security/kubevious-cli-action@release
+        uses: step-security/kubevious-cli-action@main
         with:
           manifests: testdata/kubevious-cli-action/deployment.yaml
