@@ -1,0 +1,17 @@
+name: kubevious-cli-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  kubevious-cli-action-main:
+    name: Kubevious CLI Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Validate Kubernetes Manifests
+        uses: step-security/kubevious-cli-action@release
+        with:
+          manifests: testdata/kubevious-cli-action/deployment.yaml
