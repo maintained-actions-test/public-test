@@ -20,7 +20,16 @@ jobs:
 
       - name: Create mock terraform
         run: |
-          printf '#!/bin/sh\ncat "$GITHUB_WORKSPACE/testdata/terraform-plan-comment/plan.json"\n' > /tmp/mock-terraform
+          cat > /tmp/mock-terraform << 'EOF'
+          #!/bin/sh
+          for arg in "$@"; do
+            if [ "$arg" = "-json" ]; then
+              cat "$GITHUB_WORKSPACE/testdata/terraform-plan-comment/plan.json"
+              exit 0
+            fi
+          done
+          cat "$GITHUB_WORKSPACE/testdata/terraform-plan-comment/plan.txt"
+          EOF
           chmod +x /tmp/mock-terraform
 
       - name: Terraform Plan Comment

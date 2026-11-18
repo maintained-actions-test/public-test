@@ -1,0 +1,24 @@
+Terraform will perform the following actions:
+
+  # local_file.test will be created
+  + resource "local_file" "test" {
+      + content              = (sensitive value)
+      + content_base64sha256 = (known after apply)
+      + id                   = (known after apply)
+    }
+
+  # local_file.test2 will be created
+  + resource "local_file" "test2" {
+      + content              = "foobar"
+      + content_base64sha256 = (known after apply)
+      + id                   = (known after apply)
+    }
+
+  # local_file.test3 will be created
+  + resource "local_file" "test3" {
+      + content              = "normal line"
+      + content_base64sha256 = (known after apply)
+      + id                   = (known after apply)
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
