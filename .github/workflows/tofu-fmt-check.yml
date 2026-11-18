@@ -1,0 +1,16 @@
+name: tofu-fmt-check
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  tofu-fmt-check-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Tofu fmt check (@main)
+        uses: step-security/tofu-fmt-check@release
+        with:
+          path: testdata/tofu-fmt-check
