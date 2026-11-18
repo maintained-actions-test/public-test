@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Wait for response
-        uses: step-security/wait_for_response@release
+        uses: step-security/wait_for_response@main
         with:
           url: https://github.com
           responseCode: 200
