@@ -1,3 +1,4 @@
-# Dockerfile
-FROM alpine:latest
-CMD ["echo", "Hello from custom image"]
+FROM alpine:3.19
+WORKDIR /app
+COPY . /app
+CMD ["echo", "hello"]

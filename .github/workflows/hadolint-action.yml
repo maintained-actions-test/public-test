@@ -1,0 +1,28 @@
+name: hadolint-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hadolint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Hadolint
+        uses: step-security/hadolint-action@release
+        with:
+          dockerfile: Dockerfile
+          format: tty
+          failure-threshold: error
+          no-fail: 'true'
+          verbose: 'true'
