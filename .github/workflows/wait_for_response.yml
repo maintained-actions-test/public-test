@@ -1,0 +1,30 @@
+name: wait_for_response
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wait_for_response:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Start HTTP server
+        run: python3 -m http.server 8080 &
+
+      - name: Wait for response
+        uses: step-security/wait_for_response@release
+        with:
+          url: http://localhost:8080
+          responseCode: 200
+          timeout: 10000
+          interval: 500
