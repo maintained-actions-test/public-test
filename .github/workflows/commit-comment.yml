@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Create Commit Comment
-        uses: step-security/commit-comment@release
+        uses: step-security/commit-comment@main
         with:
           sha: ${{ github.sha }}
           body: "Test commit comment from main workflow"
