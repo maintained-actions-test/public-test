@@ -1,0 +1,32 @@
+name: terraform-plan-comment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-plan-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Create mock terraform
+        run: |
+          printf '#!/bin/sh\ncat "$GITHUB_WORKSPACE/testdata/terraform-plan-comment/plan.json"\n' > /tmp/mock-terraform
+          chmod +x /tmp/mock-terraform
+
+      - name: Terraform Plan Comment
+        uses: step-security/terraform-plan-comment@release
+        with:
+          token: ${{ github.token }}
+          planfile: testdata/terraform-plan-comment/plan.json
+          terraform-cmd: /tmp/mock-terraform
+          skip-comment: 'true'
