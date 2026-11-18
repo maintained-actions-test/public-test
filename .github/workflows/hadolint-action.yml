@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Hadolint
-        uses: step-security/hadolint-action@release
+        uses: step-security/hadolint-action@main
         with:
           dockerfile: Dockerfile
           format: tty
