@@ -24,7 +24,7 @@ jobs:
 
       - name: Check for JIRA ISSUE
         id: check
-        uses: step-security/jira-pr-link-action@release
+        uses: step-security/jira-pr-link-action@main
         with:
           ignore-author: ${{ github.actor }},dependabot[bot]
           project: "SRENEW"
