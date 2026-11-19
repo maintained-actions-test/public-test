@@ -20,4 +20,4 @@ jobs:
         uses: actions/checkout@v7
 
       - name: PR Labels
-        uses: step-security/pr-labels-action@release
+        uses: step-security/pr-labels-action@main
