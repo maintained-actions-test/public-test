@@ -33,7 +33,7 @@ jobs:
           chmod +x /tmp/mock-terraform
 
       - name: Terraform Plan Comment
-        uses: step-security/terraform-plan-comment@release
+        uses: step-security/terraform-plan-comment@main
         with:
           token: ${{ github.token }}
           planfile: testdata/terraform-plan-comment/plan.json
