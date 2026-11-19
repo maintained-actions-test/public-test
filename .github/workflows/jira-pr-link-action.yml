@@ -1,0 +1,30 @@
+name: jira-pr-link-action
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  enforce-issue:
+    runs-on: ubuntu-latest
+    name: JIRA Association
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Check for JIRA ISSUE
+        id: check
+        uses: step-security/jira-pr-link-action@release
+        with:
+          ignore-author: ${{ github.actor }},dependabot[bot]
+          project: "SRENEW"
