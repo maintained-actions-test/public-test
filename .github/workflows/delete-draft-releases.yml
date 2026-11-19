@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Delete drafts
-        uses: step-security/delete-draft-releases@release
+        uses: step-security/delete-draft-releases@main
         with:
           threshold: 5d
         env:
