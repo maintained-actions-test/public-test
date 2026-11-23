@@ -1,0 +1,21 @@
+name: action-set-json-field
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  set-json-field-main:
+    name: Set JSON Field (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set JSON Field
+        uses: step-security/action-set-json-field@release
+        with:
+          file: "package.json"
+          field: "version"
+          value: "1.0.0"
+      - name: Verify JSON Field
+        run: jq '.version' package.json
