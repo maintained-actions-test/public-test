@@ -1,0 +1,22 @@
+name: cli-action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Install Doppler CLI
+        uses: step-security/cli-action@release
+
+      - name: Verify Doppler CLI
+        run: doppler --version
