@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Notify Slack Build Status
-        uses: step-security/github-action-slack-notify-build@release
+        uses: step-security/github-action-slack-notify-build@main
         with:
           channel_id: "D08HV48ALB1"
           status: "STARTED"
