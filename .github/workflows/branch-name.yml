@@ -1,0 +1,25 @@
+name: branch-name
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get branch name
+        uses: step-security/branch-name@release
+
+      - name: Print branch name
+        run: echo "${BRANCH_NAME}"
