@@ -16,7 +16,7 @@ jobs:
           egress-policy: audit
 
       - name: Install Doppler CLI
-        uses: step-security/cli-action@release
+        uses: step-security/cli-action@main
 
       - name: Verify Doppler CLI
         run: doppler --version
