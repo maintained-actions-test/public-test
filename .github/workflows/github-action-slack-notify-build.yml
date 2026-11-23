@@ -1,0 +1,21 @@
+name: github-action-slack-notify-build
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  slack-notify-build-main:
+    name: Slack Notify Build (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Notify Slack Build Status
+        uses: step-security/github-action-slack-notify-build@release
+        with:
+          channel_id: "D08HV48ALB1"
+          status: "STARTED"
+          color: "good"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
