@@ -1,4 +1,4 @@
-name: cli-action
+name: dopplerhq-cli-action
 
 on:
   workflow_dispatch:
