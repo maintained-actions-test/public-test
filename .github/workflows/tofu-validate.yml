@@ -1,0 +1,19 @@
+name: tofu-validate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tofu-validate-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Tofu validate (@main)
+        uses: step-security/tofu-validate@main
+        with:
+          path: testdata/tofu-validate
