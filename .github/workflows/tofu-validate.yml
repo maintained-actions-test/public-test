@@ -7,13 +7,13 @@ permissions:
   contents: read
 
 jobs:
-  tofu-validate-main:
+  tofu-validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Tofu validate (@main)
-        uses: step-security/tofu-validate@main
+      - name: Tofu validate (@release)
+        uses: step-security/tofu-validate@release
         with:
           path: testdata/tofu-validate
