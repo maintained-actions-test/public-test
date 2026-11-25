@@ -1,31 +1,28 @@
 name: azure-webapps-deploy
-
 on:
   push:
   workflow_dispatch:
-
+    inputs: {}
 permissions:
   contents: read
-
 jobs:
-  azure-webapps-deploy:
+  azure-webapps-deploy-main:
+    name: azure-webapps-deploy (main)
     runs-on: ubuntu-latest
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@rc
-        with:
-          egress-policy: audit
-
       - name: Checkout
         uses: actions/checkout@v7
-
-      - uses: step-security/azure-login@main
-        with:
-          client-id: "00000000-0000-0000-0000-000000000000"
-          tenant-id: "00000000-0000-0000-0000-000000000000"
-          subscription-id: "00000000-0000-0000-0000-000000000000"
-
-      - name: Deploy to Azure Web App
+      - name: Deploy to Azure Web App (@main)
         uses: step-security/azure-webapps-deploy@main
+        with:
+          app-name: test-app
+  azure-webapps-deploy-main-v2-2-19:
+    name: azure-webapps-deploy (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Deploy to Azure Web App (@main)
+        uses: step-security/azure-webapps-deploy@v2.2.19-main
         with:
           app-name: test-app
