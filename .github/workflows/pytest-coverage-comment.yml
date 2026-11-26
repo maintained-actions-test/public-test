@@ -33,7 +33,7 @@ jobs:
           pytest --cov=src --cov-report=term-missing | tee pytest-coverage.txt
 
       - name: Post coverage comment
-        uses: step-security/pytest-coverage-comment@release
+        uses: step-security/pytest-coverage-comment@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pytest-coverage-path: testdata/pytest-coverage-comment/pytest-coverage.txt
