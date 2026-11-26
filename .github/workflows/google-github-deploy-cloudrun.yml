@@ -1,0 +1,39 @@
+name: google-github-deploy-cloudrun
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy-cloudrun:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: step-security/google-github-auth@v3
+        with:
+          service_account: "Testing-action@balmy-ground-313307.iam.gserviceaccount.com"
+          workload_identity_provider: "projects/530691134020/locations/global/workloadIdentityPools/github/providers/my-repo"
+
+      - name: Set up gcloud
+        uses: step-security/setup-gcloud@v3
+        with:
+          project_id: test-project
+
+      - name: Deploy to Cloud Run
+        uses: step-security/google-github-deploy-cloudrun@release
+        with:
+          service: hello-cloud-run
+          image: us-docker.pkg.dev/cloudrun/container/hello:latest
+          region: us-central1
+          project_id: test-project
