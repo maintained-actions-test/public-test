@@ -1,0 +1,26 @@
+name: lychee-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  lychee-main:
+    name: Lychee Broken Link Checker (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Check Links
+        id: lychee
+        uses: step-security/lychee-action@release
+        with:
+          args: "--verbose --no-progress './**/*.md'"
+          fail: "false"
+          output: lychee/out.md
+          format: markdown
+          jobSummary: "true"
+      - name: Verify output file and exit code
+        run: |
+          echo "Lychee exit code: ${{ steps.lychee.outputs.exit_code }}"
+          test -f lychee/out.md && echo "Output file created successfully" || echo "No output file found"
