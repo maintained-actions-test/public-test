@@ -1,0 +1,35 @@
+name: cache-extensions
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  cache-extensions-main:
+    name: Cache PHP Extensions (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Get cache dir and key
+        id: extcache
+        uses: step-security/cache-extensions@release
+        with:
+          php-version: "8.3"
+          extensions: mbstring, xml, curl
+          key: cache-v1
+      - name: Cache extensions
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Setup PHP
+        uses: step-security/setup-php@release
+        with:
+          php-version: "8.3"
+          extensions: mbstring, xml, curl
+      - name: Verify cache outputs
+        run: |
+          echo "Cache key: ${{ steps.extcache.outputs.key }}"
+          echo "Cache dir: ${{ steps.extcache.outputs.dir }}"
