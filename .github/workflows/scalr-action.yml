@@ -1,0 +1,23 @@
+name: scalr-action
+on:
+  workflow_dispatch:
+    inputs: {}
+permissions:
+  contents: read
+jobs:
+  scalr-main:
+    name: Scalr Action (main)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Scalr CLI and Terraform
+        uses: step-security/scalr-action@release
+        with:
+          scalr_hostname: raj-stepsecurity.scalr.io
+          scalr_token: ${{ secrets.SCALR_TOKEN }}
+          binary_version: "1.9.0"
+          iac_platform: terraform
+          binary_wrapper: "true"
+      - name: Verify Terraform binary is configured
+        run: terraform version
