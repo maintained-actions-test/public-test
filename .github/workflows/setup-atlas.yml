@@ -1,0 +1,24 @@
+name: setup-atlas
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  setup-atlas:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+
+      - name: Setup Atlas
+        uses: step-security/setup-atlas@release
+        with:
+          version: latest
+
+      - name: Verify Atlas
+        run: atlas version
